@@ -107,7 +107,7 @@ public class KryptonHeader : VisualSimpleBase
         AutoSizeMode = AutoSizeMode.GrowAndShrink;
     }
 
-    private float GetDpiFactor() => DeviceDpi / 96F;
+    private float GetDpiFactor() => this.DeviceDpi / 96F;
 
     /// <summary>
     /// Clean up any resources being used.

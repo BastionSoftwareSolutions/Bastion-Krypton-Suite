@@ -13,6 +13,11 @@
 	</PropertyGroup>
 
 	<!--Handle AssemblyInfo-->
+	<!-- Bastion: the full 11-TFM matrix builds warning-clean; lock that in (spec ground rule 6). -->
+	<PropertyGroup>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
+
 	<PropertyGroup>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<NeutralLanguage>en</NeutralLanguage>
@@ -25,13 +30,23 @@
 		<Version>$(LibraryVersion)</Version>
 	</PropertyGroup>
 
-	<!-- MSB3822/3823: non-string .resx entries need preserialized resources + this package for the SDK GenerateResource task. -->
-	<PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
+	<!-- MSB3822/3823: non-string .resx entries need preserialized resources + this package for the SDK GenerateResource task.
+	     Bastion: System.Resources.Extensions has no net46-compatible version (minimum net462), so the net46 TFM opts out and
+	     its resources compile classically — net46 therefore builds under desktop MSBuild only (see BUILD-LOG.md, Phase 2). -->
+	<PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true' And '$(TargetFramework)' != 'net46'">
 		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
 	</PropertyGroup>
 
+	<!-- Bastion: suppress the codeless "package X doesn't support net5/6/7 and has not been tested with it"
+	     advisory from System.Resources.Extensions 9.x buildTransitive targets on the EOL TFMs. The package's
+	     netstandard2.0 asset is used and is functionally sufficient; the advisory has no warning code so it
+	     cannot be NoWarn'd individually. Documented in BUILD-LOG.md / CHANGES.md per spec ground rule 6. -->
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net5.0-windows' Or '$(TargetFramework)' == 'net6.0-windows' Or '$(TargetFramework)' == 'net7.0-windows'">
+		<SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+	</PropertyGroup>
+
 	<ItemGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
-		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" GeneratePathProperty="true" />
+		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" GeneratePathProperty="true" Condition="'$(TargetFramework)' != 'net46'" />
 		<PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="4.14.0" PrivateAssets="all" Condition="'$(ExcludeVs2019UnsupportedTargetFrameworks)' == 'true'" />
 	</ItemGroup>
 

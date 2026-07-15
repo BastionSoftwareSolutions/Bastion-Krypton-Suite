@@ -1,8 +1,8 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  Â© Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
@@ -344,7 +344,7 @@ public class KryptonForm : VisualForm,
 	#endregion
 
 	#region Private SizeGrip
-	private float GetDpiFactor() => DeviceDpi / 96F;
+	private float GetDpiFactor() => this.DeviceDpi / 96F;
 
 	/// <summary>
 	/// Gets the size (width and height) of the top-left corner hit-test area when maximized.
@@ -618,7 +618,8 @@ public class KryptonForm : VisualForm,
 	[Browsable(false)]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-#if NET8_0_OR_GREATER
+#if NET5_0_OR_GREATER
+		// [AllowNull] matches the base Control.Font annotation on every .NET (Core) TFM, not just net8+.
 		[AllowNull]
 		public override Font Font
 #else

@@ -129,7 +129,9 @@ public abstract class VisualForm : Form,
         ShadowValues = new ShadowValues();
         BlurValues = new BlurValues();
 
-#if !NET462
+#if NET47_OR_GREATER || !NETFRAMEWORK
+        // DpiChanged (and DpiChangedEventArgs) require .NET Framework 4.7+; on net46 DPI factors
+        // are still initialised via UpdateDpiFactors() but do not track per-monitor DPI changes.
         DpiChanged += OnDpiChanged;
 #endif
         // Note: Will not handle movement between monitors
@@ -1773,7 +1775,7 @@ public abstract class VisualForm : Form,
         // Change in base renderer or base palette require we fetch the latest renderer
         Renderer = _palette.GetRenderer();// PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
 
-#if !NET462
+#if NET47_OR_GREATER || !NETFRAMEWORK
     private void OnDpiChanged(object? sender, DpiChangedEventArgs e) => UpdateDpiFactors();
 #endif
     #endregion

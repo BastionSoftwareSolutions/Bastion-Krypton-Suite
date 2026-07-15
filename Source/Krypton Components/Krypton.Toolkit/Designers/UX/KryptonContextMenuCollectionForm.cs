@@ -166,7 +166,9 @@ public partial class KryptonContextMenuCollectionEditor
             /// <summary>
             /// Gets the IContainer associated with the ISite when implemented by a class.
             /// </summary>
-            public IContainer? Container => null;
+            /// <remarks>Declared non-nullable because the net5 reference assemblies annotate
+            /// ISite.Container as non-nullable; this design-time stub site has no container.</remarks>
+            public IContainer Container => null!;
 
             /// <summary>
             /// Determines whether the component is in design mode when implemented by a class.

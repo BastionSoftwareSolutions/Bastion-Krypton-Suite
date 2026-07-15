@@ -112,7 +112,7 @@ public class KryptonPictureBox : PictureBox
     #endregion
 
     #region Implementation
-    private float GetDpiFactor() => DeviceDpi / 96F;
+    private float GetDpiFactor() => this.DeviceDpi / 96F;
 
     private void OnShowToolTip(object? sender, ToolTipEventArgs e)
     {

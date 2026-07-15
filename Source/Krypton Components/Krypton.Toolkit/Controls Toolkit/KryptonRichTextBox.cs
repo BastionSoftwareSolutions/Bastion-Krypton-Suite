@@ -2675,8 +2675,8 @@ public class KryptonRichTextBox : VisualControlBase,
             return 0;
         }
 
-#if NET5_0_OR_GREATER
-        // Use Span.Count method available in .NET 5.0 and later
+#if NET8_0_OR_GREATER
+        // Use MemoryExtensions.Count, available from .NET 8 (not .NET 5 as previously guarded)
         int count = MemoryExtensions.Count(colorTable, ';') + 1;
 #else
         // Fallback for older frameworks without Span.Count

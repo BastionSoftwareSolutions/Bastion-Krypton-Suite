@@ -24,7 +24,9 @@
 	<Import Project="$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.targets"
 	        Condition="Exists('$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.targets')" />
 
-	<PropertyGroup Condition="$(TargetFramework.StartsWith('net4'))">
+	<!-- Bastion: net46 excluded — System.Resources.Extensions has no net46-compatible asset (its lib\net462 build
+	     triggers MSB3274 on net46); the net46 TFM builds classic (non-preserialized) resources instead. -->
+	<PropertyGroup Condition="$(TargetFramework.StartsWith('net4')) And '$(TargetFramework)' != 'net46'">
 		<_KryptonSystemResourcesExtensionsPath Condition="'$(_KryptonSystemResourcesExtensionsPath)' == '' And '$(PkgSystem_Resources_Extensions)' != ''">$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll</_KryptonSystemResourcesExtensionsPath>
 		<_KryptonSystemResourcesExtensionsPath Condition="'$(_KryptonSystemResourcesExtensionsPath)' == '' And '$(NuGetPackageRoot)' != ''">$(NuGetPackageRoot)system.resources.extensions\9.0.10\lib\net462\System.Resources.Extensions.dll</_KryptonSystemResourcesExtensionsPath>
 	</PropertyGroup>

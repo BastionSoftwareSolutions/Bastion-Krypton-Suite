@@ -87,9 +87,10 @@ public abstract class ShellDialogWrapper
 
         if (e.message == PI.WM_.INITDIALOG)
         {
-            _scaleFactor = _commonDialogHandler._wrapperForm!.DeviceDpi / 96.0f;
-            _commonDialogHandler._wrapperForm.Resize += FormResize;
-            _commonDialogHandler._wrapperForm.MinimumSize = new SizeF(440 * _scaleFactor, 345 * _scaleFactor).ToSize();
+            KryptonForm wrapperForm = _commonDialogHandler._wrapperForm!;
+            _scaleFactor = wrapperForm.DeviceDpi / 96.0f;
+            wrapperForm.Resize += FormResize;
+            wrapperForm.MinimumSize = new SizeF(440 * _scaleFactor, 345 * _scaleFactor).ToSize();
         }
     }
 
