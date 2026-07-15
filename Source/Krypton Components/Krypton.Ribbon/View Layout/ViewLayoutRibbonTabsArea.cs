@@ -942,7 +942,21 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         }
     }
 
-    private void OnTabsPaintBackground(object? sender, PaintEventArgs e) => PaintBackground?.Invoke(sender, e);
+    private void OnTabsPaintBackground(object? sender, PaintEventArgs e)
+    {
+        // Bastion Phase 3 (spec §4.3): the tabs are hosted inside a child ViewControl whose
+        // background is painted separately from the ribbon's main panel, so replicate the
+        // palette-declared solid tab-row background here as well (see ViewDrawRibbonPanel).
+        // EMPTY_COLOR keeps the legacy behaviour.
+        Color tabRowColor = _ribbon.StateCommon.RibbonGeneral.GetRibbonTabRowBackgroundSolidColor(PaletteState.Normal);
+        if (tabRowColor != GlobalStaticValues.EMPTY_COLOR && sender is Control tabsControl)
+        {
+            using var fillBrush = new SolidBrush(tabRowColor);
+            e.Graphics.FillRectangle(fillBrush, tabsControl.ClientRectangle);
+        }
+
+        PaintBackground?.Invoke(sender, e);
+    }
 
     #endregion
 }

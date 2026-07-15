@@ -8,11 +8,15 @@
 #endregion
 
 // =====================================================================================
-// PLACEHOLDER THEME — Office 2016 Colorful.
-// Cloned from PaletteMicrosoft365White (class, assets and renderer pairing) so the mode
-// is fully wired end-to-end; the authentic Office 2016 colours/assets land in the
-// per-era fidelity pass (spec §4.3). Derives from PaletteMicrosoft365Base and therefore
-// reuses RenderMicrosoft365, per THEME-AUDIT §3.4 (no new renderer needed for this era).
+// Office 2016 Colorful theme (Bastion Phase 3 fidelity pass, spec §4.3).
+// Colours come from PaletteOffice2016Colorful_BaseScheme (provenance documented there:
+// docs\themes\office2016-colours.md + reference images under
+// docs\themes\references\office2016\ and office2019\). This class supplies the accent
+// chrome the scheme slots cannot reach: the Word-blue #2B579A tab row
+// (GetRibbonTabRowBackgroundSolidColor) and File app-button fill/hover/text
+// (GetRibbonFileAppTab*), plus light-glyph caption-button images for the accent title
+// bar. Derives from PaletteMicrosoft365Base and reuses RenderMicrosoft365, per
+// THEME-AUDIT §3.4 (no new renderer needed for this era).
 // =====================================================================================
 
 namespace Krypton.Toolkit;
@@ -26,11 +30,17 @@ public class PaletteOffice2016Colorful : PaletteMicrosoft365Base
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
+    // [T] office2016-colours.md: tab row continues the accent title bar — Word blue #2B579A.
+    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(43, 87, 154);
 
-    private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
+    // [D] File button hover/pressed fill = [G] Word darker companion #2C4B7A (hover open item 2).
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(44, 75, 122);
 
-    private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
+    // [T] File button fill = app accent #2B579A ([C] File tab rect exact).
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(43, 87, 154);
+
+    // [T] File button text white on accent.
+    private static readonly Color _ribbonAppButtonTextColor = Color.White;
 
     #endregion
 
@@ -51,22 +61,22 @@ public class PaletteOffice2016Colorful : PaletteMicrosoft365Base
 
     private static readonly Image? _silverDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
     private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
-    private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010SilverCloseNormal;
-    private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010SilverCloseDisabled;
-    private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010SilverCloseActive;
-    private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010SilverClosePressed;
-    private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010SilverMaximiseNormal;
-    private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010SilverMaximiseDisabled;
-    private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010SilverMaximiseActive;
-    private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010SilverMaximisePressed;
-    private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010SilverMinimiseNormal;
-    private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010SilverMinimiseActive;
-    private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverMinimiseDisabled;
-    private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010SilverMinimisePressed;
-    private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010SilverRestoreNormal;
-    private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010SilverRestoreDisabled;
-    private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010SilverRestoreActive;
-    private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010SilverRestorePressed;
+    private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlackCloseNormal;
+    private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlackCloseDisabled;
+    private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010BlackCloseActive;
+    private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010BlackClosePressed;
+    private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010BackMaximiseNormal;
+    private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlackMaximiseDisabled;
+    private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010BlackMaximiseActive;
+    private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010BlackMaximisePressed;
+    private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlackMinimiseNormal;
+    private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010BlackMinimiseActive;
+    private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlackMinimiseDisabled;
+    private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010BlackMinimisePressed;
+    private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010BlackRestoreNormal;
+    private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlackRestoreDisabled;
+    private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010BlackRestoreActive;
+    private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlackRestorePressed;
     private static readonly Image _formHelpNormal = Microsoft365ControlBoxResources.Microsoft365HelpIconNormal;
     private static readonly Image _formHelpActive = Microsoft365ControlBoxResources.Microsoft365HelpIconHover;
     private static readonly Image _formHelpPressed = Microsoft365ControlBoxResources.Microsoft365HelpIconPressed;
@@ -349,7 +359,7 @@ public class PaletteOffice2016Colorful : PaletteMicrosoft365Base
         GlobalStaticValues.EMPTY_COLOR;
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => Color.White;
+    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _tabRowBackgroundColor;
 
     /// <inheritdoc />
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;

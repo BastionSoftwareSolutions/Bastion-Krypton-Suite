@@ -62,4 +62,36 @@ internal class ViewDrawRibbonPanel : ViewDrawPanel
     }
     #endregion
 
+    #region Paint
+
+    /// <summary>
+    /// Perform rendering before child elements are rendered.
+    /// </summary>
+    /// <param name="context">Rendering context.</param>
+    public override void RenderBefore([DisallowNull] RenderContext context)
+    {
+        // Draw the panel background (PanelClient style) as normal
+        base.RenderBefore(context!);
+
+        // Bastion Phase 3 (spec §4.3): honour the palette-declared solid tab-row background.
+        // The Office 2016/2019 Colorful/DarkGray/Black looks colour the ribbon tab row
+        // independently of PanelClient (accent title bar continuing behind the tabs), which the
+        // palettes declare via IPaletteRibbonGeneral.GetRibbonTabRowBackgroundSolidColor. Before
+        // this the value had no consumer and the tab row always showed the PanelClient fill.
+        // EMPTY_COLOR (returned by the pre-2013 era palettes) keeps the legacy behaviour, and
+        // every built-in M365-era palette declares the same value as its PanelClient, so this
+        // paints identically for existing themes.
+        Color tabRowColor = _palette.GetRibbonTabRowBackgroundSolidColor(PaletteState.Normal);
+        if (tabRowColor != GlobalStaticValues.EMPTY_COLOR)
+        {
+            Rectangle tabsRect = _ribbon.TabsArea?.ClientRectangle ?? Rectangle.Empty;
+            if (tabsRect is { Width: > 0, Height: > 0 })
+            {
+                using var fillBrush = new SolidBrush(tabRowColor);
+                context.Graphics.FillRectangle(fillBrush, tabsRect);
+            }
+        }
+    }
+
+    #endregion
 }

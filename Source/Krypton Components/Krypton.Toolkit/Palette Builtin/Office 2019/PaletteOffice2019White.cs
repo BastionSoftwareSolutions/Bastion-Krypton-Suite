@@ -8,11 +8,12 @@
 #endregion
 
 // =====================================================================================
-// PLACEHOLDER THEME — Office 2019 White.
-// Cloned from PaletteMicrosoft365White (class, assets and renderer pairing) so the mode
-// is fully wired end-to-end; the authentic Office 2019 colours/assets land in the
-// per-era fidelity pass (spec §4.3). Derives from PaletteMicrosoft365Base and therefore
-// reuses RenderMicrosoft365, per THEME-AUDIT §3.4 (no new renderer needed for this era).
+// Office 2019 White theme (Bastion Phase 3 fidelity pass, spec §4.3).
+// Colours come from PaletteOffice2019White_BaseScheme (provenance documented there:
+// docs\themes\office2019-colours.md "White variant" + reference images). Chrome is
+// white throughout ([E] powerpoint-white.png); the tab row stays white and only the
+// File app-button carries the accent fill (era Word blue #2B579A). Derives from
+// PaletteMicrosoft365Base and reuses RenderMicrosoft365, per THEME-AUDIT §3.4.
 // =====================================================================================
 
 namespace Krypton.Toolkit;
@@ -26,11 +27,14 @@ public class PaletteOffice2019White : PaletteMicrosoft365Base
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
+    // [D] File button hover/pressed fill = [G] Word darker companion #2C4B7A (hover open item 1).
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(44, 75, 122);
 
-    private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
+    // [T] File button fill = app accent (era Word blue #2B579A; [E] shows the per-app accent fill).
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(43, 87, 154);
 
-    private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
+    // [T] File button text white on accent.
+    private static readonly Color _ribbonAppButtonTextColor = Color.White;
 
     #endregion
 
