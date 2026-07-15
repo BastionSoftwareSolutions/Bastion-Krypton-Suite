@@ -8,3 +8,8 @@
 *.log
 [Bb]in/
 [Oo]bj/
+
+# Local tooling and session state — never committed
+/Tools/
+/.claude/
+
