@@ -16,12 +16,14 @@ namespace Krypton.Toolkit;
 public class PaletteOffice2003Silver : PaletteProfessionalOffice2003
 {
     #region Static Fields
-    // The Metallic header gradient pair upstream previously only used on Windows XP
-    // (see the BREAKAGE-LOG T2 note in PaletteProfessionalOffice2003.GenerateColorTable).
+    // [T] office2003-colours.md [B] InitSilverLunaColors: msocbvcrOLKFolderbarLight/Dark
+    // (168,167,191 / 110,109,143). The upstream End value (113,112,145) was off by a few
+    // channels from Microsoft's table — corrected in the Phase 3 fidelity pass.
+    // (See the BREAKAGE-LOG T2 note in PaletteProfessionalOffice2003.GenerateColorTable.)
     private static readonly Color[] _colorsSilver =
     [
-        Color.FromArgb(168, 167, 191),   // Header1Begin
-        Color.FromArgb(113, 112, 145) // Header1End
+        Color.FromArgb(168, 167, 191),   // Header1Begin — msocbvcrOLKFolderbarLight
+        Color.FromArgb(110, 109, 143) // Header1End — msocbvcrOLKFolderbarDark
     ];
     #endregion
 

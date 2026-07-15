@@ -16,12 +16,14 @@ namespace Krypton.Toolkit;
 public class PaletteOffice2003Olive : PaletteProfessionalOffice2003
 {
     #region Static Fields
-    // The Homestead header gradient pair upstream previously only used on Windows XP
-    // (see the BREAKAGE-LOG T2 note in PaletteProfessionalOffice2003.GenerateColorTable).
+    // [T] office2003-colours.md [B] InitOliveLunaColors: msocbvcrOLKFolderbarLight/Dark
+    // (175,192,130 / 96,119,66). The upstream End value (99,122,69) was off by a few
+    // channels from Microsoft's table — corrected in the Phase 3 fidelity pass.
+    // (See the BREAKAGE-LOG T2 note in PaletteProfessionalOffice2003.GenerateColorTable.)
     private static readonly Color[] _colorsOlive =
     [
-        Color.FromArgb(175, 192, 130),   // Header1Begin
-        Color.FromArgb( 99, 122,  69) // Header1End
+        Color.FromArgb(175, 192, 130),   // Header1Begin — msocbvcrOLKFolderbarLight
+        Color.FromArgb( 96, 119,  66) // Header1End — msocbvcrOLKFolderbarDark
     ];
     #endregion
 

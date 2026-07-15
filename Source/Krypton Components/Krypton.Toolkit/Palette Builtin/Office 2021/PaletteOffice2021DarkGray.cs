@@ -8,11 +8,16 @@
 #endregion
 
 // =====================================================================================
-// PLACEHOLDER THEME — Office 2021 DarkGray.
-// Cloned from PaletteMicrosoft365White (class, assets and renderer pairing) so the mode
-// is fully wired end-to-end; the authentic Office 2021 colours/assets land in the
-// per-era fidelity pass (spec §4.3). Derives from PaletteMicrosoft365Base and therefore
-// reuses RenderMicrosoft365, per THEME-AUDIT §3.4 (no new renderer needed for this era).
+// Office 2021/2024 Dark Gray theme (Bastion Phase 3 fidelity pass, spec §4.3).
+// Colours come from PaletteOffice2021DarkGray_BaseScheme (provenance documented
+// there: docs\themes\office2021-colours.md "Dark Gray variant" + [K]
+// powerpoint-darkgray.jpg; expanded-ribbon interiors are DERIVED from the 2019
+// Black donor +12/channel — table open item 1, awaiting Chris's live screenshots).
+// This class supplies the #2E2E2E tab row and the flat File tab (File renders like
+// the other tabs — white text, no accent block), plus light-glyph caption buttons,
+// the dark check-box strip and the base KryptonColorTable365 for the dark surfaces
+// (mirrors PaletteOffice2019Black). Derives from PaletteMicrosoft365Base and reuses
+// RenderMicrosoft365, per THEME-AUDIT §3.4.
 // =====================================================================================
 
 namespace Krypton.Toolkit;
@@ -26,11 +31,17 @@ public class PaletteOffice2021DarkGray : PaletteMicrosoft365Base
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
+    // [T] office2021-colours.md: title bar / tab row #2E2E2E ([K] rects 250,8 / 300,70 — uniform).
+    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(46, 46, 46);
 
-    private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
+    // [D] File tab hover fill = chrome +12/channel #3A3A3A (hover open item 1).
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(58, 58, 58);
 
-    private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
+    // [T] File tab fill = tab row #2E2E2E (File renders like the other tabs in [K]).
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(46, 46, 46);
+
+    // [T] File tab text = tab text #FFFFFF.
+    private static readonly Color _ribbonAppButtonTextColor = Color.White;
 
     #endregion
 
@@ -51,22 +62,23 @@ public class PaletteOffice2021DarkGray : PaletteMicrosoft365Base
 
     private static readonly Image? _silverDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
     private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
-    private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010SilverCloseNormal;
-    private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010SilverCloseDisabled;
-    private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010SilverCloseActive;
-    private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010SilverClosePressed;
-    private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010SilverMaximiseNormal;
-    private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010SilverMaximiseDisabled;
-    private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010SilverMaximiseActive;
-    private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010SilverMaximisePressed;
-    private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010SilverMinimiseNormal;
-    private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010SilverMinimiseActive;
-    private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverMinimiseDisabled;
-    private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010SilverMinimisePressed;
-    private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010SilverRestoreNormal;
-    private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010SilverRestoreDisabled;
-    private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010SilverRestoreActive;
-    private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010SilverRestorePressed;
+    // Light-glyph (Black set) caption buttons for the dark title bar (mirrors PaletteOffice2019Black).
+    private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlackCloseNormal;
+    private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlackCloseDisabled;
+    private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010BlackCloseActive;
+    private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010BlackClosePressed;
+    private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010BackMaximiseNormal;
+    private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlackMaximiseDisabled;
+    private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010BlackMaximiseActive;
+    private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010BlackMaximisePressed;
+    private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlackMinimiseNormal;
+    private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010BlackMinimiseActive;
+    private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlackMinimiseDisabled;
+    private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010BlackMinimisePressed;
+    private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010BlackRestoreNormal;
+    private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlackRestoreDisabled;
+    private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010BlackRestoreActive;
+    private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlackRestorePressed;
     private static readonly Image _formHelpNormal = Microsoft365ControlBoxResources.Microsoft365HelpIconNormal;
     private static readonly Image _formHelpActive = Microsoft365ControlBoxResources.Microsoft365HelpIconHover;
     private static readonly Image _formHelpPressed = Microsoft365ControlBoxResources.Microsoft365HelpIconPressed;
@@ -145,7 +157,7 @@ public class PaletteOffice2021DarkGray : PaletteMicrosoft365Base
             ImageSize = new Size(13, 13),
             ColorDepth = ColorDepth.Depth24Bit
         };
-        _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Silver);
+        _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Black); // dark strip for dark panels (mirrors PaletteOffice2019Black)
 
         _galleryButtonList = new ImageList
         {
@@ -331,7 +343,7 @@ public class PaletteOffice2021DarkGray : PaletteMicrosoft365Base
     /// Gets access to the color table instance.
     /// </summary>
     public override KryptonColorTable ColorTable =>
-        Table ??= new KryptonColorTable365White(BaseColors!.ToArray(), InheritBool.True, this);
+        Table ??= new KryptonColorTable365(BaseColors!.ToArray(), InheritBool.True, this); // base table (mirrors PaletteOffice2019Black, not the White variant)
 
     #endregion
 
@@ -349,7 +361,7 @@ public class PaletteOffice2021DarkGray : PaletteMicrosoft365Base
         GlobalStaticValues.EMPTY_COLOR;
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => Color.White;
+    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _tabRowBackgroundColor;
 
     /// <inheritdoc />
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;

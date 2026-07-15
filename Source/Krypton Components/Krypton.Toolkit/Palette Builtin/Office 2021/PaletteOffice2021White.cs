@@ -8,11 +8,15 @@
 #endregion
 
 // =====================================================================================
-// PLACEHOLDER THEME — Office 2021 White.
-// Cloned from PaletteMicrosoft365White (class, assets and renderer pairing) so the mode
-// is fully wired end-to-end; the authentic Office 2021 colours/assets land in the
-// per-era fidelity pass (spec §4.3). Derives from PaletteMicrosoft365Base and therefore
-// reuses RenderMicrosoft365, per THEME-AUDIT §3.4 (no new renderer needed for this era).
+// Office 2021/2024 White theme (Bastion Phase 3 fidelity pass, spec §4.3).
+// Colours come from PaletteOffice2021White_BaseScheme (provenance documented there:
+// docs\themes\office2021-colours.md "White variant" + reference images). Chrome is
+// the light-neutral #F0F0F0 band ([K] powerpoint-white; #FAFAFA on Win11 — table
+// open item 5) with a white ribbon card; this class supplies the #F0F0F0 tab row
+// and the flat File tab (File renders like the other tabs — no accent block).
+// Caption buttons keep the dark-glyph (Silver) set for the light title bar.
+// Derives from PaletteMicrosoft365Base and reuses RenderMicrosoft365, per
+// THEME-AUDIT §3.4.
 // =====================================================================================
 
 namespace Krypton.Toolkit;
@@ -26,11 +30,17 @@ public class PaletteOffice2021White : PaletteMicrosoft365Base
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
+    // [T] office2021-colours.md: title bar / tab row #F0F0F0 ([K] powerpoint-white rects 250,10 / 300,70).
+    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(240, 240, 240);
 
-    private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
+    // [D] File tab hover fill = separator band tone #E1E1E1 (hover open item 3).
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(225, 225, 225);
 
-    private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
+    // [T] File tab fill = tab row #F0F0F0 (File renders like the other tabs in [K]).
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(240, 240, 240);
+
+    // [T] File tab text = tab text #262626.
+    private static readonly Color _ribbonAppButtonTextColor = Color.FromArgb(38, 38, 38);
 
     #endregion
 
@@ -349,7 +359,7 @@ public class PaletteOffice2021White : PaletteMicrosoft365Base
         GlobalStaticValues.EMPTY_COLOR;
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => Color.White;
+    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _tabRowBackgroundColor;
 
     /// <inheritdoc />
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;

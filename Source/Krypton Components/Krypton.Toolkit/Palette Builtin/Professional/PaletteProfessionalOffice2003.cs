@@ -18,10 +18,13 @@ namespace Krypton.Toolkit;
 public class PaletteProfessionalOffice2003 : PaletteOffice2003Base
 {
     #region Static Fields
+    // [T] office2003-colours.md [B] InitBlueLunaColors: msocbvcrOLKFolderbarLight/Dark
+    // (89,135,214 / 0,53,145). The upstream End value (4,57,148) was off by a few
+    // channels from Microsoft's table — corrected in the Phase 3 fidelity pass.
     private static readonly Color[] _colorsB =
     [
-        Color.FromArgb( 89, 135, 214),   // Header1Begin
-        Color.FromArgb(  4,  57, 148) // Header1End
+        Color.FromArgb( 89, 135, 214),   // Header1Begin — msocbvcrOLKFolderbarLight
+        Color.FromArgb(  0,  53, 145) // Header1End — msocbvcrOLKFolderbarDark
     ];
     #endregion
 
@@ -36,8 +39,11 @@ public class PaletteProfessionalOffice2003 : PaletteOffice2003Base
     /// Initialize a new instance of the PaletteProfessionalOffice2003 class.
     /// </summary>
     public PaletteProfessionalOffice2003()
+        : this(new PaletteProfessionalOffice2003_BaseScheme())
     {
-        ThemeName = nameof(PaletteProfessionalOffice2003);
+        // Phase 3 fidelity pass: feed the Luna Blue scheme (ribbon/QAT/app-button
+        // slots) instead of the system scheme, so the un-gated Office 2003 look
+        // matches the [A]/[B] references (see the scheme file for provenance).
     }
 
     /// <summary>
@@ -59,6 +65,15 @@ public class PaletteProfessionalOffice2003 : PaletteOffice2003Base
     /// override this with their Homestead/Metallic pairs.
     /// </summary>
     protected virtual Color[] HeaderColors => _colorsB;
+    #endregion
+
+    #region Scheme
+    /// <inheritdoc />
+    /// <remarks>
+    /// Phase 3 fidelity pass: the Luna Blue/Olive/Silver palettes carry authentic
+    /// [B]-sourced schemes — never overwrite them with system-generated colours.
+    /// </remarks>
+    protected override bool SyncSchemeToSystemRibbonColors => false;
     #endregion
 
     #region ColorTable
@@ -275,7 +290,13 @@ public class PaletteProfessionalOffice2003 : PaletteOffice2003Base
         GlobalStaticValues.EMPTY_COLOR;
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    /// <remarks>
+    /// Phase 3 fidelity pass: the tab row carries the Luna command-bar background
+    /// (scheme ToolStripBack = [B] msocbvcrCBBkgd — #C4DBF9 Blue / #D1DEAD Olive /
+    /// #DBDAE4 Silver), standing in for the Office 2003 menu-bar band ([A] rect
+    /// 1050,38). Previously EMPTY_COLOR (legacy PanelClient fill).
+    /// </remarks>
+    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => BaseColors!.ToolStripBack;
 
     /// <inheritdoc />
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
@@ -284,14 +305,18 @@ public class PaletteProfessionalOffice2003 : PaletteOffice2003Base
 
     #region AppButton Colors
 
-    /// <inheritdoc />
-    public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
+    // Phase 3 fidelity pass: Office 2003 has no File "button" — the File menu item sits
+    // flat on the menu bar and lights up with the shared Luna hover fill (#FFEEC2) when
+    // tracked, so the File app tab reuses the tab-row band, hover fill and menu text.
 
     /// <inheritdoc />
-    public override Color GetRibbonFileAppTabTopColor(PaletteState state) => GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
+    public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => BaseColors!.RibbonTabTracking1;
 
     /// <inheritdoc />
-    public override Color GetRibbonFileAppTabTextColor(PaletteState state) => GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
+    public override Color GetRibbonFileAppTabTopColor(PaletteState state) => BaseColors!.ToolStripBack;
+
+    /// <inheritdoc />
+    public override Color GetRibbonFileAppTabTextColor(PaletteState state) => BaseColors!.RibbonTabTextNormal;
 
     #endregion
 }
@@ -476,6 +501,15 @@ public class PaletteOffice2003Base : PaletteBase
     /// <inheritdoc/>
     protected override Color[] SchemeColors => _ribbonColors;
     private Color[] _ribbonColors;
+
+    /// <summary>
+    /// When true (the default, used by the system-coloured professional look),
+    /// DefineRibbonColors overwrites the strongly-typed scheme with the ribbon
+    /// colours generated from system settings. Palettes that supply an authentic
+    /// era scheme (the Bastion Office 2003 Luna Blue/Olive/Silver fidelity pass)
+    /// override this to false so the scheme stays authoritative.
+    /// </summary>
+    protected virtual bool SyncSchemeToSystemRibbonColors => true;
 
     //private Color _disabledDropDownColor;
     //private Color _normalDropDownColor;
@@ -4597,8 +4631,9 @@ public class PaletteOffice2003Base : PaletteBase
         _appButtonTrack = [highlight1, highlight2, ColorTable.ButtonSelectedGradientEnd, highlight3, highlight4];
         _appButtonPressed = [highlight1, pressed4, ColorTable.CheckPressedBackground, highlight2, pressed4];
 
-        // Synchronize the strongly-typed color scheme with the generated ribbon colors
+        if (SyncSchemeToSystemRibbonColors)
         {
+            // Synchronize the strongly-typed color scheme with the generated ribbon colors
             var schemeType = BaseColors.GetType();
             foreach (SchemeBaseColors role in Enum.GetValues(typeof(SchemeBaseColors)))
             {
@@ -4609,6 +4644,14 @@ public class PaletteOffice2003Base : PaletteBase
                     prop?.SetValue(BaseColors, _ribbonColors[index]);
                 }
             }
+        }
+        else
+        {
+            // Bastion Phase 3 fidelity pass: the palette supplied an authentic colour
+            // scheme (Office 2003 Luna Blue/Olive/Silver) — keep the scheme
+            // authoritative and expose it through SchemeColors instead of clobbering
+            // it with the system-generated values above.
+            _ribbonColors = BaseColors.ToArray();
         }
     }
 
