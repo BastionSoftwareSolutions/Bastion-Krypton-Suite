@@ -15,6 +15,14 @@
 		<Nullable>enable</Nullable>
 		<WarningLevel>6</WarningLevel>
 		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+		<!-- Bastion licence audit (2026-07-15): this metapackage physically bundles the
+		     Outlook.Grid and AdvancedDataGridView assemblies, whose source is Ms-PL
+		     (JDH Software / ADGV). The bundled package must therefore declare both
+		     licences. See THIRD-PARTY-NOTICES.md at the repository root. -->
+		<!-- NuGet forbids PackageLicenseFile (set tree-wide in Directory.Build.props) alongside
+		     PackageLicenseExpression (NU5033), so clear the file for this project. -->
+		<PackageLicenseFile></PackageLicenseFile>
+		<PackageLicenseExpression>MIT AND MS-PL</PackageLicenseExpression>
 		
 		<!-- Suppress NuGet pack validation warning NU1012 (TFMs missing platform version) -->
 		<NoWarn>$(NoWarn);NU1012</NoWarn>

@@ -30,6 +30,15 @@
 		<Nullable>enable</Nullable>
 		<WarningLevel>6</WarningLevel>
 		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+		<!-- Bastion licence audit (2026-07-15): this module vendors the ADGV /
+		     Advanced DataGridView control family, licensed under the Microsoft Public
+		     License (Ms-PL) - the full Ms-PL text is retained in the source headers.
+		     Krypton Suite additions are MIT. The package licence expression must
+		     therefore declare both; Ms-PL headers must never be removed. -->
+		<!-- NuGet forbids PackageLicenseFile (set tree-wide in Directory.Build.props) alongside
+		     PackageLicenseExpression (NU5033), so clear the file for this project. -->
+		<PackageLicenseFile></PackageLicenseFile>
+		<PackageLicenseExpression>MIT AND MS-PL</PackageLicenseExpression>
 	</PropertyGroup>
 
 	<!--Package Data-->

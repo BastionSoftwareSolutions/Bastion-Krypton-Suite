@@ -180,7 +180,13 @@
 		<PackageProjectUrl Condition="'$(PackageProjectUrl)' == ''">https://github.com/Krypton-Suite/Extended-Toolkit</PackageProjectUrl>
 		<RepositoryUrl Condition="'$(RepositoryUrl)' == ''">https://github.com/Krypton-Suite/Extended-Toolkit.git</RepositoryUrl>
 		<RepositoryType Condition="'$(RepositoryType)' == ''">git</RepositoryType>
-		<PackageLicenseExpression Condition="'$(PackageLicenseExpression)' == '' and '$(PackageLicenseFile)' == ''">BSD-3-Clause</PackageLicenseExpression>
+		<!-- Bastion licence audit (2026-07-15): the repository LICENSE file is MIT
+		     (Copyright (c) 2017 - 2024 Krypton Suite), but packages were historically
+		     stamped BSD-3-Clause here. Corrected to MIT so package metadata matches the
+		     actual licence. Modules containing vendored Ms-PL code (Outlook.Grid,
+		     AdvancedDataGridView) override this per-project with 'MIT AND MS-PL'.
+		     See THIRD-PARTY-NOTICES.md at the repository root. -->
+		<PackageLicenseExpression Condition="'$(PackageLicenseExpression)' == '' and '$(PackageLicenseFile)' == ''">MIT</PackageLicenseExpression>
 		<PackageRequireLicenseAcceptance Condition="'$(PackageRequireLicenseAcceptance)' == ''">true</PackageRequireLicenseAcceptance>
 		<PackageTags Condition="'$(PackageTags)' == ''">Krypton ComponentFactory WinForms Themes Controls DataGrid Ribbon Workspace Tabs .Net Toolkit Core Extended</PackageTags>
 	</PropertyGroup>
