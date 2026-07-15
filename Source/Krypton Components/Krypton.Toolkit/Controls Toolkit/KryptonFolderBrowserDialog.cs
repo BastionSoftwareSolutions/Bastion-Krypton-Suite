@@ -44,7 +44,7 @@ public class KryptonFolderBrowserDialog : ShellDialogWrapper, IDisposable
         return true;
     }
 
-#if NET8_0_OR_GREATER
+#if NET5_0_OR_GREATER
         /// <inheritdoc />
         public override Guid? ClientGuid 
         { 
@@ -69,10 +69,11 @@ public class KryptonFolderBrowserDialog : ShellDialogWrapper, IDisposable
         set => _internalOpenFileDialog.SelectedPath = value!;
     }
 
-#if NET8_0_OR_GREATER
         /// <summary>
         ///  Gets or sets the initial directory displayed by the folder browser dialog.
         /// </summary>
+        /// <remarks>Available on every TFM: below net8 the internal ShellBrowserDialogTFM forwards
+        /// to OpenFileDialog.InitialDirectory; on net8+ FolderBrowserDialog provides it natively.</remarks>
         [Category(@"FolderBrowsing")]
         [DefaultValue("")]
         [Editor(typeof(KryptonInitialDirectoryEditor), typeof(UITypeEditor))]
@@ -83,7 +84,6 @@ public class KryptonFolderBrowserDialog : ShellDialogWrapper, IDisposable
             get => _internalOpenFileDialog.InitialDirectory;
             set => _internalOpenFileDialog.InitialDirectory = value!;
         }
-#endif
 
     /// <summary>
     ///  Gets/sets the root node of the directory tree.

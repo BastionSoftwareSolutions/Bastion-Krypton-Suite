@@ -578,7 +578,7 @@ public abstract class VisualForm : Form,
         }
     }
 
-#if NET8_0_OR_GREATER
+#if NET6_0_OR_GREATER
         /// <summary>Gets or sets the anchoring for minimized MDI children.</summary>
         /// <value> <c>true</c> to anchor minimized MDI children to the bottom left of the parent form; <c>false</c> to anchor to the top left of the parent form.</value>
         [Category(@"Window Style")]
@@ -588,11 +588,10 @@ public abstract class VisualForm : Form,
         {
             get => base.MdiChildrenMinimizedAnchorBottom;
 
-            set
-            {
-                base.MdiChildrenMinimizedAnchorBottom = value;
-                throw new NotSupportedException(@"Please use .NET 6 or newer to use this feature.");
-            }
+            // Upstream bug fixed: the setter unconditionally threw NotSupportedException("Please use
+            // .NET 6 or newer...") even though this member only compiles on .NET 6+ where the base
+            // property is fully functional.
+            set => base.MdiChildrenMinimizedAnchorBottom = value;
         }
 #endif
 

@@ -87,7 +87,7 @@ public class KryptonOpenFileDialog : FileDialogWrapper, IDisposable
         set => _internalOpenFileDialog.CheckPathExists = value;
     }
 
-#if NET8_0_OR_GREATER
+#if NET5_0_OR_GREATER
     /// <inheritdoc />
     public override Guid? ClientGuid
     { 

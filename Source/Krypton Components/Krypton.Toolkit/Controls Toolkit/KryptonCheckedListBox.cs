@@ -2329,7 +2329,10 @@ public class KryptonCheckedListBox : VisualControlBase,
     #region Implementation
     private void UpdateStateAndPalettes()
     {
-        if (!IsDisposed)
+        // Disposing check added: focus events raised from inside DestroyWindow arrive while
+        // Dispose is still running (IsDisposed not yet set) after the palette redirect target
+        // is detached - NullReferenceException found by the Bastion smoke suite.
+        if (!IsDisposed && !Disposing)
         {
             // Get the correct palette settings to use
             IPaletteDouble doubleState = GetDoubleState();

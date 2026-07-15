@@ -3262,7 +3262,10 @@ public class KryptonComboBox : VisualControlBase,
     {
         if (DropDownStyle == ComboBoxStyle.DropDown && Enabled)
         {
-            _subclassEdit!.Visible = true;
+            // _subclassEdit is null while the native edit child is being created or destroyed
+            // (e.g. focus events raised from inside DestroyWindow during Dispose) — issue found
+            // by the Bastion smoke suite; previously a NullReferenceException in WndProc.
+            _subclassEdit?.Visible = true;
             PaletteState state = Enabled
                 ? IsActive
                     ? PaletteState.Tracking
@@ -3280,7 +3283,8 @@ public class KryptonComboBox : VisualControlBase,
     {
         if (DropDownStyle == ComboBoxStyle.DropDown)
         {
-            _subclassEdit!.Visible = false;
+            // See OnComboBoxGotFocus: _subclassEdit is legitimately null during handle teardown.
+            _subclassEdit?.Visible = false;
             _comboBox.Font = GetComboBoxTripleState().Content.GetContentShortTextFont(PaletteState.Normal)!;
         }
 

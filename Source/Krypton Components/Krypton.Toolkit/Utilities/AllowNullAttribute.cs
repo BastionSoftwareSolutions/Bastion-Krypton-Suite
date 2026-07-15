@@ -19,7 +19,9 @@ namespace System.Diagnostics.CodeAnalysis;
     [AttributeUsage(
         AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue,
         Inherited = false)]
-    public sealed class MaybeNullAttribute : Attribute
+    // Bastion: internal like the other polyfills in this file — public copies of System.* attribute
+    // types in every Krypton assembly cause CS0433 ambiguity for net4x consumers referencing two of them.
+    internal sealed class MaybeNullAttribute : Attribute
     {
     }
 
@@ -27,7 +29,7 @@ namespace System.Diagnostics.CodeAnalysis;
     [AttributeUsage(
         AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue,
         Inherited = false)]
-    public sealed class NotNullAttribute : Attribute
+    internal sealed class NotNullAttribute : Attribute
     {
     }
 

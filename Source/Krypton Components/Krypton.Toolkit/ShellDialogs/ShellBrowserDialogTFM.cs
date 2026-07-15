@@ -98,7 +98,7 @@ internal class ShellBrowserDialogTFM : ShellDialogWrapper, IDisposable
         }
     }
 
-#if NET8_0_OR_GREATER
+#if NET5_0_OR_GREATER
         /// <inheritdoc />
         public override Guid? ClientGuid
         {
@@ -118,6 +118,16 @@ internal class ShellBrowserDialogTFM : ShellDialogWrapper, IDisposable
     public string SelectedPath
     {
         get => Path.GetDirectoryName(_internalOpenFileDialog.FileName)!;
+        set => _internalOpenFileDialog.InitialDirectory = value;
+    }
+
+    /// <summary>
+    ///  Gets or sets the initial directory displayed by the wrapped dialog.
+    ///  (Bastion: added so KryptonFolderBrowserDialog.InitialDirectory is available on every TFM.)
+    /// </summary>
+    public string InitialDirectory
+    {
+        get => _internalOpenFileDialog.InitialDirectory;
         set => _internalOpenFileDialog.InitialDirectory = value;
     }
 

@@ -1306,7 +1306,10 @@ public class KryptonListView : VisualControlBase,
 
     private void UpdateStateAndPalettes()
     {
-        if (!IsDisposed)
+        // Disposing check added: focus events raised from inside DestroyWindow arrive while
+        // Dispose is still running (IsDisposed not yet set) after the palette redirect target
+        // is detached - NullReferenceException found by the Bastion smoke suite.
+        if (!IsDisposed && !Disposing)
         {
             // Find the new state of the main view element
             PaletteState state = Enabled
