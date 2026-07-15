@@ -143,9 +143,45 @@ All five core libraries build **warning-clean (0 warnings / 0 errors)** for the 
 
 **11/11 TFMs × 230 public Component types: 0 failures**, each TFM on its true runtime (Framework 4.8.1; locally installed .NET 5.0.17/6.0.36/7.0.20 desktop runtimes in `Tools\dotnet-legacy\`; system 8/9/10). The suite found and fixed **six genuine upstream bugs** (dispose-time NREs in KryptonComboBox and five list/tree/grid controls, an always-throwing MDI property setter, a wrong API guard) — full detail with repro and root cause in `docs/audit/BREAKAGE-LOG.md`, all candidates for upstream contribution.
 
-### In progress
+### Extended Toolkit rewiring ✅ (commit `07499bba` in Extended-Toolkit; triage in `docs/audit/EXTENDED-BUILD-TRIAGE.md`)
 
-- Extended Toolkit rewiring + multi-target (61 modules).
+- 11-TFM matrix centralised in Extended's `Directory.Build.props`; `-windows7.0` suffixes normalised; 14 NuGet-only core consumers rewired to dual-mode ProjectReference; core resource rules ported; Themes/Software.Updater/PackageId defects fixed; 4 stale backup csprojs deleted; 20 net46-incompatible third-party PackageReferences conditioned out of net46 only.
+- Result: restore 69/69 (was 38/69 failing); **25/64 projects build all 11 TFMs, 28 more build 10/11**; converged error set from **8 root-cause projects**.
+- Notable: `Examples` app is silently never scheduled by the solution build despite Build.0 entries — flagged for Phase 4.
+- Warning-clean pass deferred until errors are cleared (baseline ~42.5k warning lines, ~29k NRT).
+
+### Third-party licence restoration ✅ (Extended commit `af34b5c7`; report `docs/audit/THIRD-PARTY-LICENCES.md`)
+
+- Attribution restored via directory-level LICENCE/THIRD-PARTY-NOTICES files (no upstream copyright lines touched, no `.cs` edits): ScottPlot 5 (347 files, canonical MIT © Scott Harden restored), AutoUpdater.NET (MIT © RBSoft), System.Speech/SAPI reference source (338 files, .NET Foundation MIT), Cyotek (MIT), Navi.Suite (Guifreaks MIT), Circular.ProgressBar (falahati MIT).
+- Package licence metadata fixed: MIT (was dormant BSD-3-Clause stamp); Outlook.Grid, AdvancedDataGridView and both Ultimate metapackages now `MIT AND MS-PL` — Bastion packaging must mirror this and ship the notices in the nupkgs.
+- **Decisions needed from Chris (licence):**
+  1. **gGlowBox fragment** (`ImageBoxExtended.cs` ~2878–2913): probable CPOL derivative via Cyotek's adaptation. Recommend clean-room reimplementation (~30 lines, ~1 hour).
+  2. **Toggle.Switch module**: CPOL-derived at module scale (Johnny J's CodeProject control). Recommend excluding from the first Bastion release.
+  3. **SharpUpdate half of Software.Updater**: upstream publishes no licence at all — attribution cannot cure it. Recommend removal (AutoUpdater.NET/NetSparkle cover the use case; module already excluded from Ultimate).
+  4. AdvancedWizard (Steve Bate): no declared licence upstream — courtesy licence request, low priority.
+  - Six smaller CodeProject-adapted fragments inventoried as CPOL-risk (UAC shield ×5 modules, MRU manager, ToolBox, progress-bar paint, CheckBoxComboBox, toast pop-up) — see report §6.
+
+### Extended fix pass ✅ (Extended commit `dae9be10` + follow-ups; full detail `docs/audit/EXTENDED-BUILD-TRIAGE.md` §6)
+
+- Zero build errors across the plain solution: 64/65 projects build (63 × all 11 TFMs; Data.Visualisation ×10 by design; `Themes` deliberately unscheduled pending Chris's go/no-go). Highlights: the net46 cascade fixed at ladder rung (b) via the classic WindowsAPICodePack package (full API, no degradation); Software.Updater WPF references aligned per TFM; `KryptonLanguageManager` drift resolved.
+- Warning-clean pass deferred to a follow-up (baseline ~29k NRT warnings — tracked, not blocking).
+
+### Extended smoke sweep ✅ (`EXTENDED-BUILD-TRIAGE.md` §7)
+
+- **659 module-dir × TFM runs, 0 failures** on true runtimes; 3,700+ type-instantiations per full pass.
+- **Nine further upstream defect classes found + fixed** (`BREAKAGE-LOG.md` E1–E9), the standouts: an inverted fade-out loop that hung every fading form on close (all .NET Core TFMs); a zero-speed fade recursion hanging forms on Show (net4x); a null-owner NRE in the **core** `PaletteFormBorder` (fixed in Standard-Toolkit, core matrix re-verified 11×230×0); a designer-resx manifest-name divergence breaking ~60 types on net4x; an unloadable `System.Drawing.Common` 10.0.0 pin (net5–9).
+- Core smoke matrix re-verified green after the core fix: 11 TFMs × 230 types × 0 failures.
+
+### Phase 2 exit-criteria status
+
+| Criterion (spec §3) | Status |
+|---|---|
+| Five core libraries compile warning-clean, all TFMs | ✅ 11 TFMs, `TreatWarningsAsErrors=true` |
+| Extended modules compile, all TFMs (v1.1) | ✅ 63/64 × 11 TFMs (+1 ×10 by design); `Themes` excluded pending Chris go/no-go; warning-clean deferred (documented) |
+| API matrix report | ✅ `API-MATRIX.md` — differences exactly match documented degradations |
+| Smoke instantiation per TFM | ✅ core 11×230×0; Extended 659 runs ×0 |
+
+**Phase 2 complete — 15 July 2026.** (Carried into Phase 3+: Extended warning-clean pass; Chris decisions listed below.)
 
 ---
 

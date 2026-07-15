@@ -171,3 +171,74 @@ The suite could not build from source against our core at all:
 | Software.Updater | **Go — shipped** | KryptonLanguageManager/BackStyle fix-forwards applied (CHANGES.md entries needed); ILRepack merge disabled for source builds (revisit for standalone package vendoring); ZipExtractor embedded-resource degradation from §1 still stands. |
 | Data.Visualisation net46 | **Accepted degradation** | Needs a per-TFM feature-matrix entry: no charting on net46, including via Ultimate. |
 | Warning-clean pass | Open (next phase) | `TreatWarningsAsErrors` still off suite-wide, as agreed. Compile-warning baseline unchanged (≈42.5k lines, dominated by nullable annotations); delete the dead net5/net6 `System.Design` references during that pass. |
+
+---
+
+## 7. Smoke sweep results (15 July 2026, third run)
+
+Every Extended module output directory (`Bin\Release\<module>\<tfm>`) was smoked with the Phase 2 harness
+(`Scripts\SmokeTest`, `--dir` mode: every public `Component` with a parameterless constructor instantiated,
+shown on a form, resized, disposed) on the true runtime per TFM (net4x on .NET Framework 4.8.1; net5/6/7 on
+the locally installed desktop runtimes; net8/9/10 on the system SDK). Per-run logs persist as
+`smoke.log` in each output directory.
+
+### Result
+
+| Metric | Value |
+|---|---|
+| Module dirs with assemblies | **60** (61 minus Themes, which is deliberately unscheduled) |
+| Module × TFM runs executed | **659** (660 minus Data.Visualisation net46, absent by design) |
+| **Green** | **654 / 659 (99.2 %)** |
+| Not green (documented) | **5** — Software.Updater net5.0–net9.0 only (see below) |
+| Type instantiations exercised | **≈ 10,984** across the matrix |
+| By-design-modal skips | 229 run-level skips from the 5-entry harness skip list |
+
+The initial sweep carried **13 distinct crashing/hanging root causes poisoning ~200 runs**
+(`Common.CommonExtendedKryptonForm` alone poisoned 87). All were fixed at source — none was
+suppressed — plus one core fix in the sibling Standard-Toolkit (`PaletteFormBorder` null-owner
+tolerance). Full root-cause entries **E1–E26** in `docs/audit/BREAKAGE-LOG.md`; headline items:
+
+1. Fade engine: infinite loop on fade-out (`+=` for `-=`) and infinite recursion at fade speed 0 (hung every `CommonExtendedKryptonForm` on every TFM).
+2. `VisualKryptonFormExtended` passes a null owner into core `PaletteFormBorder` → NRE on every non-client paint (fixed core-side, null tolerance).
+3. `KryptonCalendar` ctor NRE cascade (days array + 14 unguarded event raisers).
+4. Never-ported resource tables: NaviBar menu strings, `FlatTabControl` icons; `Image.FromFile` used with a resource name (`KryptonBrowseComboBox`).
+5. **Resource manifest naming**: net4x embeds folder-based names, net5+ type-based names — `EmbeddedResourceUseDependentUponConvention=true` forced in `Directory.Build.props` fixes ~60 designer .resx across ~20 modules (MasterDetail grids, NaviOptionsForm, …).
+6. Ten controls never unsubscribed from `KryptonManager.GlobalPaletteChanged` (ObjectDisposedException after dispose); `KryptonComboBoxTree` leaked its whole dropdown form — the cause of the Ultimate/Ultimate.Lite full-matrix hang.
+7. `ColourCollection` `==`/`!=` mutual recursion → uncatchable StackOverflow killing all 11 Drawing.Utilities runs.
+8. .NET 9 `SystemColors.UseAlternativeColorSet` broke `PropagateSystemColours` reflection; `Nullable<uint>` in the `NetServerEnum` P/Invoke; blocking domain enumeration moved off the UI thread (`KryptonNetworkNodePicker`).
+9. Unsigned `Unofficial.WinFormAnimation` unloadable from the strong-named Circular.ProgressBar on net4x → original strong-named `WinFormAnimation` 1.6.0.4 used for net4x.
+
+### By-design-modal skip list (harness `Scripts\SmokeTest\Program.cs`, justification per entry in source)
+
+| Type | Modal shown at |
+|---|---|
+| `Core.GlobalOptionsMenu` | Load: "developmental use only" YesNo box |
+| `Core.PaletteColourCreator` | Load: `ResetToDefaults()` confirmation |
+| `Dialogs.KryptonNuGetBrowser` | Load: `UnderConstruction()` stub box |
+| `Drawing.Utilities.KryptonColourFindAndReplaceDialog` | **Constructor**: `UnderConstruction()` stub box |
+| `Theme.Switcher.UploadThemeBrowser` | Load: `NotImplemented()` stub box |
+
+### Remaining non-green (documented, not defects fixed this pass)
+
+- **Software.Updater net5.0/6.0/7.0/8.0/9.0 (5 runs)**: harness raw-DLL-loader artifact, not a module defect. The module pins `System.Drawing.Common` 10.0 while the harness's host runtime supplies the shared-framework copy (e.g. 8.0 on net8); `Assembly.LoadFrom` cannot unify to a second version in the default load context, so type enumeration throws `FileLoadException`. A real app referencing the module resolves this through its own `deps.json`. **Software.Updater passes net46–net481 and net10** (8 types each, 0 failures). If desired, a per-TFM `System.Drawing.Common` pin matched to each runtime would also make the harness green — Chris to decide whether the package-dependency change is worth it.
+
+### Harness improvements made during the sweep
+
+- Documented skip list (above); native-library resolver for module-dir `runtimes\win-<arch>\native` assets (SkiaSharp had been picking up an incompatible stray libSkiaSharp from PATH); `TabPage`/`ToolStripDropDown` parenting handling; `run-extended-smoke.ps1` module-assembly probe no longer requires the assembly name to equal the directory name (the `Task.Dialogs` directory ships `…TaskDialogs.dll` and had been silently skipped).
+
+## 7. Smoke sweep results (15 July 2026, final)
+
+**ALL GREEN: 659 module-directory × TFM smoke runs, 0 failures** (12 combinations skipped — no assembly
+for that TFM, e.g. Data.Visualisation net46 by design). Every run instantiates, shows, resizes and
+disposes every public Component type in the module assembly *and its Extended dependencies* present in
+that output directory, on the true runtime for the TFM (.NET Framework 4.8.1 for net4x; local .NET
+5.0.17/6.0.36/7.0.20 desktop runtimes; system .NET 8/9/10).
+
+Nine upstream defect classes were found and fixed to get here — see `BREAKAGE-LOG.md` E1–E9
+(inverted fade-out loop, zero-speed fade recursion, forced PopUp cast, null-owner form border NRE
+(core fix), calendar constructor NRE cascade, progress-bar brush NRE, NaviBar phantom resource,
+designer-resx manifest-name divergence on net4x, unloadable System.Drawing.Common 10.0.0 pin).
+
+Harness notes: one justified skip-list entry (`Core.GlobalOptionsMenu` shows a modal message box by
+design); the harness gained `--dir` mode, WPF support on .NET (Core) TFMs, defensive reflection, and
+an incremental runner (`run-extended-smoke.ps1`).

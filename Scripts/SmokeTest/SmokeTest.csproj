@@ -4,6 +4,9 @@
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net46;net47;net472;net48;net481;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
+    <!-- WPF too: some Extended modules (Software.Updater) expose WPF-typed members; reflecting
+         over them needs PresentationFramework resolvable in this process on .NET (Core) TFMs. -->
+    <UseWPF Condition="!$(TargetFramework.StartsWith('net4'))">true</UseWPF>
     <Nullable>enable</Nullable>
     <LangVersion>preview</LangVersion>
     <AssemblyName>KryptonSmokeTest</AssemblyName>

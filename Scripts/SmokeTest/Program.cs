@@ -18,6 +18,33 @@ namespace Bastion.SmokeTest
         private static int _tested;
         private static int _skipped;
 
+        // Types that GENUINELY show modal UI by design when instantiated and shown — not
+        // defects, so they cannot be smoke-tested unattended. Keep this list minimal and
+        // justify every entry.
+        private static readonly HashSet<string> ByDesignModal = new HashSet<string>(StringComparer.Ordinal)
+        {
+            // Its Load handler opens a modal KryptonMessageBox ("This is for developmental
+            // use only. Do you want to continue?") by design — blocks the harness for 30s
+            // per run until the watchdog fires.
+            "Krypton.Toolkit.Suite.Extended.Core.GlobalOptionsMenu",
+
+            // Its Load handler calls AllMergedColourSettingsManager.ResetToDefaults(),
+            // which opens a modal "Reset Settings" confirmation by design.
+            "Krypton.Toolkit.Suite.Extended.Core.PaletteColourCreator",
+
+            // Under-construction stub: its Load handler shows the modal
+            // ApplicationUtilities.UnderConstruction() message box by design.
+            "Krypton.Toolkit.Suite.Extended.Dialogs.KryptonNuGetBrowser",
+
+            // Under-construction stub: its CONSTRUCTOR shows the modal
+            // ApplicationUtilities.UnderConstruction() message box by design.
+            "Krypton.Toolkit.Suite.Extended.Drawing.Utilities.KryptonColourFindAndReplaceDialog",
+
+            // Not-implemented stub: its Load handler shows the modal
+            // DebugUtilities.NotImplemented() message box by design.
+            "Krypton.Toolkit.Suite.Extended.Theme.Switcher.UploadThemeBrowser"
+        };
+
         private static volatile string _currentType = "";
         private static long _typeStartedTicks;
 
@@ -47,14 +74,101 @@ namespace Bastion.SmokeTest
             }) { IsBackground = true };
             watchdog.Start();
 
-            var assemblies = new[]
+            // Default mode: the five core assemblies. "--dir <path>" mode: load every
+            // Krypton.Toolkit.Suite.Extended.*.dll from the given directory (an Extended
+            // per-project output dir, which carries its full dependency closure).
+            string? moduleDir = null;
+            var positional = new List<string>();
+            for (int i = 0; i < args.Length; i++)
             {
-                typeof(Krypton.Toolkit.KryptonButton).Assembly,
-                typeof(Krypton.Ribbon.KryptonRibbon).Assembly,
-                typeof(Krypton.Navigator.KryptonNavigator).Assembly,
-                typeof(Krypton.Workspace.KryptonWorkspace).Assembly,
-                typeof(Krypton.Docking.KryptonDockingManager).Assembly
-            };
+                if (args[i] == "--dir" && i + 1 < args.Length)
+                {
+                    moduleDir = args[++i];
+                }
+                else
+                {
+                    positional.Add(args[i]);
+                }
+            }
+            args = positional.ToArray();
+
+            Assembly[] assemblies;
+            if (moduleDir is null)
+            {
+                assemblies = new[]
+                {
+                    typeof(Krypton.Toolkit.KryptonButton).Assembly,
+                    typeof(Krypton.Ribbon.KryptonRibbon).Assembly,
+                    typeof(Krypton.Navigator.KryptonNavigator).Assembly,
+                    typeof(Krypton.Workspace.KryptonWorkspace).Assembly,
+                    typeof(Krypton.Docking.KryptonDockingManager).Assembly
+                };
+            }
+            else
+            {
+                // Resolve any stragglers (and core assemblies) from the module directory itself.
+                AppDomain.CurrentDomain.AssemblyResolve += (_, e) =>
+                {
+                    try
+                    {
+                        string candidate = System.IO.Path.Combine(moduleDir, new AssemblyName(e.Name).Name + ".dll");
+                        return System.IO.File.Exists(candidate) ? Assembly.LoadFrom(candidate) : null;
+                    }
+                    catch
+                    {
+                        // Not a loadable managed assembly (native dll, wrong-framework facade, …) —
+                        // decline and let the default resolution continue.
+                        return null;
+                    }
+                };
+#if !NETFRAMEWORK
+                // LoadFrom'd assemblies get no deps.json/RID-based native probing, so a
+                // P/Invoke (e.g. SkiaSharp's libSkiaSharp) would fall through to PATH —
+                // which can carry an incompatible copy. Probe the module directory's own
+                // native assets first, as an app referencing the module would.
+                string nativeDir = System.IO.Path.Combine(moduleDir, "runtimes",
+                    $"win-{System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture}".ToLowerInvariant(),
+                    "native");
+                AppDomain.CurrentDomain.AssemblyLoad += (_, e) =>
+                {
+                    Assembly loaded = e.LoadedAssembly;
+                    if (loaded.IsDynamic ||
+                        !loaded.Location.StartsWith(moduleDir, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return;
+                    }
+                    try
+                    {
+                        System.Runtime.InteropServices.NativeLibrary.SetDllImportResolver(loaded, (name, _, _) =>
+                        {
+                            string file = name.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) ? name : name + ".dll";
+                            foreach (string dir in new[] { moduleDir, nativeDir })
+                            {
+                                string candidate = System.IO.Path.Combine(dir, file);
+                                if (System.IO.File.Exists(candidate))
+                                {
+                                    return System.Runtime.InteropServices.NativeLibrary.Load(candidate);
+                                }
+                            }
+                            return IntPtr.Zero;
+                        });
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // A resolver is already registered for this assembly.
+                    }
+                };
+#endif
+                assemblies = System.IO.Directory
+                    .GetFiles(moduleDir, "Krypton.Toolkit.Suite.Extended.*.dll")
+                    .Select(Assembly.LoadFrom)
+                    .ToArray();
+                if (assemblies.Length == 0)
+                {
+                    Console.WriteLine($"No Extended module assemblies in {moduleDir} — nothing to test.");
+                    return 0;
+                }
+            }
 
             Console.WriteLine($"Runtime: {Environment.Version} | {typeof(Program).Assembly.GetCustomAttribute<System.Runtime.Versioning.TargetFrameworkAttribute>()?.FrameworkName}");
 
@@ -75,9 +189,26 @@ namespace Bastion.SmokeTest
                     {
                         continue;
                     }
-                    ConstructorInfo? ctor = type.GetConstructor(Type.EmptyTypes);
+                    ConstructorInfo? ctor;
+                    try
+                    {
+                        ctor = type.GetConstructor(Type.EmptyTypes);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Reflecting over the type pulled in an unresolvable dependency — a harness
+                        // environment limit, not a control defect. Record and continue.
+                        Failures.Add($"{type.FullName}: [reflection] {ex.GetType().Name}: {ex.Message}");
+                        continue;
+                    }
                     if (ctor is null)
                     {
+                        _skipped++;
+                        continue;
+                    }
+                    if (type.FullName is not null && ByDesignModal.Contains(type.FullName))
+                    {
+                        Console.WriteLine($"SKIP {type.FullName} (by-design modal UI — see skip list)");
                         _skipped++;
                         continue;
                     }
@@ -127,7 +258,23 @@ namespace Bastion.SmokeTest
                         host.ShowInTaskbar = false;
                         using (var control = (Control)Activator.CreateInstance(type)!)
                         {
-                            host.Controls.Add(control);
+                            if (control is ToolStripDropDown)
+                            {
+                                // Top-level popup window (context menus etc.): rejects
+                                // parenting with "Top-level control cannot be added" —
+                                // create + dispose is all unattended smoke can exercise.
+                            }
+                            else if (control is TabPage tabPage)
+                            {
+                                // TabPages may only be parented to a TabControl.
+                                var tabs = new TabControl();
+                                host.Controls.Add(tabs);
+                                tabs.TabPages.Add(tabPage);
+                            }
+                            else
+                            {
+                                host.Controls.Add(control);
+                            }
                             host.Show();
                             Pump();
                             host.Size = new System.Drawing.Size(800, 600);
