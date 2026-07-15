@@ -69,11 +69,42 @@ Spec: `BASTION-KRYPTON-SPEC.md` v1.1 (15 July 2026). All times local.
 ### Baseline builds (as shipped, unmodified)
 
 - **Standard-Toolkit** `Krypton Toolkit Suite 2022 - VS2022.sln`, Release: **succeeded, 0 warnings, 0 errors**, 1m43s. All five libraries × `net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows` + TestForm. Outputs under `Standard-Toolkit\Bin\Release\<tfm>\`. Note: net481 built fine without a local 4.8.1 targeting pack (reference assemblies restored via NuGet).
-- **Extended-Toolkit** `Krypton Toolkit Suite Extended 2022 - VS2022 - NuGet.sln` (the "as shipped" flavour — consumes published `Krypton.*` NuGet packages), Release: result recorded below when complete.
+- **Extended-Toolkit** `Krypton Toolkit Suite Extended 2022 - VS2022 - NuGet.sln` (the "as shipped" flavour — consumes published `Krypton.*` NuGet packages), Release:
+  - **dotnet CLI build: fails (91 errors).** The MSB3822/MSB3823 class ("non-string resources require GenerateResourceUsePreserializedResources") on net4x targets is **toolchain-induced** — it disappears entirely under desktop MSBuild. Upstream builds with VS/desktop MSBuild; conclusion recorded: **Extended must be built with desktop MSBuild** (or the resx handling modernised in Phase 2 — preferred, so `dotnet build` works everywhere).
+  - **Desktop MSBuild 18.7.8: 31 NuGet packages build successfully** (including `Ultimate` and `Ultimate.Lite`, stamped 105.26.7.196 by the date-derived scheme), **but three code projects fail** — pre-existing upstream defects on the V105-LTS branch, seeded into `BREAKAGE-LOG.md` scope for Phase 5 and candidates for upstream contribution:
+    1. `Krypton.Toolkit.Suite.Extended.Software.Updater` — 51 errors, MSB3103: `Properties\Resources.resx` references linked resource files missing from the repository.
+    2. `Krypton.Toolkit.Suite.Extended.Themes` — 24 errors: NU1605 package downgrades (project pins `Krypton.Toolkit` 95.25.4.111 while `Extended.Shared` pins 100.25.11.328) and CS1721 (`CustomPaletteBase` declares base classes `Component` **and** `PaletteBase`, which itself derives from `Component` in newer core versions).
+    3. `AutoUpdateCreator` — 8 errors, CS1705/NU1605: assembly-version mismatches from the same inconsistent pinning.
+    4. `Extended Toolkit API Documentation.shfbproj` — MSB4019, SHFB not installed (expected; docs project, not a library — excluded from library-build verdicts).
+  - **Root defect:** Extended csprojs pin core `Krypton.*` packages **per project and inconsistently** (mixtures of 95.25.4.111 / 95.25.10.293 / 100.25.11.328 — never 105.x, despite this branch being the source of the 105.26.4.114 release). Stray `Krypton - Backup.*.csproj` files pin versions as old as 65.x. All of this is eliminated in Phase 2 by rewiring every module to `ProjectReference` against our single core source tree; the mixed-pin defect is recorded for `CHANGES.md`.
+  - **Exit-criterion note:** the spec's "baseline builds clean as shipped" is met for the core Standard-Toolkit but **not achievable verbatim for Extended** — the shipped branch state does not compile fully under any local toolchain. Recorded as a deviation; the three failing modules get go/no-go entries in `EXTENDED-INVENTORY.md` triage and their fixes happen on `bastion/multitarget`.
 
-### In progress
+### Audit results (full detail in `docs/audit/`)
 
-- Extended-Toolkit baseline build (background).
-- Audit agents running: `ULTIMATE-PARITY.md`, `EXTENDED-INVENTORY.md`, `SAMPLE-INVENTORY.md` (→ `docs/audit/`).
+- **`ULTIMATE-PARITY.md`** — 842 original public classes audited: **828 present by identical name (98.3 %)**; Navigator 100 %. Toolbox surface 252/255 by identical name. One genuine regression (KryptonRichTextBox ButtonSpecs, stripped upstream Dec 2024, issue #240). Nothing missing lives in Extended-Toolkit. Decision items for Chris: (1) port RichTextBox ButtonSpecs — recommended yes; (2) KryptonTaskDialog compat shim — recommended no (survives by name, elements-based rewrite); (3) Palette Designer app has no successor — separate work item, check upstream's dedicated Palette-Designer repo first.
+- **`EXTENDED-INVENTORY.md`** — 61 module libraries + 2 meta-packages + 3 apps; 51 modules bundled in Ultimate. **Empty/stub or parked modules found:** File Explorer, Gages (assembly misspelt "Guages"), Palette Selectors, PDF, Scintilla.NET (zero sources), TaskDialogs, Tools (empty yet bundled!), Themes (minimal), Software.Updater (parked), Security, MessageDialog. README's under-development flags partly stale (Dock Extender, Panels, Toggle Switch are implemented and ship). "Fast Coloured TextBox" module no longer exists on this branch. **12 modules + both meta-packages lack the ProjectReference fallback and always pull core from NuGet — the concrete Phase 2 rewiring list.** Other defects: Software.Updater.Core PackageId collision; dead NSec references (TFM conditions never match); stale core pins (95.x, 90.x).
+- **`EXTENDED-INVENTORY.md` licence findings (⚠️ ground-rule-2 material, action required before any redistribution):**
+  - Attribution retained correctly: Outlook.Grid (JDH Software, Ms-PL), AdvancedDataGridView (Ms-PL), NetSparkle (MIT).
+  - **Attribution stripped upstream:** vendored ScottPlot 5 (~344 files, licence file replaced), AutoUpdater.NET/SharpUpdate, ~340 files of System.Speech/SAPI reference source, Cyotek colour-picker-derived code, probable CPOL gGlowBox fragment.
+  - Root LICENSE is MIT but `Directory.Build.targets` stamps packages `BSD-3-Clause` (upstream inconsistency).
+  - Plan: full `THIRD-PARTY-LICENCES.md` audit in Phase 2 restores every attribution in our tree; the CPOL fragment (licence incompatible with simple redistribution) is escalated to Chris with options (replace / remove / comply with CPOL terms).
+- **`SAMPLE-INVENTORY.md`** — 125 modern C# demos supersede the 92 originals 1:1 (verdict: use modern set). Extended has a single Examples app covering ~23 of 61 modules; **~34 non-infrastructure modules need purpose-written samples**. **VB.NET baseline is zero** — the entire VB sample set is new work in Phase 4.
+
+### Phase 1 exit-criteria status
+
+| Criterion | Status |
+|---|---|
+| Baseline builds clean as shipped (core) | ✅ 0 warnings / 0 errors, all six upstream TFMs |
+| Baseline builds clean as shipped (Extended, v1.1 scope) | ⚠️ 31 packages build (desktop MSBuild); 3 projects fail from pre-existing upstream defects — recorded above, fixed in Phase 2 |
+| `ULTIMATE-PARITY.md` complete | ✅ |
+| `EXTENDED-INVENTORY.md` complete (v1.1) | ✅ |
+| `SAMPLE-INVENTORY.md` complete | ✅ |
+| `BUILD-LOG.md` updated | ✅ (this entry) |
+
+**Deferred / carried forward:** Phase 6–7 tool installs (DocFX, SHFB, PDF pipeline, Inno Setup 6); Chris decision items (RichTextBox ButtonSpecs, TaskDialog shim, Palette Designer, stub-module go/no-go, CPOL fragment); Extended defect fixes land in Phase 2.
+
+**Phase 1 complete — 15 July 2026.**
+
+---
 
 ---
