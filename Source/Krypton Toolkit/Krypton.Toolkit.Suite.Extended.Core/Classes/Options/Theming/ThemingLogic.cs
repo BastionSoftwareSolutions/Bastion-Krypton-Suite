@@ -1,4 +1,4 @@
-﻿#region MIT License
+#region MIT License
 /*
  *
  * MIT License
@@ -82,6 +82,33 @@ public class ThemingLogic
 
         paletteCollection.Add("Sparkle Purple");
 
+        // Bastion additions (Phase 3)
+        paletteCollection.Add("Professional Office 2003 Olive");
+
+        paletteCollection.Add("Professional Office 2003 Silver");
+
+        paletteCollection.Add("Office 2016 Colorful");
+
+        paletteCollection.Add("Office 2016 White");
+
+        paletteCollection.Add("Office 2016 Dark Gray");
+
+        paletteCollection.Add("Office 2019 Colorful");
+
+        paletteCollection.Add("Office 2019 White");
+
+        paletteCollection.Add("Office 2019 Dark Gray");
+
+        paletteCollection.Add("Office 2019 Black");
+
+        paletteCollection.Add("Office 2021 Colorful");
+
+        paletteCollection.Add("Office 2021 White");
+
+        paletteCollection.Add("Office 2021 Dark Gray");
+
+        paletteCollection.Add("Office 2021 Black");
+
         paletteCollection.Add("Custom");
     }
 
@@ -116,6 +143,33 @@ public class ThemingLogic
         paletteCollection.Add("Sparkle Orange");
 
         paletteCollection.Add("Sparkle Purple");
+
+        // Bastion additions (Phase 3)
+        paletteCollection.Add("Professional Office 2003 Olive");
+
+        paletteCollection.Add("Professional Office 2003 Silver");
+
+        paletteCollection.Add("Office 2016 Colorful");
+
+        paletteCollection.Add("Office 2016 White");
+
+        paletteCollection.Add("Office 2016 Dark Gray");
+
+        paletteCollection.Add("Office 2019 Colorful");
+
+        paletteCollection.Add("Office 2019 White");
+
+        paletteCollection.Add("Office 2019 Dark Gray");
+
+        paletteCollection.Add("Office 2019 Black");
+
+        paletteCollection.Add("Office 2021 Colorful");
+
+        paletteCollection.Add("Office 2021 White");
+
+        paletteCollection.Add("Office 2021 Dark Gray");
+
+        paletteCollection.Add("Office 2021 Black");
 
         paletteCollection.Add("Custom");
     }
@@ -187,7 +241,6 @@ public class ThemingLogic
             case PaletteMode.Office2010Black:
                 _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.Office2010Black;
                 break;
-                break;
             case PaletteMode.Office2013White:
                 _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.Office2013White;
                 break;
@@ -199,6 +252,46 @@ public class ThemingLogic
                 break;
             case PaletteMode.SparklePurple:
                 _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.SparklePurple;
+                break;
+            // Bastion additions (Phase 3)
+            case PaletteMode.Office2003Olive:
+                _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.Office2003Olive;
+                break;
+            case PaletteMode.Office2003Silver:
+                _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.Office2003Silver;
+                break;
+            case PaletteMode.Office2016Colorful:
+                _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.Office2016Colorful;
+                break;
+            case PaletteMode.Office2016White:
+                _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.Office2016White;
+                break;
+            case PaletteMode.Office2016DarkGray:
+                _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.Office2016DarkGray;
+                break;
+            case PaletteMode.Office2019Colorful:
+                _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.Office2019Colorful;
+                break;
+            case PaletteMode.Office2019White:
+                _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.Office2019White;
+                break;
+            case PaletteMode.Office2019DarkGray:
+                _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.Office2019DarkGray;
+                break;
+            case PaletteMode.Office2019Black:
+                _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.Office2019Black;
+                break;
+            case PaletteMode.Office2021Colorful:
+                _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.Office2021Colorful;
+                break;
+            case PaletteMode.Office2021White:
+                _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.Office2021White;
+                break;
+            case PaletteMode.Office2021DarkGray:
+                _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.Office2021DarkGray;
+                break;
+            case PaletteMode.Office2021Black:
+                _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.Office2021Black;
                 break;
             case PaletteMode.Custom:
                 _themeOptions.KryptonManager.GlobalPaletteMode = PaletteMode.Custom;
@@ -277,6 +370,46 @@ public class ThemingLogic
                 break;
             case PaletteMode.SparklePurple:
                 mode = "Sparkle Purple";
+                break;
+            // Bastion additions (Phase 3)
+            case PaletteMode.Office2003Olive:
+                mode = "Professional Office 2003 Olive";
+                break;
+            case PaletteMode.Office2003Silver:
+                mode = "Professional Office 2003 Silver";
+                break;
+            case PaletteMode.Office2016Colorful:
+                mode = "Office 2016 Colorful";
+                break;
+            case PaletteMode.Office2016White:
+                mode = "Office 2016 White";
+                break;
+            case PaletteMode.Office2016DarkGray:
+                mode = "Office 2016 Dark Gray";
+                break;
+            case PaletteMode.Office2019Colorful:
+                mode = "Office 2019 Colorful";
+                break;
+            case PaletteMode.Office2019White:
+                mode = "Office 2019 White";
+                break;
+            case PaletteMode.Office2019DarkGray:
+                mode = "Office 2019 Dark Gray";
+                break;
+            case PaletteMode.Office2019Black:
+                mode = "Office 2019 Black";
+                break;
+            case PaletteMode.Office2021Colorful:
+                mode = "Office 2021 Colorful";
+                break;
+            case PaletteMode.Office2021White:
+                mode = "Office 2021 White";
+                break;
+            case PaletteMode.Office2021DarkGray:
+                mode = "Office 2021 Dark Gray";
+                break;
+            case PaletteMode.Office2021Black:
+                mode = "Office 2021 Black";
                 break;
             case PaletteMode.Custom:
                 mode = "Custom";

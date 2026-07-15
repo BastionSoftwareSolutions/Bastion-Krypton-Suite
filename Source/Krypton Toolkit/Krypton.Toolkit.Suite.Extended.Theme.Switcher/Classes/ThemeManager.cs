@@ -1,4 +1,4 @@
-﻿#region MIT License
+#region MIT License
 /*
  * MIT License
  *
@@ -109,6 +109,33 @@ public class ThemeManager
 
         manager._themeList.Add("Sparkle - Purple");
 
+        // Bastion additions (Phase 3)
+        manager._themeList.Add("Professional - Office 2003 (Olive)");
+
+        manager._themeList.Add("Professional - Office 2003 (Silver)");
+
+        manager._themeList.Add("Office 2016 - Colorful");
+
+        manager._themeList.Add("Office 2016 - White");
+
+        manager._themeList.Add("Office 2016 - Dark Gray");
+
+        manager._themeList.Add("Office 2019 - Colorful");
+
+        manager._themeList.Add("Office 2019 - White");
+
+        manager._themeList.Add("Office 2019 - Dark Gray");
+
+        manager._themeList.Add("Office 2019 - Black");
+
+        manager._themeList.Add("Office 2021 - Colorful");
+
+        manager._themeList.Add("Office 2021 - White");
+
+        manager._themeList.Add("Office 2021 - Dark Gray");
+
+        manager._themeList.Add("Office 2021 - Black");
+
         manager._themeList.Add("Custom");
     }
 
@@ -182,6 +209,33 @@ public class ThemeManager
 
         themeList.Items.Add("Sparkle - Purple");
 
+        // Bastion additions (Phase 3)
+        themeList.Items.Add("Professional - Office 2003 (Olive)");
+
+        themeList.Items.Add("Professional - Office 2003 (Silver)");
+
+        themeList.Items.Add("Office 2016 - Colorful");
+
+        themeList.Items.Add("Office 2016 - White");
+
+        themeList.Items.Add("Office 2016 - Dark Gray");
+
+        themeList.Items.Add("Office 2019 - Colorful");
+
+        themeList.Items.Add("Office 2019 - White");
+
+        themeList.Items.Add("Office 2019 - Dark Gray");
+
+        themeList.Items.Add("Office 2019 - Black");
+
+        themeList.Items.Add("Office 2021 - Colorful");
+
+        themeList.Items.Add("Office 2021 - White");
+
+        themeList.Items.Add("Office 2021 - Dark Gray");
+
+        themeList.Items.Add("Office 2021 - Black");
+
         themeList.Items.Add("Custom");
 
         themeList.AutoCompleteCustomSource.Add("Professional - System");
@@ -252,6 +306,33 @@ public class ThemeManager
 
         themeList.AutoCompleteCustomSource.Add("Sparkle - Purple");
 
+        // Bastion additions (Phase 3)
+        themeList.AutoCompleteCustomSource.Add("Professional - Office 2003 (Olive)");
+
+        themeList.AutoCompleteCustomSource.Add("Professional - Office 2003 (Silver)");
+
+        themeList.AutoCompleteCustomSource.Add("Office 2016 - Colorful");
+
+        themeList.AutoCompleteCustomSource.Add("Office 2016 - White");
+
+        themeList.AutoCompleteCustomSource.Add("Office 2016 - Dark Gray");
+
+        themeList.AutoCompleteCustomSource.Add("Office 2019 - Colorful");
+
+        themeList.AutoCompleteCustomSource.Add("Office 2019 - White");
+
+        themeList.AutoCompleteCustomSource.Add("Office 2019 - Dark Gray");
+
+        themeList.AutoCompleteCustomSource.Add("Office 2019 - Black");
+
+        themeList.AutoCompleteCustomSource.Add("Office 2021 - Colorful");
+
+        themeList.AutoCompleteCustomSource.Add("Office 2021 - White");
+
+        themeList.AutoCompleteCustomSource.Add("Office 2021 - Dark Gray");
+
+        themeList.AutoCompleteCustomSource.Add("Office 2021 - Black");
+
         themeList.AutoCompleteCustomSource.Add("Custom");
 
         themeList.AutoCompleteSource = AutoCompleteSource.CustomSource;
@@ -320,8 +401,50 @@ public class ThemeManager
             case PaletteMode.SparklePurple:
                 themeList.SelectedIndex = 17;
                 break;
+            // Bastion additions (Phase 3): indices computed against the combo list
+            // built by PropagateThemeList(KryptonComboBox) (legacy case indices above
+            // retain their upstream values).
+            case PaletteMode.Office2003Olive:
+                themeList.SelectedIndex = 34;
+                break;
+            case PaletteMode.Office2003Silver:
+                themeList.SelectedIndex = 35;
+                break;
+            case PaletteMode.Office2016Colorful:
+                themeList.SelectedIndex = 36;
+                break;
+            case PaletteMode.Office2016White:
+                themeList.SelectedIndex = 37;
+                break;
+            case PaletteMode.Office2016DarkGray:
+                themeList.SelectedIndex = 38;
+                break;
+            case PaletteMode.Office2019Colorful:
+                themeList.SelectedIndex = 39;
+                break;
+            case PaletteMode.Office2019White:
+                themeList.SelectedIndex = 40;
+                break;
+            case PaletteMode.Office2019DarkGray:
+                themeList.SelectedIndex = 41;
+                break;
+            case PaletteMode.Office2019Black:
+                themeList.SelectedIndex = 42;
+                break;
+            case PaletteMode.Office2021Colorful:
+                themeList.SelectedIndex = 43;
+                break;
+            case PaletteMode.Office2021White:
+                themeList.SelectedIndex = 44;
+                break;
+            case PaletteMode.Office2021DarkGray:
+                themeList.SelectedIndex = 45;
+                break;
+            case PaletteMode.Office2021Black:
+                themeList.SelectedIndex = 46;
+                break;
             case PaletteMode.Custom:
-                themeList.SelectedIndex = 18;
+                themeList.SelectedIndex = 47;
                 break;
         }
     }
@@ -435,6 +558,84 @@ public class ThemeManager
             manager.GlobalPaletteMode = PaletteMode.SparklePurple;
 
             ApplyTheme(PaletteMode.SparklePurple);
+        }
+        else if (themeType == "Professional - Office 2003 (Olive)")
+        {
+            manager.GlobalPaletteMode = PaletteMode.Office2003Olive;
+
+            ApplyTheme(PaletteMode.Office2003Olive);
+        }
+        else if (themeType == "Professional - Office 2003 (Silver)")
+        {
+            manager.GlobalPaletteMode = PaletteMode.Office2003Silver;
+
+            ApplyTheme(PaletteMode.Office2003Silver);
+        }
+        else if (themeType == "Office 2016 - Colorful")
+        {
+            manager.GlobalPaletteMode = PaletteMode.Office2016Colorful;
+
+            ApplyTheme(PaletteMode.Office2016Colorful);
+        }
+        else if (themeType == "Office 2016 - White")
+        {
+            manager.GlobalPaletteMode = PaletteMode.Office2016White;
+
+            ApplyTheme(PaletteMode.Office2016White);
+        }
+        else if (themeType == "Office 2016 - Dark Gray")
+        {
+            manager.GlobalPaletteMode = PaletteMode.Office2016DarkGray;
+
+            ApplyTheme(PaletteMode.Office2016DarkGray);
+        }
+        else if (themeType == "Office 2019 - Colorful")
+        {
+            manager.GlobalPaletteMode = PaletteMode.Office2019Colorful;
+
+            ApplyTheme(PaletteMode.Office2019Colorful);
+        }
+        else if (themeType == "Office 2019 - White")
+        {
+            manager.GlobalPaletteMode = PaletteMode.Office2019White;
+
+            ApplyTheme(PaletteMode.Office2019White);
+        }
+        else if (themeType == "Office 2019 - Dark Gray")
+        {
+            manager.GlobalPaletteMode = PaletteMode.Office2019DarkGray;
+
+            ApplyTheme(PaletteMode.Office2019DarkGray);
+        }
+        else if (themeType == "Office 2019 - Black")
+        {
+            manager.GlobalPaletteMode = PaletteMode.Office2019Black;
+
+            ApplyTheme(PaletteMode.Office2019Black);
+        }
+        else if (themeType == "Office 2021 - Colorful")
+        {
+            manager.GlobalPaletteMode = PaletteMode.Office2021Colorful;
+
+            ApplyTheme(PaletteMode.Office2021Colorful);
+        }
+        else if (themeType == "Office 2021 - White")
+        {
+            manager.GlobalPaletteMode = PaletteMode.Office2021White;
+
+            ApplyTheme(PaletteMode.Office2021White);
+        }
+        else if (themeType == "Office 2021 - Dark Gray")
+        {
+            manager.GlobalPaletteMode = PaletteMode.Office2021DarkGray;
+
+            ApplyTheme(PaletteMode.Office2021DarkGray);
+        }
+        else if (themeType == "Office 2021 - Black")
+        {
+            manager.GlobalPaletteMode = PaletteMode.Office2021Black;
+
+            ApplyTheme(PaletteMode.Office2021Black);
         }
         else if (themeType == "Custom")
         {

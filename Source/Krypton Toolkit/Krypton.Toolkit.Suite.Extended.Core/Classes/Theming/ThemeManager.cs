@@ -1,4 +1,4 @@
-﻿#region MIT License
+#region MIT License
 /*
  *
  * MIT License
@@ -87,6 +87,33 @@ internal class ThemeManager
 
         _themeCollection.Add("Sparkle Purple");
 
+        // Bastion additions (Phase 3)
+        _themeCollection.Add("Professional Office 2003 Olive");
+
+        _themeCollection.Add("Professional Office 2003 Silver");
+
+        _themeCollection.Add("Office 2016 Colorful");
+
+        _themeCollection.Add("Office 2016 White");
+
+        _themeCollection.Add("Office 2016 Dark Gray");
+
+        _themeCollection.Add("Office 2019 Colorful");
+
+        _themeCollection.Add("Office 2019 White");
+
+        _themeCollection.Add("Office 2019 Dark Gray");
+
+        _themeCollection.Add("Office 2019 Black");
+
+        _themeCollection.Add("Office 2021 Colorful");
+
+        _themeCollection.Add("Office 2021 White");
+
+        _themeCollection.Add("Office 2021 Dark Gray");
+
+        _themeCollection.Add("Office 2021 Black");
+
         _themeCollection.Add("Custom");
         #endregion
 
@@ -118,6 +145,33 @@ internal class ThemeManager
         _themeList.Add("Sparkle Orange");
 
         _themeList.Add("Sparkle Purple");
+
+        // Bastion additions (Phase 3)
+        _themeList.Add("Professional Office 2003 Olive");
+
+        _themeList.Add("Professional Office 2003 Silver");
+
+        _themeList.Add("Office 2016 Colorful");
+
+        _themeList.Add("Office 2016 White");
+
+        _themeList.Add("Office 2016 Dark Gray");
+
+        _themeList.Add("Office 2019 Colorful");
+
+        _themeList.Add("Office 2019 White");
+
+        _themeList.Add("Office 2019 Dark Gray");
+
+        _themeList.Add("Office 2019 Black");
+
+        _themeList.Add("Office 2021 Colorful");
+
+        _themeList.Add("Office 2021 White");
+
+        _themeList.Add("Office 2021 Dark Gray");
+
+        _themeList.Add("Office 2021 Black");
 
         _themeList.Add("Custom");
         #endregion
@@ -183,6 +237,46 @@ internal class ThemeManager
                 break;
             case PaletteMode.SparklePurple:
                 manager.GlobalPaletteMode = PaletteMode.SparklePurple;
+                break;
+            // Bastion additions (Phase 3)
+            case PaletteMode.Office2003Olive:
+                manager.GlobalPaletteMode = PaletteMode.Office2003Olive;
+                break;
+            case PaletteMode.Office2003Silver:
+                manager.GlobalPaletteMode = PaletteMode.Office2003Silver;
+                break;
+            case PaletteMode.Office2016Colorful:
+                manager.GlobalPaletteMode = PaletteMode.Office2016Colorful;
+                break;
+            case PaletteMode.Office2016White:
+                manager.GlobalPaletteMode = PaletteMode.Office2016White;
+                break;
+            case PaletteMode.Office2016DarkGray:
+                manager.GlobalPaletteMode = PaletteMode.Office2016DarkGray;
+                break;
+            case PaletteMode.Office2019Colorful:
+                manager.GlobalPaletteMode = PaletteMode.Office2019Colorful;
+                break;
+            case PaletteMode.Office2019White:
+                manager.GlobalPaletteMode = PaletteMode.Office2019White;
+                break;
+            case PaletteMode.Office2019DarkGray:
+                manager.GlobalPaletteMode = PaletteMode.Office2019DarkGray;
+                break;
+            case PaletteMode.Office2019Black:
+                manager.GlobalPaletteMode = PaletteMode.Office2019Black;
+                break;
+            case PaletteMode.Office2021Colorful:
+                manager.GlobalPaletteMode = PaletteMode.Office2021Colorful;
+                break;
+            case PaletteMode.Office2021White:
+                manager.GlobalPaletteMode = PaletteMode.Office2021White;
+                break;
+            case PaletteMode.Office2021DarkGray:
+                manager.GlobalPaletteMode = PaletteMode.Office2021DarkGray;
+                break;
+            case PaletteMode.Office2021Black:
+                manager.GlobalPaletteMode = PaletteMode.Office2021Black;
                 break;
             case PaletteMode.Custom:
                 manager.GlobalPaletteMode = PaletteMode.Custom;

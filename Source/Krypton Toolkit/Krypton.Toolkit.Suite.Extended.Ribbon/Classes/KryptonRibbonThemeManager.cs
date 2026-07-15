@@ -1,4 +1,4 @@
-﻿#region MIT License
+#region MIT License
 /*
  * MIT License
  *
@@ -82,6 +82,20 @@ internal class KryptonRibbonThemeManager
             { @"Microsoft 365 - Black", PaletteMode.Microsoft365Black },
             { @"Microsoft 365 - Black (Dark Mode)", PaletteMode.Microsoft365BlackDarkMode },
             //{ @"Microsoft 365 - Dark Gray", PaletteMode.Microsoft365DarkGray },
+            // Bastion additions (Phase 3) — appended before Custom, matching the core order.
+            { @"Professional - Office 2003 (Olive)", PaletteMode.Office2003Olive },
+            { @"Professional - Office 2003 (Silver)", PaletteMode.Office2003Silver },
+            { @"Office 2016 - Colorful", PaletteMode.Office2016Colorful },
+            { @"Office 2016 - White", PaletteMode.Office2016White },
+            { @"Office 2016 - Dark Gray", PaletteMode.Office2016DarkGray },
+            { @"Office 2019 - Colorful", PaletteMode.Office2019Colorful },
+            { @"Office 2019 - White", PaletteMode.Office2019White },
+            { @"Office 2019 - Dark Gray", PaletteMode.Office2019DarkGray },
+            { @"Office 2019 - Black", PaletteMode.Office2019Black },
+            { @"Office 2021 - Colorful", PaletteMode.Office2021Colorful },
+            { @"Office 2021 - White", PaletteMode.Office2021White },
+            { @"Office 2021 - Dark Gray", PaletteMode.Office2021DarkGray },
+            { @"Office 2021 - Black", PaletteMode.Office2021Black },
             { @"Custom", PaletteMode.Custom }
         });
 

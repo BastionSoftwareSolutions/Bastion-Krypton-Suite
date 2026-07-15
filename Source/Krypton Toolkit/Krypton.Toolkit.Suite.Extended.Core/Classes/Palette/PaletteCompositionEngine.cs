@@ -1,4 +1,4 @@
-﻿#region MIT License
+#region MIT License
 /*
  *
  * MIT License
@@ -762,7 +762,7 @@ public class PaletteCompositionEngine
 
     public static void PropagateThemes(KryptonComboBox themeList, bool sort = true)
     {
-        ArrayList themeCollection = new(15);
+        ArrayList themeCollection = new(28);
 
         themeCollection.Add("Professional System");
 
@@ -789,6 +789,33 @@ public class PaletteCompositionEngine
         themeCollection.Add("Sparkle Orange");
 
         themeCollection.Add("Sparkle Purple");
+
+        // Bastion additions (Phase 3)
+        themeCollection.Add("Professional Office 2003 Olive");
+
+        themeCollection.Add("Professional Office 2003 Silver");
+
+        themeCollection.Add("Office 2016 Colorful");
+
+        themeCollection.Add("Office 2016 White");
+
+        themeCollection.Add("Office 2016 Dark Gray");
+
+        themeCollection.Add("Office 2019 Colorful");
+
+        themeCollection.Add("Office 2019 White");
+
+        themeCollection.Add("Office 2019 Dark Gray");
+
+        themeCollection.Add("Office 2019 Black");
+
+        themeCollection.Add("Office 2021 Colorful");
+
+        themeCollection.Add("Office 2021 White");
+
+        themeCollection.Add("Office 2021 Dark Gray");
+
+        themeCollection.Add("Office 2021 Black");
 
         themeCollection.Add("Custom");
 
@@ -805,7 +832,7 @@ public class PaletteCompositionEngine
 
     public static void PropagateThemes(KryptonRibbonGroupComboBox themeList, bool sort = true)
     {
-        ArrayList themeCollection = new(15);
+        ArrayList themeCollection = new(28);
 
         themeCollection.Add("Professional System");
 
@@ -832,6 +859,33 @@ public class PaletteCompositionEngine
         themeCollection.Add("Sparkle Orange");
 
         themeCollection.Add("Sparkle Purple");
+
+        // Bastion additions (Phase 3)
+        themeCollection.Add("Professional Office 2003 Olive");
+
+        themeCollection.Add("Professional Office 2003 Silver");
+
+        themeCollection.Add("Office 2016 Colorful");
+
+        themeCollection.Add("Office 2016 White");
+
+        themeCollection.Add("Office 2016 Dark Gray");
+
+        themeCollection.Add("Office 2019 Colorful");
+
+        themeCollection.Add("Office 2019 White");
+
+        themeCollection.Add("Office 2019 Dark Gray");
+
+        themeCollection.Add("Office 2019 Black");
+
+        themeCollection.Add("Office 2021 Colorful");
+
+        themeCollection.Add("Office 2021 White");
+
+        themeCollection.Add("Office 2021 Dark Gray");
+
+        themeCollection.Add("Office 2021 Black");
 
         themeCollection.Add("Custom");
 
