@@ -69,6 +69,8 @@
 	</PropertyGroup>
 
 	<Choose>
+		<When Condition="'$(SolutionName.Endswith(`NuGet`))'">
+			<Choose>
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<PropertyGroup>
 				<LangVersion>preview</LangVersion>
@@ -154,12 +156,21 @@
 			</ItemGroup>
 		</Otherwise>
 	</Choose>
+		</When>
+		<Otherwise>
+			<!-- Bastion: outside the NuGet packaging solution, build the core Krypton libraries from the sibling Standard-Toolkit source tree, mirroring the dual-mode pattern used by the other modules. -->
+			<ItemGroup>
+				<ProjectReference Include="..\..\..\..\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+				<ProjectReference Include="..\..\..\..\Standard-Toolkit\Source\Krypton Components\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
 
 	<ItemGroup>
 		<PackageReference Include="Handlebars.Net" Version="2.1.6" />
-		<PackageReference Include="ProDotNetZip" Version="1.20.0" />
+		<PackageReference Include="ProDotNetZip" Version="1.20.0" Condition="'$(TargetFramework)' != 'net46'" />
 		<PackageReference Include="Simple-MAPI.NET" Version="1.2.1" />
-		<PackageReference Include="System.Management" Version="10.0.0" />
+		<PackageReference Include="System.Management" Version="10.0.0" Condition="'$(TargetFramework)' != 'net46'" />
 	</ItemGroup>
 
 	<ItemGroup>

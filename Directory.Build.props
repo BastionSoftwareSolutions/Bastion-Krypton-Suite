@@ -15,53 +15,83 @@
 		 Target Framework Monikers (TFMs) Configuration
 		 Dynamic TFM selection based on build configuration using Choose pattern
 	 -->
+	 <!-- Bastion: the full 11-TFM matrix, mirroring the sibling Standard-Toolkit core exactly
+	      (see Standard-Toolkit\Source\Krypton Components\*\*.csproj). The "-windows7.0" suffixes
+	      were normalised to "-windows" to match the core so nearest-TFM resolution is exact. -->
 	 <Choose>
 		 <!-- Full framework support for Release, Nightly, Canary, and Debug configurations -->
 		 <When Condition="'$(Configuration)' == 'Release' Or '$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
 			 <PropertyGroup>
-				 <ActiveExtendedToolkitTFMs>net472;net48;net481;net8.0-windows7.0;net9.0-windows7.0;net10.0-windows7.0</ActiveExtendedToolkitTFMs>
+				 <ActiveExtendedToolkitTFMs>net46;net47;net472;net48;net481;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows</ActiveExtendedToolkitTFMs>
 			 </PropertyGroup>
 		 </When>
-		 
+
 		 <!-- Lite framework support for ReleaseLite, CanaryLite, and NightlyLite configurations -->
 		 <When Condition="'$(Configuration)' == 'ReleaseLite' Or '$(Configuration)' == 'CanaryLite' Or '$(Configuration)' == 'NightlyLite'">
 			 <PropertyGroup>
-				 <ActiveExtendedToolkitTFMs>net48;net481;net8.0-windows7.0;net9.0-windows7.0;net10.0-windows7.0</ActiveExtendedToolkitTFMs>
+				 <ActiveExtendedToolkitTFMs>net48;net481;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows</ActiveExtendedToolkitTFMs>
 			 </PropertyGroup>
 		 </When>
-		 
+
 		 <!-- All configurations (Full+Lite) - Uses Full TFMs, but helper scripts build both -->
 		 <When Condition="'$(Configuration)' == 'ReleaseAll' Or '$(Configuration)' == 'CanaryAll' Or '$(Configuration)' == 'NightlyAll'">
 			 <PropertyGroup>
-				 <ActiveExtendedToolkitTFMs>net472;net48;net481;net8.0-windows7.0;net9.0-windows7.0;net10.0-windows7.0</ActiveExtendedToolkitTFMs>
+				 <ActiveExtendedToolkitTFMs>net46;net47;net472;net48;net481;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows</ActiveExtendedToolkitTFMs>
 			 </PropertyGroup>
 		 </When>
-		 
+
 		 <!-- Default: Full framework support for any other configurations -->
 		 <Otherwise>
 			 <PropertyGroup>
-				 <ActiveExtendedToolkitTFMs>net472;net48;net481;net8.0-windows7.0;net9.0-windows7.0;net10.0-windows7.0</ActiveExtendedToolkitTFMs>
+				 <ActiveExtendedToolkitTFMs>net46;net47;net472;net48;net481;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows</ActiveExtendedToolkitTFMs>
 			 </PropertyGroup>
 		 </Otherwise>
 	 </Choose>
-	 
-	 <!-- 
+
+	 <!--
 		 Legacy TFM properties for backward compatibility and reference
 		 These can be used by projects that need explicit TFM sets
 	 -->
 	 <PropertyGroup>
 		 <!-- Full framework support (all projects by default) -->
-		 <ExtendedToolkitTFMs>net472;net48;net481;net8.0-windows7.0;net9.0-windows7.0;net10.0-windows7.0</ExtendedToolkitTFMs>
-		 
-		 <!-- Lite framework support (excludes net472 for smaller packages) -->
-		 <ExtendedToolkitLiteTFMs>net48;net481;net8.0-windows7.0;net9.0-windows7.0;net10.0-windows7.0</ExtendedToolkitLiteTFMs>
-		 
+		 <ExtendedToolkitTFMs>net46;net47;net472;net48;net481;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows</ExtendedToolkitTFMs>
+
+		 <!-- Lite framework support (excludes the older .NET Framework targets for smaller packages) -->
+		 <ExtendedToolkitLiteTFMs>net48;net481;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows</ExtendedToolkitLiteTFMs>
+
 		 <!-- Modern frameworks only (net8+) -->
-		 <ExtendedToolkitModernTFMs>net8.0-windows7.0;net9.0-windows7.0;net10.0-windows7.0</ExtendedToolkitModernTFMs>
-		 
+		 <ExtendedToolkitModernTFMs>net8.0-windows;net9.0-windows;net10.0-windows</ExtendedToolkitModernTFMs>
+
 		 <!-- Legacy frameworks only (net4x) -->
-		 <ExtendedToolkitLegacyTFMs>net472;net48;net481</ExtendedToolkitLegacyTFMs>
+		 <ExtendedToolkitLegacyTFMs>net46;net47;net472;net48;net481</ExtendedToolkitLegacyTFMs>
 	 </PropertyGroup>
+
+	 <!-- Bastion: shared language/compat settings aligned with the Standard-Toolkit core. -->
+	 <PropertyGroup>
+		 <LangVersion>preview</LangVersion>
+	 </PropertyGroup>
+
+	 <!-- Bastion: resource-handling rules ported from the core
+	      (Standard-Toolkit\Source\Krypton Components\Directory.Build.props).
+	      MSB3822/3823: non-string .resx entries need preserialized resources plus the
+	      System.Resources.Extensions package for the SDK GenerateResource task.
+	      System.Resources.Extensions has no net46-compatible asset (minimum net462), so the
+	      net46 TFM opts out and its resources compile classically. -->
+	 <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true' And '$(TargetFramework)' != 'net46'">
+		 <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+	 </PropertyGroup>
+
+	 <!-- Bastion: suppress the codeless "package X doesn't support net5/6/7" advisory from
+	      buildTransitive targets on the EOL TFMs; the packages' netstandard2.0 assets are used
+	      and are functionally sufficient. The advisory has no warning code so it cannot be
+	      NoWarn'd individually. Mirrors the core Directory.Build.props. -->
+	 <PropertyGroup Condition="'$(TargetFramework)' == 'net5.0-windows' Or '$(TargetFramework)' == 'net6.0-windows' Or '$(TargetFramework)' == 'net7.0-windows'">
+		 <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+	 </PropertyGroup>
+
+	 <ItemGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
+		 <PackageReference Include="System.Resources.Extensions" Version="9.0.10" GeneratePathProperty="true" Condition="'$(TargetFramework)' != 'net46'" />
+	 </ItemGroup>
 
 	 <!-- 
 		 Version Configuration

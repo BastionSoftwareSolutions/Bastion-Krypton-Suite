@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<!-- TargetFrameworks is now set dynamically in Directory.Build.props based on Configuration -->
@@ -79,6 +79,8 @@
 
 	<!-- Krypton Toolkit Dependencies -->
 	<Choose>
+		<When Condition="'$(SolutionName.Endswith(`NuGet`))'">
+			<Choose>
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<ItemGroup>
 				<PackageReference Include="Krypton.Docking.Nightly" Version="100.25.11.318-alpha" />
@@ -112,6 +114,17 @@
 				<PackageReference Include="Krypton.Toolkit" Version="95.25.10.293" />
 				<PackageReference Include="Krypton.Ribbon" Version="95.25.10.293" />
 				<PackageReference Include="Krypton.Navigator" Version="95.25.10.293" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
+		</When>
+		<Otherwise>
+			<!-- Bastion: outside the NuGet packaging solution, build the core Krypton libraries from the sibling Standard-Toolkit source tree, mirroring the dual-mode pattern used by the other modules. -->
+			<ItemGroup>
+				<ProjectReference Include="..\..\..\..\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+				<ProjectReference Include="..\..\..\..\Standard-Toolkit\Source\Krypton Components\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
+				<ProjectReference Include="..\..\..\..\Standard-Toolkit\Source\Krypton Components\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
+				<ProjectReference Include="..\..\..\..\Standard-Toolkit\Source\Krypton Components\Krypton.Docking\Krypton.Docking 2022.csproj" />
 			</ItemGroup>
 		</Otherwise>
 	</Choose>

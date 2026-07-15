@@ -111,8 +111,8 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
-		<PackageReference Include="System.Speech" Version="10.0.0" />
-		<PackageReference Include="WindowsAPICodePackShell" Version="8.0.12" />
+		<PackageReference Include="System.Speech" Version="10.0.0" Condition="'$(TargetFramework)' != 'net46'" />
+		<PackageReference Include="WindowsAPICodePackShell" Version="8.0.12" Condition="'$(TargetFramework)' != 'net46'" />
 	</ItemGroup>
 
 	<ItemGroup>

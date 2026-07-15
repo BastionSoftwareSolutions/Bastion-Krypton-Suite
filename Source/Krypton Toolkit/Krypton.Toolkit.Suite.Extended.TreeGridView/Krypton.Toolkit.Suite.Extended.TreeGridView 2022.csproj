@@ -72,6 +72,8 @@
 	</PropertyGroup>
 
 	<Choose>
+		<When Condition="'$(SolutionName.Endswith(`NuGet`))'">
+			<Choose>
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<PropertyGroup>
 				<LangVersion>preview</LangVersion>
@@ -140,6 +142,14 @@
 
 			<ItemGroup>
 				<PackageReference Include="Krypton.Toolkit" Version="95.25.10.293" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
+		</When>
+		<Otherwise>
+			<!-- Bastion: outside the NuGet packaging solution, build the core Krypton libraries from the sibling Standard-Toolkit source tree, mirroring the dual-mode pattern used by the other modules. -->
+			<ItemGroup>
+				<ProjectReference Include="..\..\..\..\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
 			</ItemGroup>
 		</Otherwise>
 	</Choose>

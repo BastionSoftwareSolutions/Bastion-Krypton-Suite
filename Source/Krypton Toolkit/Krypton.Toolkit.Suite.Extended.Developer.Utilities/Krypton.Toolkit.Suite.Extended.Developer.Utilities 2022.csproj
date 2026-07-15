@@ -110,7 +110,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="WindowsAPICodePackShell" Version="8.0.12" />
+		<PackageReference Include="WindowsAPICodePackShell" Version="8.0.12" Condition="'$(TargetFramework)' != 'net46'" />
 	</ItemGroup>
 
 	<ItemGroup>

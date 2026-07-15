@@ -163,7 +163,10 @@
   <data name="ZipExtractor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ZipExtractor.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ZipExtractor1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ZipExtractor.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
+  <!-- Bastion: the "ZipExtractor1" ResXFileRef entry (..\Resources\ZipExtractor.exe) was removed.
+       The linked file does not exist anywhere in the repository source (only as a build output of
+       the ZipExtractor application project), so the entry broke every build with MSB3103.
+       Resources.Designer.cs still exposes the ZipExtractor1 accessor; it now returns null at
+       runtime, so KryptonAutoUpdater's embedded-extractor install path is degraded until the
+       ZipExtractor build output is restored as a resource (see EXTENDED-BUILD-TRIAGE.md). -->
 </root>

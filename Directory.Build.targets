@@ -4,6 +4,41 @@
 		It configures NuGet package generation to include referenced binaries.
 	-->
 	
+	<!-- Bastion: resource-handling rules ported from the core
+	     (Standard-Toolkit\Source\Krypton Components\Directory.Build.targets).
+	     On .NET Framework TFMs the SDK GenerateResource task needs System.Resources.Extensions
+	     on the reference path when preserialized resources are enabled. net46 is excluded —
+	     System.Resources.Extensions has no net46-compatible asset (its lib\net462 build triggers
+	     MSB3274 on net46); the net46 TFM builds classic (non-preserialized) resources instead. -->
+	<PropertyGroup Condition="$(TargetFramework.StartsWith('net4')) And '$(TargetFramework)' != 'net46'">
+		<_KryptonSystemResourcesExtensionsPath Condition="'$(_KryptonSystemResourcesExtensionsPath)' == '' And '$(PkgSystem_Resources_Extensions)' != ''">$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll</_KryptonSystemResourcesExtensionsPath>
+		<_KryptonSystemResourcesExtensionsPath Condition="'$(_KryptonSystemResourcesExtensionsPath)' == '' And '$(NuGetPackageRoot)' != ''">$(NuGetPackageRoot)system.resources.extensions\9.0.10\lib\net462\System.Resources.Extensions.dll</_KryptonSystemResourcesExtensionsPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="System.Resources.Extensions" Condition="'$(_KryptonSystemResourcesExtensionsPath)' != '' And Exists('$(_KryptonSystemResourcesExtensionsPath)')">
+			<HintPath>$(_KryptonSystemResourcesExtensionsPath)</HintPath>
+			<Private>true</Private>
+		</Reference>
+	</ItemGroup>
+
+	<Target Name="KryptonAddSystemResourcesExtensionsToGenerateResourceReferences"
+	        BeforeTargets="CoreResGen"
+	        Condition="$(TargetFramework.StartsWith('net4')) And '$(GenerateResourceUsePreserializedResources)' == 'true' And '$(_KryptonSystemResourcesExtensionsPath)' != '' And Exists('$(_KryptonSystemResourcesExtensionsPath)')">
+		<ItemGroup>
+			<ReferencePath Include="$(_KryptonSystemResourcesExtensionsPath)" />
+			<ReferencePathWithRefAssemblies Include="$(_KryptonSystemResourcesExtensionsPath)" />
+		</ItemGroup>
+	</Target>
+
+	<!-- Bastion (ported from the core Directory.Build.targets): the outer cross-targeting build
+	     dispatches inner TFMs concurrently by default. Module projects share a single
+	     DocumentationFile path across all TFMs, so concurrent inner builds race on it.
+	     Serialise inner TFMs per project; msbuild /m still parallelises across projects. -->
+	<PropertyGroup Condition="'$(TargetFrameworks)' != '' And '$(TargetFramework)' == ''">
+		<BuildInParallel>false</BuildInParallel>
+	</PropertyGroup>
+
 	<PropertyGroup>
 		<!-- Include all referenced assemblies in NuGet packages -->
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>

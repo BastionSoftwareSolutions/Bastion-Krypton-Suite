@@ -2,7 +2,8 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFrameworks>net481;net8.0-windows</TargetFrameworks>
+		<!-- Bastion: applications follow the centralised 11-TFM matrix from Directory.Build.props -->
+		<TargetFrameworks>$(ActiveExtendedToolkitTFMs)</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>		<LangVersion>preview</LangVersion>

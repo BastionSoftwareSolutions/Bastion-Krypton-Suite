@@ -29,7 +29,9 @@
 namespace Krypton.Toolkit.Suite.Extended.Themes
 {
     [ToolboxItem(false)]
-    public abstract class CustomPaletteBase : Component, PaletteBase
+    // Bastion: PaletteBase already derives from Component in the current core, so the redundant
+    // Component base (a CS1721 multiple-base-class error) has been dropped.
+    public abstract class CustomPaletteBase : PaletteBase
     {
         #region Instance Fields
         private BasePaletteType _basePaletteType;

@@ -179,7 +179,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="WindowsAPICodePack" Version="8.0.12" />
+		<PackageReference Include="WindowsAPICodePack" Version="8.0.12" Condition="'$(TargetFramework)' != 'net46'" />
 	</ItemGroup>
 
 	<ItemGroup>
