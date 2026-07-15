@@ -52,13 +52,9 @@ public class ColourEditorControl : UserControl, IColourEditor
         this.aColourBar = new RGBAColourSliderControl();
         this.aLabel = new Krypton.Toolkit.KryptonLabel();
         this.kpnlBackdrop = new Krypton.Toolkit.KryptonPanel();
-        ((System.ComponentModel.ISupportInitialize)(this.rNumericUpDown)).BeginInit();
-        ((System.ComponentModel.ISupportInitialize)(this.gNumericUpDown)).BeginInit();
-        ((System.ComponentModel.ISupportInitialize)(this.bNumericUpDown)).BeginInit();
-        ((System.ComponentModel.ISupportInitialize)(this.lNumericUpDown)).BeginInit();
-        ((System.ComponentModel.ISupportInitialize)(this.sNumericUpDown)).BeginInit();
-        ((System.ComponentModel.ISupportInitialize)(this.hNumericUpDown)).BeginInit();
-        ((System.ComponentModel.ISupportInitialize)(this.aNumericUpDown)).BeginInit();
+        // NOTE: KryptonNumericUpDown does not implement ISupportInitialize (in any core
+        // release), so the designer-era Begin/EndInit casts threw InvalidCastException on
+        // instantiation and have been removed.
         this.SuspendLayout();
         // 
         // rgbHeaderLabel
@@ -375,13 +371,6 @@ public class ColourEditorControl : UserControl, IColourEditor
         this.Controls.Add(this.rgbHeaderLabel);
         this.Name = "ColourEditor";
         this.Size = new System.Drawing.Size(173, 246);
-        ((System.ComponentModel.ISupportInitialize)(this.rNumericUpDown)).EndInit();
-        ((System.ComponentModel.ISupportInitialize)(this.gNumericUpDown)).EndInit();
-        ((System.ComponentModel.ISupportInitialize)(this.bNumericUpDown)).EndInit();
-        ((System.ComponentModel.ISupportInitialize)(this.lNumericUpDown)).EndInit();
-        ((System.ComponentModel.ISupportInitialize)(this.sNumericUpDown)).EndInit();
-        ((System.ComponentModel.ISupportInitialize)(this.hNumericUpDown)).EndInit();
-        ((System.ComponentModel.ISupportInitialize)(this.aNumericUpDown)).EndInit();
         ((System.ComponentModel.ISupportInitialize)(this.kpnlBackdrop)).EndInit();
         this.kpnlBackdrop.ResumeLayout(false);
         this.PerformLayout();

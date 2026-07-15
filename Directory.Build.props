@@ -81,6 +81,19 @@
 		 <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
 	 </PropertyGroup>
 
+	 <!-- Bastion: the SDK only defaults EmbeddedResourceUseDependentUponConvention to true for
+	      .NET Core 3.0+ targets, so a designer .resx that lives in a folder (e.g. UX\Form1.resx
+	      beside UX\Form1.cs declaring a class in the module root namespace) is embedded as
+	      "<RootNamespace>.<Folder>.Form1.resources" on the net4x TFMs but
+	      "<class namespace>.Form1.resources" on net5+. ComponentResourceManager(typeof(Form1))
+	      always looks up the type-based name, so every such form threw
+	      MissingManifestResourceException on net4x (~60 .resx across ~20 modules — e.g.
+	      DataGridView MasterDetailGridViewBase, Navi.Suite NaviOptionsForm). Forcing the
+	      convention on for every TFM makes the net4x manifest names identical to net5+. -->
+	 <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
+		 <EmbeddedResourceUseDependentUponConvention>true</EmbeddedResourceUseDependentUponConvention>
+	 </PropertyGroup>
+
 	 <!-- Bastion: suppress the codeless "package X doesn't support net5/6/7" advisory from
 	      buildTransitive targets on the EOL TFMs; the packages' netstandard2.0 assets are used
 	      and are functionally sufficient. The advisory has no warning code so it cannot be

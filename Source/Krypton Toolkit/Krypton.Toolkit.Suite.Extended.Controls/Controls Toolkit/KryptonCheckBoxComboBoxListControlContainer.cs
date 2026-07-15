@@ -32,7 +32,9 @@ public class KryptonCheckBoxComboBoxListControlContainer : UserControl
     /// <param name="m"></param>
     protected override void WndProc(ref Message m)
     {
-        if (((Parent as PopUp)!).ProcessResizing(ref m))
+        // The container is not always hosted inside a PopUp (e.g. designer or direct
+        // parenting) — dereferencing the forced cast then faults on every message.
+        if (Parent is PopUp popUp && popUp.ProcessResizing(ref m))
         {
             return;
         }

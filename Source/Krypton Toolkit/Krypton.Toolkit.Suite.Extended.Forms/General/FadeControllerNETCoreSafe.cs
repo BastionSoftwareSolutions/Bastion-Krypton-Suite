@@ -86,7 +86,7 @@ public class FadeControllerNETCoreSafe
     {
         FadeControllerNETCoreSafe controller = new FadeControllerNETCoreSafe();
 
-        for (controller._fadeOut = 90; controller._fadeOut >= 10; controller._fadeOut += 10)
+        for (controller._fadeOut = 90; controller._fadeOut >= 10; controller._fadeOut -= 10)
         {
             owner.Opacity = controller._fadeOut / 100;
 

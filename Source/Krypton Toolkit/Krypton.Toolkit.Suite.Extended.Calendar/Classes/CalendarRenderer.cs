@@ -727,6 +727,13 @@ public class CalendarRenderer
     /// </summary>
     public void PerformItemsLayout()
     {
+        // Item collection changes fire this from the KryptonCalendar constructor
+        // (SetViewRange -> ViewEnd -> ClearItems) before the days array exists.
+        if (Calendar.Days is null)
+        {
+            return;
+        }
+
         bool alldaychanged = false;
         int offset = Math.Abs(Calendar.TimeUnitsOffset);
         List<CalendarItemAlternative> itemsOnScene = [];

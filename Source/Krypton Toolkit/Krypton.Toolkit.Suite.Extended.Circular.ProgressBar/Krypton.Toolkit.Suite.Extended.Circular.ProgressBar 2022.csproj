@@ -130,7 +130,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Unofficial.WinFormAnimation" Version="2.0.2" />
+		<!-- Bastion: Unofficial.WinFormAnimation ships an UNSIGNED assembly, which a
+		     strong-named assembly cannot reference on .NET Framework (FileLoadException
+		     0x80131044 at runtime). net4x uses the original strong-named WinFormAnimation
+		     package instead — identical type surface, only the namespace differs (see
+		     Globals\GlobalDeclarations.cs). -->
+		<PackageReference Include="Unofficial.WinFormAnimation" Version="2.0.2" Condition="!$(TargetFramework.StartsWith('net4'))" />
+		<PackageReference Include="WinFormAnimation" Version="1.6.0.4" Condition="$(TargetFramework.StartsWith('net4'))" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -15,7 +15,9 @@ The `CircularProgressBar` control in this module is derived from
   to the Krypton Toolkit Suite Extended tree.
 
 The module also consumes the `Unofficial.WinFormAnimation` NuGet package, a
-repack of **WinFormAnimation** by the same author (MIT).
+repack of **WinFormAnimation** by the same author (MIT). On the .NET Framework
+targets the original strong-named `WinFormAnimation` package (MIT, same author)
+is used instead, because the repack's assembly is unsigned.
 
 ## Upstream licence text
 

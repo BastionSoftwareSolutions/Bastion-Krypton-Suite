@@ -58,7 +58,9 @@ public class KryptonEnhancedToolStripProgressBar : ToolStripProgressBar
     /// <summary>Initializes a new instance of the <see cref="KryptonEnhancedToolStripProgressBar" /> class.</summary>
     public KryptonEnhancedToolStripProgressBar() : base()
     {
-        _palette = null;
+        // Was "_palette = null" followed by a null-forgiven dereference — NRE on every
+        // instantiation. Use the current global palette, as the sibling controls do.
+        _palette = KryptonManager.CurrentGlobalPalette;
 
         _displayTextColour = _palette!.ColorTable.StatusStripText;
 

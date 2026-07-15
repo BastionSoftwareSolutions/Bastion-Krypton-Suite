@@ -138,6 +138,23 @@ public class KryptonKnobControlVersion1 : UserControl
 
     */
 
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            // Detach from the static event, otherwise a later global palette change
+            // calls back into this disposed control (ObjectDisposedException).
+            KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+
+            if (_palette != null)
+            {
+                _palette.PalettePaint -= OnPalettePaint;
+            }
+        }
+
+        base.Dispose(disposing);
+    }
+
     //NOTE: The following procedure is required by the Windows Form Designer
     //It can be modified using the Windows Form Designer.
     //Do not modify it using the code editor.

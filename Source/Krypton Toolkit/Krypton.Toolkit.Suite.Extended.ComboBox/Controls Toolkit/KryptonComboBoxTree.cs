@@ -140,6 +140,22 @@ public sealed class KryptonComboBoxTree : Control
 
     public KryptonTreeView TreeView => _tvTreeView;
 
+    /// <inheritdoc/>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            // The dropdown Form (and the KryptonTreeView it hosts) is not part of this
+            // control's Controls collection, so it would otherwise never be disposed —
+            // leaving the tree view permanently subscribed to KryptonManager's static
+            // GlobalPaletteChanged event, where a later global-palette change drives it
+            // into a NotImplemented core palette path (a modal message box).
+            _frmTreeView?.Dispose();
+        }
+
+        base.Dispose(disposing);
+    }
+
     private void txtSelectedValue_Click(object sender, EventArgs e)
     {
         ToggleTreeView(this, new EventArgs());

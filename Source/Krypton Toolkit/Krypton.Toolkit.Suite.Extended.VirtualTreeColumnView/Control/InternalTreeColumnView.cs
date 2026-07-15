@@ -130,6 +130,13 @@ public partial class InternalTreeColumnView : UserControl
     {
         base.OnLayout(e);
 
+        // The owning KryptonVirtualTreeColumnView is only supplied post-construction;
+        // layout can fire before it (or the view manager) has been wired up.
+        if (_viewManager is null || _kryptonVirtualTreeColumnView is null)
+        {
+            return;
+        }
+
         // Ask the panel to layout given our available size
         using ViewLayoutContext context = new(_viewManager, this, _kryptonVirtualTreeColumnView, _kryptonVirtualTreeColumnView.Renderer);
         ViewDrawPanel.Layout(context);

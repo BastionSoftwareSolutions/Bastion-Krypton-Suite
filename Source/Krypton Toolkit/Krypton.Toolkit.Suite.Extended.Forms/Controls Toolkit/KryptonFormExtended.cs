@@ -55,7 +55,7 @@ public class KryptonFormExtended : VisualKryptonFormExtended
     public bool UseBlur { get => _useBlur; set => _useBlur = value; }
 
     [DefaultValue(true), Description("")]
-    public bool UseFade { get => _useFade; set => _useBlur = value; }
+    public bool UseFade { get => _useFade; set => _useFade = value; }
 
     [DefaultValue(50), Description("")]
     public int SleepInterval { get => _sleepInterval; set => _sleepInterval = value; }

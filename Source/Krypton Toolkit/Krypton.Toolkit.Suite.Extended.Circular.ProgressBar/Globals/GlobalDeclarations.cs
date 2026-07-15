@@ -34,4 +34,11 @@ global using System.Windows.Forms;
 
 global using Krypton.Toolkit.Suite.Extended.Developer.Utilities;
 
+// net4x uses the original strong-named WinFormAnimation package (the Unofficial repack is
+// unsigned and cannot be loaded from a strong-named assembly on .NET Framework); the type
+// surfaces are identical, only the namespace differs.
+#if NETFRAMEWORK
+global using WinFormAnimation;
+#else
 global using WinFormAnimation_NET5;
+#endif

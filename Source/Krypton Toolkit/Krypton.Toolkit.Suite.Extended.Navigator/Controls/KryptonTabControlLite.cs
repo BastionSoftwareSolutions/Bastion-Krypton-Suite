@@ -59,6 +59,19 @@ public class KryptonTabControlLite : TabControl
         KryptonManager.GlobalPaletteChanged += KryptonManager_GlobalPaletteChanged;
     }
 
+    /// <inheritdoc/>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            // Detach from the static event, otherwise a later global palette change
+            // calls back into this disposed control (ObjectDisposedException).
+            KryptonManager.GlobalPaletteChanged -= KryptonManager_GlobalPaletteChanged;
+        }
+
+        base.Dispose(disposing);
+    }
+
     private void KryptonManager_GlobalPaletteChanged(object sender, EventArgs e)
     {
         RefreshPalette();

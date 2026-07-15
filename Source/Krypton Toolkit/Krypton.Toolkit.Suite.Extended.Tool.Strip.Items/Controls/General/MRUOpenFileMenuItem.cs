@@ -138,7 +138,12 @@ public class MRUOpenFileMenuItem : ToolStripMenuItem
 
         _parentMruMenuItem = null;
 
-        _recentlyUsedFileManager = new MostRecentlyUsedFileManager(_parentMruMenuItem, _applicationName, null, null);
+        // The MRU manager cannot be created here: its constructor demands a non-null
+        // parent menu item, application name and click handler (throwing
+        // ArgumentException("Bad argument.") otherwise) — and all three are still null
+        // at this point, so construction always failed. It stays null until wired up;
+        // the usage site already guards with '?.'.
+        _recentlyUsedFileManager = null;
 
         ShortcutKeys = Keys.Control | Keys.O;
 

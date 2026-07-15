@@ -856,9 +856,6 @@ public class NaviLayoutEngineOffice : NaviLayoutEngine
     /// </summary>
     private void InitializeMenu()
     {
-        ResourceManager rm = new ResourceManager(
-            "NaviSuite.Properties.Resources.Text", Assembly.GetExecutingAssembly());
-
         this.optionsMenu = new NaviContextMenu();
         this.miShowMoreButtons = new ToolStripMenuItem();
         this.miShowLessButtons = new ToolStripMenuItem();
@@ -883,7 +880,10 @@ public class NaviLayoutEngineOffice : NaviLayoutEngine
         // 
         this.miShowMoreButtons.Name = "showMoreButtonsToolStripMenuItem";
         this.miShowMoreButtons.Size = new System.Drawing.Size(234, 22);
-        this.miShowMoreButtons.Text = rm.GetString("BarShowMore");
+        // The "NaviSuite.Properties.Resources.Text" string table from the original NaviSuite
+        // library was never ported to this assembly, so a ResourceManager lookup always threw
+        // MissingManifestResourceException — the menu strings are provided directly instead.
+        this.miShowMoreButtons.Text = "Show &More Buttons";
         this.miShowMoreButtons.Click += new EventHandler(miShowMoreButtons_Click);
         this.miShowMoreButtons.Image = ProjectResources.Up;
         this.miShowMoreButtons.Enabled = largeButtonCount < visibleButtonCount;
@@ -893,7 +893,7 @@ public class NaviLayoutEngineOffice : NaviLayoutEngine
         // 
         this.miShowLessButtons.Name = "showLessButtonsToolStripMenuItem";
         this.miShowLessButtons.Size = new System.Drawing.Size(234, 22);
-        this.miShowLessButtons.Text = rm.GetString("BarShowLess");
+        this.miShowLessButtons.Text = "Show Fe&wer Buttons";
         this.miShowLessButtons.Click += new EventHandler(miShowLessButtons_Click);
         this.miShowLessButtons.Image = ProjectResources.Down;
         this.miShowLessButtons.Enabled = largeButtonCount > 0;
@@ -903,14 +903,14 @@ public class NaviLayoutEngineOffice : NaviLayoutEngine
         // 
         this.miShowMoreOptions.Name = "optionsOfTheNavigationPaneToolStripMenuItem";
         this.miShowMoreOptions.Size = new System.Drawing.Size(234, 22);
-        this.miShowMoreOptions.Text = rm.GetString("BarOptions");
+        this.miShowMoreOptions.Text = "Na&vigation Pane Options...";
         this.miShowMoreOptions.Click += new EventHandler(miShowMoreOptions_Click);
         // 
         // miAddOrRemoveButtons
         //          
         this.miAddOrRemoveButtons.Name = "addOrRemoveButtonsToolStripMenuItem";
         this.miAddOrRemoveButtons.Size = new System.Drawing.Size(234, 22);
-        this.miAddOrRemoveButtons.Text = rm.GetString("BarAddOrRemove");
+        this.miAddOrRemoveButtons.Text = "&Add or Remove Buttons";
 
         // 
         // miSep

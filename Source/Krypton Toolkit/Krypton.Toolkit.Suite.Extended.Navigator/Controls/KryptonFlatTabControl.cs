@@ -42,9 +42,21 @@ public partial class KryptonFlatTabControl : FlatTabControl
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
     protected override void Dispose(bool disposing)
     {
-        if (disposing && components != null)
+        if (disposing)
         {
-            components.Dispose();
+            // Detach from the static event, otherwise a later global palette change
+            // calls back into this disposed control (ObjectDisposedException).
+            KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+
+            if (_palette != null)
+            {
+                _palette.PalettePaint -= OnPalettePaint;
+            }
+
+            if (components != null)
+            {
+                components.Dispose();
+            }
         }
         base.Dispose(disposing);
     }

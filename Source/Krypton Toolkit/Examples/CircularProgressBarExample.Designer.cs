@@ -166,7 +166,11 @@ namespace Examples
             // 
             // circularProgressBar1
             // 
+#if NETFRAMEWORK
+            this.circularProgressBar1.AnimationFunction = WinFormAnimation.KnownAnimationFunctions.Liner;
+#else
             this.circularProgressBar1.AnimationFunction = WinFormAnimation_NET5.KnownAnimationFunctions.Linear;
+#endif
             this.circularProgressBar1.AnimationSpeed = 500;
             this.circularProgressBar1.BackColor = System.Drawing.Color.Transparent;
             this.circularProgressBar1.FirstValueColor = System.Drawing.Color.Red;

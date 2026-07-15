@@ -188,7 +188,9 @@ public partial class KryptonAlertWindow : KryptonForm
                 }
                 break;
             case AlertAction.Wait:
-                _tmrAlert.Interval = _interval;
+                // _interval may still be 0 (parameterless construction) — Timer.Interval
+                // throws ArgumentOutOfRangeException for values < 1.
+                _tmrAlert.Interval = Math.Max(1, _interval);
 
                 _action = AlertAction.Close;
                 break;

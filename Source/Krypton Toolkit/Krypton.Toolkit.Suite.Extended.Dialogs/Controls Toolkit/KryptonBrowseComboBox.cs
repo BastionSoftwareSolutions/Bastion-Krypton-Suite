@@ -152,9 +152,11 @@ public class KryptonBrowseComboBox : KryptonComboBox
 
         _kcReset = new();
 
-        _smallResetImage = Image.FromFile("ImageResources.Reset_16_x_16.png");
+        // Load the reset glyphs from the embedded resources — Image.FromFile with a
+        // resource-style name threw FileNotFoundException on every instantiation.
+        _smallResetImage = Properties.Resources.Reset_16_x_16;
 
-        _largeResetImage = Image.FromFile("ImageResources.Reset_32_x_32.png");
+        _largeResetImage = Properties.Resources.Reset_32_x_32;
 
         _bsaBrowse.Text = "...";
 

@@ -39,7 +39,7 @@ public class KryptonOKDialogButton : KryptonButton
 
     public event ParentWindowChangedEventHandler ParentWindowChanged;
 
-    protected virtual void OnParentWindowChanged(object sender, OwnerWindowChangedEventArgs e) => ParentWindowChanged.Invoke(sender, e);
+    protected virtual void OnParentWindowChanged(object sender, OwnerWindowChangedEventArgs e) => ParentWindowChanged?.Invoke(sender, e);
     #endregion
 
     public KryptonOKDialogButton()

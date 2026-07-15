@@ -343,15 +343,26 @@ public class KryptonTextToSpeechDialog : CommonExtendedKryptonForm
     #region Methods
     private void PropagateInstalledVoicesList()
     {
-        using (SpeechSynthesizer synth = new SpeechSynthesizer())
+        try
         {
-            foreach (var voice in synth.GetInstalledVoices())
+            using (SpeechSynthesizer synth = new SpeechSynthesizer())
             {
-                kcmbInstalledVoices.Items.Add(voice.VoiceInfo.Name);
+                foreach (var voice in synth.GetInstalledVoices())
+                {
+                    kcmbInstalledVoices.Items.Add(voice.VoiceInfo.Name);
+                }
             }
         }
+        catch (PlatformNotSupportedException)
+        {
+            // No speech engine available on this OS/SKU — leave the voice list empty
+            // rather than making the dialog impossible to construct.
+        }
 
-        kcmbInstalledVoices.SelectedIndex = 0;
+        if (kcmbInstalledVoices.Items.Count > 0)
+        {
+            kcmbInstalledVoices.SelectedIndex = 0;
+        }
     }
 
     private void Speak(string textToSpeak, string voice, int rate, int volume)

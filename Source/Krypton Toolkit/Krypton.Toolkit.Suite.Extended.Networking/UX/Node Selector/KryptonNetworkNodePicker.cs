@@ -56,24 +56,57 @@ public partial class KryptonNetworkNodePicker : KryptonForm
     #region Methods
     internal void PopulateDomainList()
     {
-        string domainName = "";
-        string currentDomain = Environment.UserDomainName;
-        int index = 0;
-
-        // browse for domains
-        _computerEnum = new ComputerEnum(0x80000000, null);
+        // Domain browsing (NetServerEnum) is a blocking network broadcast that can take
+        // tens of seconds on machines with no reachable master browser — running it on
+        // the UI thread froze the control on construction. Enumerate on a background
+        // thread and marshal the results back only if the control is still alive.
+        System.Threading.Tasks.Task.Run(() =>
         {
+            string currentDomain = Environment.UserDomainName;
+            var domains = new List<string>();
+
+            // browse for domains
+            _computerEnum = new ComputerEnum(0x80000000, null);
             for (int i = 0; i < _computerEnum.Length; i++)
             {
-                domainName = _computerEnum[i].Name;
-                kcmbDomainList.Items.Add(domainName);
-                if (domainName.CompareTo(currentDomain) == 0)
-                {
-                    index = i;
-                }
+                domains.Add(_computerEnum[i].Name);
             }
-        }
-        kcmbDomainList.SelectedIndex = index;
+
+            if (IsDisposed || Disposing || !IsHandleCreated)
+            {
+                return;
+            }
+
+            try
+            {
+                BeginInvoke(new Action(() =>
+                {
+                    if (IsDisposed || Disposing)
+                    {
+                        return;
+                    }
+
+                    int index = 0;
+                    for (int i = 0; i < domains.Count; i++)
+                    {
+                        kcmbDomainList.Items.Add(domains[i]);
+                        if (string.CompareOrdinal(domains[i], currentDomain) == 0)
+                        {
+                            index = i;
+                        }
+                    }
+
+                    if (kcmbDomainList.Items.Count > 0)
+                    {
+                        kcmbDomainList.SelectedIndex = index;
+                    }
+                }));
+            }
+            catch (InvalidOperationException)
+            {
+                // Handle was destroyed between the guard and BeginInvoke — nothing to do.
+            }
+        });
     }
 
     /// <summary>

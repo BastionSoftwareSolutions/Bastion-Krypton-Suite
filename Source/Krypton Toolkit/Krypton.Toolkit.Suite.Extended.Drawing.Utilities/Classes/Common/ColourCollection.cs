@@ -688,7 +688,9 @@ public class ColourCollection : Collection<Color>, ICloneable, IEquatable<Colour
     /// <returns><c>true</c> if the values of <paramref name="left"/> and <paramref name="right"/> are equal; otherwise, <c>false</c>.</returns>
     public static bool operator ==(ColourCollection? left, ColourCollection? right)
     {
-        return ReferenceEquals(left, right) || !(!(left != null) || !(right != null)) && left.Equals(right);
+        // Must not use ==/!= against null here — that re-enters these overloaded
+        // operators and recurses until the stack overflows.
+        return ReferenceEquals(left, right) || (left is not null && right is not null && left.Equals(right));
     }
 
     /// <summary>

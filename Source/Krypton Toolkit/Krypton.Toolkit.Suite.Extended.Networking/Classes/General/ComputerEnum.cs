@@ -175,7 +175,8 @@ public class ComputerEnum : IEnumerable, IDisposable
         int prefmaxlen,         // max length of returned data
         out int entriesread,    // num entries read
         out int totalentries,   // total servers + workstations
-        uint? servertype,        // server type filter
+        uint servertype,        // server type filter (Nullable<uint> is not blittable and
+                                // threw MarshalDirectiveException on every call)
         [MarshalAs(UnmanagedType.LPWStr)]
         string domain,          // domain to enumerate
         IntPtr resume_handle);
@@ -228,7 +229,7 @@ public class ComputerEnum : IEnumerable, IDisposable
                 -1,
                 out entriesread,
                 out totalentries,
-                serverType,
+                serverType ?? 0xFFFFFFFF, // null means no filter (SV_TYPE_ALL)
                 domainName,
                 IntPtr.Zero);
 

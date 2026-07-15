@@ -337,6 +337,24 @@ public class KryptonCalendar : ScrollableControl
 
     }
 
+    /// <inheritdoc/>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            // Detach from the static event, otherwise a later global palette change
+            // calls back into this disposed control (ObjectDisposedException).
+            KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+
+            if (_palette != null)
+            {
+                _palette.PalettePaint -= OnPalettePaint;
+            }
+        }
+
+        base.Dispose(disposing);
+    }
+
 
     #endregion
 
@@ -1397,6 +1415,13 @@ public class KryptonCalendar : ScrollableControl
     /// </summary>
     internal void UpdateHighlights()
     {
+        // The HighlightRanges setter runs from the constructor before SetViewRange
+        // has populated the days array — nothing to update yet.
+        if (_days is null)
+        {
+            return;
+        }
+
         for (int i = 0; i < Days.Length; i++)
         {
             Days[i]!.UpdateHighlights();
@@ -1515,67 +1540,67 @@ public class KryptonCalendar : ScrollableControl
 
     protected virtual void OnDayHeaderClick(CalendarDayEventArgs e)
     {
-        DayHeaderClick(this, e);
+        DayHeaderClick?.Invoke(this, e);
     }
 
     protected virtual void OnItemClick(CalendarItemEventArgs e)
     {
-        ItemClick(this, e);
+        ItemClick?.Invoke(this, e);
     }
 
     protected virtual void OnItemCreating(CalendarItemCancelEventArgs e)
     {
-        ItemCreating(this, e);
+        ItemCreating?.Invoke(this, e);
     }
 
     protected virtual void OnItemCreated(CalendarItemCancelEventArgs e)
     {
-        ItemCreated(this, e);
+        ItemCreated?.Invoke(this, e);
     }
 
     protected virtual void OnItemDeleting(CalendarItemCancelEventArgs e)
     {
-        ItemDeleting(this, e);
+        ItemDeleting?.Invoke(this, e);
     }
 
     protected virtual void OnItemDeleted(CalendarItemEventArgs e)
     {
-        ItemDeleted(this, e);
+        ItemDeleted?.Invoke(this, e);
     }
 
     protected virtual void OnItemDoubleClick(CalendarItemEventArgs e)
     {
-        ItemDoubleClick(this, e);
+        ItemDoubleClick?.Invoke(this, e);
     }
 
     protected virtual void OnItemEditing(CalendarItemCancelEventArgs e)
     {
-        ItemTextEditing(this, e);
+        ItemTextEditing?.Invoke(this, e);
     }
 
     protected virtual void OnItemEdited(CalendarItemCancelEventArgs e)
     {
-        ItemTextEdited(this, e);
+        ItemTextEdited?.Invoke(this, e);
     }
 
     protected virtual void OnItemSelected(CalendarItemEventArgs e)
     {
-        ItemSelected(this, e);
+        ItemSelected?.Invoke(this, e);
     }
 
     protected virtual void OnItemsPositioned(EventArgs e)
     {
-        ItemsPositioned(this, e);
+        ItemsPositioned?.Invoke(this, e);
     }
 
     protected virtual void OnItemDatesChanged(CalendarItemEventArgs e)
     {
-        ItemDatesChanged(this, e);
+        ItemDatesChanged?.Invoke(this, e);
     }
 
     protected virtual void OnItemMouseHover(CalendarItemEventArgs e)
     {
-        ItemMouseHover(this, e);
+        ItemMouseHover?.Invoke(this, e);
     }
 
     protected override void OnKeyDown(KeyEventArgs e)
@@ -1677,7 +1702,7 @@ public class KryptonCalendar : ScrollableControl
 
     protected virtual void OnLoadItems(CalendarLoadEventArgs e)
     {
-        LoadItems(this, e);
+        LoadItems?.Invoke(this, e);
     }
 
     protected override void OnMouseDoubleClick(MouseEventArgs e)

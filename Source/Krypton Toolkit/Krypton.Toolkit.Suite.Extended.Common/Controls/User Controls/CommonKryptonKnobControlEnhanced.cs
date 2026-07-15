@@ -702,6 +702,15 @@ public class CommonKryptonKnobControlEnhanced : UserControl
     {
         if (disposing)
         {
+            // Detach from the static event, otherwise a later global palette change
+            // calls back into this disposed control (ObjectDisposedException).
+            KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+
+            if (_palette != null)
+            {
+                _palette.PalettePaint -= OnPalettePaint;
+            }
+
             if (components != null)
             {
                 components.Dispose();

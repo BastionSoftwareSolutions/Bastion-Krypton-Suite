@@ -238,7 +238,12 @@ public class CircularProgressBar : System.Windows.Forms.ProgressBar
 
         _animator = DesignMode ? null : new Animator();
 
+#if NETFRAMEWORK
+        // The strong-named WinFormAnimation 1.6 package spells this member "Liner".
+        AnimationFunction = KnownAnimationFunctions.Liner;
+#else
         AnimationFunction = KnownAnimationFunctions.Linear;
+#endif
 
         AnimationSpeed = 500;
 
@@ -304,6 +309,24 @@ public class CircularProgressBar : System.Windows.Forms.ProgressBar
         SecondValueColor = Color.FromArgb(255, 191, 0);
 
         ThirdValueColor = Color.Green;
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            // Detach from the static event, otherwise a later global palette change
+            // calls back into this disposed control (ObjectDisposedException).
+            KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+
+            if (_palette != null)
+            {
+                _palette.PalettePaint -= OnPalettePaint;
+            }
+        }
+
+        base.Dispose(disposing);
     }
     #endregion
 
@@ -437,7 +460,9 @@ public class CircularProgressBar : System.Windows.Forms.ProgressBar
     {
         lock (this)
         {
-            _backBrush.Dispose();
+            // The parent's Invalidated event can fire (during handle creation) before the
+            // first paint has created the brush.
+            _backBrush?.Dispose();
             _backBrush = new SolidBrush(BackColor);
 
             if (BackColor.A == 255)

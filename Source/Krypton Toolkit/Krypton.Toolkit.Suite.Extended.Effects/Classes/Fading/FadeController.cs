@@ -78,6 +78,32 @@ public class FadeController
             return;
         }
 
+        // A non-positive fade speed can never change the opacity, so the recursive
+        // loop below would never terminate (hangs the UI thread). Apply the end
+        // state immediately instead.
+        if (fadeSpeed <= 0f)
+        {
+            if (fadeDirection == FadeDirection.In)
+            {
+                form.Opacity = 1.0;
+            }
+            else
+            {
+                form.Opacity = 0.0;
+
+                if (!shouldClose)
+                {
+                    form.Hide();
+                }
+                else
+                {
+                    form.Close();
+                }
+            }
+
+            return;
+        }
+
         switch (fadeDirection)
         {
             // Fade in
@@ -430,7 +456,7 @@ public class FadeControllerNETCoreSafe
     {
         FadeControllerNETCoreSafe controller = new FadeControllerNETCoreSafe();
 
-        for (controller._fadeOut = 90; controller._fadeOut >= 10; controller._fadeOut += 10)
+        for (controller._fadeOut = 90; controller._fadeOut >= 10; controller._fadeOut -= 10)
         {
             owner.Opacity = controller._fadeOut / 100;
 

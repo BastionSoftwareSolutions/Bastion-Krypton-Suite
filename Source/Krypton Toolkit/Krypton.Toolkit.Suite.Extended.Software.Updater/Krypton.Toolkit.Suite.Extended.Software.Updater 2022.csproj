@@ -116,7 +116,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="System.Drawing.Common" Version="10.0.0" Condition="'$(TargetFramework)' != 'net46'" />
+		<!-- Bastion: System.Drawing.Common PackageReference removed — its 10.0.0.0 assembly cannot
+		     bind on the net5–net9 desktop runtimes (FileLoadException at first use), and every TFM
+		     in the matrix already gets System.Drawing from the Windows Desktop framework / GAC. -->
 		<PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.44.1">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

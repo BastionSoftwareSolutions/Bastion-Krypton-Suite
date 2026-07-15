@@ -58,6 +58,24 @@ public class KryptonFlowLayoutPanel : FlowLayoutPanel
         _paletteBorder = new PaletteBorderInheritRedirect(_paletteRedirect);
         _paletteContent = new PaletteContentInheritRedirect(_paletteRedirect);
     }
+
+    /// <inheritdoc/>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            // Detach from the static event, otherwise a later global palette change
+            // calls back into this disposed control (ObjectDisposedException).
+            KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+
+            if (_palette != null)
+            {
+                _palette.PalettePaint -= OnPalettePaint;
+            }
+        }
+
+        base.Dispose(disposing);
+    }
     #endregion
 
     #region Protected

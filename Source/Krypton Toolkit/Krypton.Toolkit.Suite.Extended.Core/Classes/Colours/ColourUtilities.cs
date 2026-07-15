@@ -333,6 +333,13 @@ public static class ColourUtilities
 
         foreach (PropertyInfo propertyInfo in systemColourProperties)
         {
+            // .NET 9 added the non-Color SystemColors.UseAlternativeColorSet property;
+            // only Color-typed properties are colour entries.
+            if (propertyInfo.PropertyType != typeof(Color))
+            {
+                continue;
+            }
+
             object colourObject = propertyInfo.GetValue(null, null);
 
             Color systemColour = (Color)colourObject;

@@ -325,14 +325,11 @@ public class FlatTabControl : TabControl
         leftRightImages = new ImageList();
         //leftRightImages.ImageSize = new Size(16, 16); // default
 
-        System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(FlatTabControl));
-        Bitmap updownImage = (Bitmap)resources.GetObject("TabIcons.bmp");
-
-        if (updownImage != null)
-        {
-            updownImage.MakeTransparent(Color.White);
-            leftRightImages.Images.AddStrip(updownImage);
-        }
+        // The "FlatTabControl.resources" image table ("TabIcons.bmp") from the original
+        // FlatTabControl library was never ported to this assembly, so the typed
+        // ResourceManager lookup always threw MissingManifestResourceException on
+        // instantiation. The scroll-button strip is cosmetic; the paint path already
+        // guards on Images.Count != 4 and degrades cleanly without it.
 
 
         //allow Close
@@ -540,11 +537,8 @@ public class FlatTabControl : TabControl
 
         if (_allowCloseButton == true)
         {
-            System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(FlatTabControl));
-            Bitmap closeImage = (Bitmap)resources.GetObject("CloseIcon.bmp");
-
-            closeImage.MakeTransparent(Color.White);
-
+            // "CloseIcon.bmp" was in the original library's resource table, which was never
+            // ported (see the constructor note) — the glyph is drawn with primitives instead.
             if (Alignment == TabAlignment.Top)
             {
                 //if (bIsVisibleUpDown)
@@ -584,8 +578,14 @@ public class FlatTabControl : TabControl
             e.Graphics.FillRectangle(new SolidBrush(_buttonsBackColour), closeBorder);
             e.Graphics.DrawRectangle(new Pen(_buttonsBorderColour), closeBorder);
 
-            //paint the image
-            e.Graphics.DrawImage(closeImage, m_closeRect);
+            //paint the glyph (an X cross replaces the never-shipped CloseIcon.bmp)
+            using (Pen crossPen = new Pen(ForeColor, 1.6f))
+            {
+                Rectangle cross = m_closeRect;
+                cross.Inflate(-3, -3);
+                e.Graphics.DrawLine(crossPen, cross.Left, cross.Top, cross.Right, cross.Bottom);
+                e.Graphics.DrawLine(crossPen, cross.Right, cross.Top, cross.Left, cross.Bottom);
+            }
 
             // e.Graphics.DrawRectangle(new Pen(Color.Red), m_closeRect);
         }
