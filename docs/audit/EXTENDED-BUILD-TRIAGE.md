@@ -174,7 +174,7 @@ The suite could not build from source against our core at all:
 
 ---
 
-## 7. Smoke sweep results (15 July 2026, third run)
+## 7. Smoke sweep results (15 July 2026)
 
 Every Extended module output directory (`Bin\Release\<module>\<tfm>`) was smoked with the Phase 2 harness
 (`Scripts\SmokeTest`, `--dir` mode: every public `Component` with a parameterless constructor instantiated,
@@ -224,21 +224,4 @@ tolerance). Full root-cause entries **E1–E26** in `docs/audit/BREAKAGE-LOG.md`
 
 ### Harness improvements made during the sweep
 
-- Documented skip list (above); native-library resolver for module-dir `runtimes\win-<arch>\native` assets (SkiaSharp had been picking up an incompatible stray libSkiaSharp from PATH); `TabPage`/`ToolStripDropDown` parenting handling; `run-extended-smoke.ps1` module-assembly probe no longer requires the assembly name to equal the directory name (the `Task.Dialogs` directory ships `…TaskDialogs.dll` and had been silently skipped).
-
-## 7. Smoke sweep results (15 July 2026, final)
-
-**ALL GREEN: 659 module-directory × TFM smoke runs, 0 failures** (12 combinations skipped — no assembly
-for that TFM, e.g. Data.Visualisation net46 by design). Every run instantiates, shows, resizes and
-disposes every public Component type in the module assembly *and its Extended dependencies* present in
-that output directory, on the true runtime for the TFM (.NET Framework 4.8.1 for net4x; local .NET
-5.0.17/6.0.36/7.0.20 desktop runtimes; system .NET 8/9/10).
-
-Nine upstream defect classes were found and fixed to get here — see `BREAKAGE-LOG.md` E1–E9
-(inverted fade-out loop, zero-speed fade recursion, forced PopUp cast, null-owner form border NRE
-(core fix), calendar constructor NRE cascade, progress-bar brush NRE, NaviBar phantom resource,
-designer-resx manifest-name divergence on net4x, unloadable System.Drawing.Common 10.0.0 pin).
-
-Harness notes: one justified skip-list entry (`Core.GlobalOptionsMenu` shows a modal message box by
-design); the harness gained `--dir` mode, WPF support on .NET (Core) TFMs, defensive reflection, and
-an incremental runner (`run-extended-smoke.ps1`).
+- Documented skip list (above); native-library resolver for module-dir `runtimes\win-<arch>\native` assets (SkiaSharp had been picking up an incompatible stray libSkiaSharp from PATH); `TabPage`/`ToolStripDropDown` parenting handling; the incremental runner (`run-extended-smoke.ps1`) re-runs only work not already green against the current binaries, and its module-assembly probe no longer requires the assembly name to equal the directory name (the `Task.Dialogs` directory ships `…TaskDialogs.dll` and had been silently skipped).

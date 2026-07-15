@@ -168,9 +168,9 @@ All five core libraries build **warning-clean (0 warnings / 0 errors)** for the 
 
 ### Extended smoke sweep ✅ (`EXTENDED-BUILD-TRIAGE.md` §7)
 
-- **659 module-dir × TFM runs, 0 failures** on true runtimes; 3,700+ type-instantiations per full pass.
-- **Nine further upstream defect classes found + fixed** (`BREAKAGE-LOG.md` E1–E9), the standouts: an inverted fade-out loop that hung every fading form on close (all .NET Core TFMs); a zero-speed fade recursion hanging forms on Show (net4x); a null-owner NRE in the **core** `PaletteFormBorder` (fixed in Standard-Toolkit, core matrix re-verified 11×230×0); a designer-resx manifest-name divergence breaking ~60 types on net4x; an unloadable `System.Drawing.Common` 10.0.0 pin (net5–9).
-- Core smoke matrix re-verified green after the core fix: 11 TFMs × 230 types × 0 failures.
+- **654 of 659 module-dir × TFM runs green** on true runtimes (~11,000 type instantiations); the only 5 non-green runs are Software.Updater net5–net9, a documented raw-DLL-loader artifact of the harness (`BREAKAGE-LOG.md` E24) — the module itself passes net4x and net10.
+- **23 distinct upstream defects found + fixed at source** (`BREAKAGE-LOG.md` E1–E23), the standouts: an inverted fade-out loop that hung every fading form on close (all .NET Core TFMs) and a zero-speed fade recursion hanging forms on Show (net4x); a null-owner NRE in the **core** `PaletteFormBorder` (fixed in Standard-Toolkit, core solution re-verified 0 errors/0 warnings); a designer-resx manifest-name divergence breaking ~60 types on net4x (fixed suite-wide via `EmbeddedResourceUseDependentUponConvention`); static `GlobalPaletteChanged` subscription leaks in 10 controls plus the `KryptonComboBoxTree` dropdown-form leak that hung both Ultimate metas; a `ColourCollection` operator StackOverflow; the .NET 9 `SystemColors.UseAlternativeColorSet` reflection break; a `Nullable<uint>` P/Invoke; the unsigned WinFormAnimation dependency on net4x.
+- 5 types genuinely show modal UI by design and sit on the harness's documented skip list (justified per entry in `Scripts/SmokeTest/Program.cs`).
 
 ### Phase 2 exit-criteria status
 
@@ -179,7 +179,7 @@ All five core libraries build **warning-clean (0 warnings / 0 errors)** for the 
 | Five core libraries compile warning-clean, all TFMs | ✅ 11 TFMs, `TreatWarningsAsErrors=true` |
 | Extended modules compile, all TFMs (v1.1) | ✅ 63/64 × 11 TFMs (+1 ×10 by design); `Themes` excluded pending Chris go/no-go; warning-clean deferred (documented) |
 | API matrix report | ✅ `API-MATRIX.md` — differences exactly match documented degradations |
-| Smoke instantiation per TFM | ✅ core 11×230×0; Extended 659 runs ×0 |
+| Smoke instantiation per TFM | ✅ core 11×230×0; Extended 654/659 runs green (5 = documented harness artifact, E24) |
 
 **Phase 2 complete — 15 July 2026.** (Carried into Phase 3+: Extended warning-clean pass; Chris decisions listed below.)
 
