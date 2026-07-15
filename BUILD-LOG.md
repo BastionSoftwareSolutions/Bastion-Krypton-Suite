@@ -185,4 +185,28 @@ All five core libraries build **warning-clean (0 warnings / 0 errors)** for the 
 
 ---
 
+## Phase 3 — Themes (15–16 July 2026)
+
+### Audit + references + harness ✅
+- `docs/audit/THEME-AUDIT.md`: 100 palette classes, 239-slot scheme architecture, complete W1–W15 wiring map (22 core files + 5 Extended), upstream fidelity-issue census. Two new upstream defects found: **T1** (nine modes missing from 105 command switches → runtime AOOR) and **T2** (Office 2003 palette XP-gated — rendered as system palette on Win10/11).
+- `docs/themes/*-colours.md` (five eras) from 35 cited reference images + Microsoft's own ProfessionalColorTable source; eyedropper tooling in `Scripts/Eyedropper`.
+- `Scripts/ThemeBrowser` render harness; baseline captures of all pre-existing palettes preserved in `docs/themes/comparisons/placeholder/` (the before-images for sign-off).
+
+### Implementation ✅ (core commits `aacb27109`, `ce350c90c`, `4b146cfab`, `437bae5e1`; Extended `1803760c`)
+- **14 new PaletteMode values**: Office2003 Olive/Silver; Office2016 Colorful/White/DarkGray; Office2019 Colorful/White/DarkGray/Black; Office2021 Colorful/White/DarkGray/Black; Microsoft365DarkGray (formerly an unwired upstream TODO). All wired end-to-end incl. Extended Theme Switcher; T1 fixed by a consolidated `PaletteImageSetResolver`; T2 un-gated (Luna Blue unconditional).
+- **All schemes filled with provenance-tagged colours** ([T] from cited tables / [D] derived by documented rule / [N] donor-neutral), pixel-verified in captures against the tables. M365 palettes refreshed to genuine 2026 visuals (mapping: Blue→Colorful, White→White, DarkGray→Dark Gray, Black→Black/Dark Mode; companions derived coherently). **This intentionally changes the existing M365 look** — before/after pairs: `comparisons/placeholder/` vs `comparisons/m365-2026/`.
+- Theme sweep: all modes capture with zero rendering exceptions; cross-era regression checks pixel-clean between passes.
+
+### Known issues / open items
+- **Static `PaletteBase._colorLut` wart** (upstream): checked-fill colours are a last-writer-wins static registry shared across palettes — instantiation-order-dependent; affects every family. Phase 5 fix candidate.
+- ce350c90c's ribbon tab-row consumer shifted legacy Material Dark (by that palette's own declared value) and ~7.6k px on old M365Blue (subsumed by the refresh) — part of sign-off review.
+- Microsoft365LightGray remains an unwired upstream stub (no scheme, no 2026 counterpart).
+- 2003 ToolStrip/menu colour table still system-derived (Luna values documented for a later `KryptonProfessionalKCT` extension).
+
+### Awaiting Chris (Phase 3 acceptance)
+1. **Per-theme fidelity sign-off** from the comparison images (`docs/themes/comparisons/`): office2016-2019 (7), office2021-2003 (2021 ×4 + Luna ×3), m365-2026 (11).
+2. **Live-install screenshots** to close the [D]-tagged gaps: hover/pressed/disabled states, backstage, context menus, inactive title bars (all eras); 2021 Dark Gray/Black expanded ribbon; 2016 status-bar accent question; 2026 classic-Outlook accent; XP Olive/Silver caption gradients.
+
+---
+
 ---
