@@ -40,6 +40,13 @@ public sealed class KryptonManager : Component
     private static PaletteProfessionalOffice2003? _paletteProfessionalOffice2003;
     private static PaletteProfessionalSystem? _paletteProfessionalSystem;
 
+    #region Office 2003 Variant Themes (Bastion)
+
+    private static PaletteOffice2003Olive? _paletteOffice2003Olive;
+    private static PaletteOffice2003Silver? _paletteOffice2003Silver;
+
+    #endregion
+
     #region Office 2007 Themes
 
     private static PaletteOffice2007DarkGray? _paletteOffice2007DarkGray;
@@ -105,6 +112,32 @@ public sealed class KryptonManager : Component
     private static PaletteMicrosoft365SilverDarkMode? _paletteMicrosoft365SilverDarkMode;
     private static PaletteMicrosoft365SilverLightMode? _paletteMicrosoft365SilverLightMode;
     private static PaletteMicrosoft365White? _paletteMicrosoft365White;
+
+    #endregion
+
+    #region Office 2016 Themes (Bastion)
+
+    private static PaletteOffice2016Colorful? _paletteOffice2016Colorful;
+    private static PaletteOffice2016White? _paletteOffice2016White;
+    private static PaletteOffice2016DarkGray? _paletteOffice2016DarkGray;
+
+    #endregion
+
+    #region Office 2019 Themes (Bastion)
+
+    private static PaletteOffice2019Colorful? _paletteOffice2019Colorful;
+    private static PaletteOffice2019White? _paletteOffice2019White;
+    private static PaletteOffice2019DarkGray? _paletteOffice2019DarkGray;
+    private static PaletteOffice2019Black? _paletteOffice2019Black;
+
+    #endregion
+
+    #region Office 2021 Themes (Bastion)
+
+    private static PaletteOffice2021Colorful? _paletteOffice2021Colorful;
+    private static PaletteOffice2021White? _paletteOffice2021White;
+    private static PaletteOffice2021DarkGray? _paletteOffice2021DarkGray;
+    private static PaletteOffice2021Black? _paletteOffice2021Black;
 
     #endregion
 
@@ -684,6 +717,34 @@ public sealed class KryptonManager : Component
             case PaletteMode.MaterialDarkRipple:
                 return PaletteMaterialDarkRipple;
 
+            // Bastion additions (Phase 3)
+            case PaletteMode.Office2003Olive:
+                return PaletteOffice2003Olive;
+            case PaletteMode.Office2003Silver:
+                return PaletteOffice2003Silver;
+            case PaletteMode.Office2016Colorful:
+                return PaletteOffice2016Colorful;
+            case PaletteMode.Office2016White:
+                return PaletteOffice2016White;
+            case PaletteMode.Office2016DarkGray:
+                return PaletteOffice2016DarkGray;
+            case PaletteMode.Office2019Colorful:
+                return PaletteOffice2019Colorful;
+            case PaletteMode.Office2019White:
+                return PaletteOffice2019White;
+            case PaletteMode.Office2019DarkGray:
+                return PaletteOffice2019DarkGray;
+            case PaletteMode.Office2019Black:
+                return PaletteOffice2019Black;
+            case PaletteMode.Office2021Colorful:
+                return PaletteOffice2021Colorful;
+            case PaletteMode.Office2021White:
+                return PaletteOffice2021White;
+            case PaletteMode.Office2021DarkGray:
+                return PaletteOffice2021DarkGray;
+            case PaletteMode.Office2021Black:
+                return PaletteOffice2021Black;
+
             case PaletteMode.Custom:
             case PaletteMode.Global:
                 return CurrentGlobalPalette;
@@ -730,6 +791,16 @@ public sealed class KryptonManager : Component
     /// Gets the single instance of the professional office palette.
     /// </summary>
     public static PaletteProfessionalOffice2003 PaletteProfessionalOffice2003 => _paletteProfessionalOffice2003 ??= new PaletteProfessionalOffice2003();
+
+    /// <summary>
+    /// Gets the single instance of the Office 2003 Olive (Homestead) palette.
+    /// </summary>
+    public static PaletteOffice2003Olive PaletteOffice2003Olive => _paletteOffice2003Olive ??= new PaletteOffice2003Olive();
+
+    /// <summary>
+    /// Gets the single instance of the Office 2003 Silver (Metallic) palette.
+    /// </summary>
+    public static PaletteOffice2003Silver PaletteOffice2003Silver => _paletteOffice2003Silver ??= new PaletteOffice2003Silver();
 
     /// <summary>
     /// Gets the single instance of the dark gray variant Office 2007 palette.
@@ -900,6 +971,61 @@ public sealed class KryptonManager : Component
     /// Gets the single instance of the ### palette.
     /// </summary>
     public static PaletteMicrosoft365White PaletteMicrosoft365White => _paletteMicrosoft365White ??= new PaletteMicrosoft365White();
+
+    /// <summary>
+    /// Gets the single instance of the Office 2016 Colorful palette.
+    /// </summary>
+    public static PaletteOffice2016Colorful PaletteOffice2016Colorful => _paletteOffice2016Colorful ??= new PaletteOffice2016Colorful();
+
+    /// <summary>
+    /// Gets the single instance of the Office 2016 White palette.
+    /// </summary>
+    public static PaletteOffice2016White PaletteOffice2016White => _paletteOffice2016White ??= new PaletteOffice2016White();
+
+    /// <summary>
+    /// Gets the single instance of the Office 2016 Dark Gray palette.
+    /// </summary>
+    public static PaletteOffice2016DarkGray PaletteOffice2016DarkGray => _paletteOffice2016DarkGray ??= new PaletteOffice2016DarkGray();
+
+    /// <summary>
+    /// Gets the single instance of the Office 2019 Colorful palette.
+    /// </summary>
+    public static PaletteOffice2019Colorful PaletteOffice2019Colorful => _paletteOffice2019Colorful ??= new PaletteOffice2019Colorful();
+
+    /// <summary>
+    /// Gets the single instance of the Office 2019 White palette.
+    /// </summary>
+    public static PaletteOffice2019White PaletteOffice2019White => _paletteOffice2019White ??= new PaletteOffice2019White();
+
+    /// <summary>
+    /// Gets the single instance of the Office 2019 Dark Gray palette.
+    /// </summary>
+    public static PaletteOffice2019DarkGray PaletteOffice2019DarkGray => _paletteOffice2019DarkGray ??= new PaletteOffice2019DarkGray();
+
+    /// <summary>
+    /// Gets the single instance of the Office 2019 Black palette.
+    /// </summary>
+    public static PaletteOffice2019Black PaletteOffice2019Black => _paletteOffice2019Black ??= new PaletteOffice2019Black();
+
+    /// <summary>
+    /// Gets the single instance of the Office 2021 Colorful palette.
+    /// </summary>
+    public static PaletteOffice2021Colorful PaletteOffice2021Colorful => _paletteOffice2021Colorful ??= new PaletteOffice2021Colorful();
+
+    /// <summary>
+    /// Gets the single instance of the Office 2021 White palette.
+    /// </summary>
+    public static PaletteOffice2021White PaletteOffice2021White => _paletteOffice2021White ??= new PaletteOffice2021White();
+
+    /// <summary>
+    /// Gets the single instance of the Office 2021 Dark Gray palette.
+    /// </summary>
+    public static PaletteOffice2021DarkGray PaletteOffice2021DarkGray => _paletteOffice2021DarkGray ??= new PaletteOffice2021DarkGray();
+
+    /// <summary>
+    /// Gets the single instance of the Office 2021 Black palette.
+    /// </summary>
+    public static PaletteOffice2021Black PaletteOffice2021Black => _paletteOffice2021Black ??= new PaletteOffice2021Black();
 
     /// <summary>
     /// Gets the single instance of the Blue variant sparkle palette.
@@ -1114,6 +1240,8 @@ public sealed class KryptonManager : Component
 
         _paletteProfessionalOffice2003?.UserPreferenceChanged();
         _paletteProfessionalSystem?.UserPreferenceChanged();
+        _paletteOffice2003Olive?.UserPreferenceChanged();
+        _paletteOffice2003Silver?.UserPreferenceChanged();
         _paletteOffice2007Blue?.UserPreferenceChanged();
         _paletteOffice2007Silver?.UserPreferenceChanged();
         _paletteOffice2007White?.UserPreferenceChanged();
@@ -1133,6 +1261,18 @@ public sealed class KryptonManager : Component
         _paletteMicrosoft365Blue?.UserPreferenceChanged();
         _paletteMicrosoft365Silver?.UserPreferenceChanged();
         _paletteMicrosoft365White?.UserPreferenceChanged();
+
+        _paletteOffice2016Colorful?.UserPreferenceChanged();
+        _paletteOffice2016White?.UserPreferenceChanged();
+        _paletteOffice2016DarkGray?.UserPreferenceChanged();
+        _paletteOffice2019Colorful?.UserPreferenceChanged();
+        _paletteOffice2019White?.UserPreferenceChanged();
+        _paletteOffice2019DarkGray?.UserPreferenceChanged();
+        _paletteOffice2019Black?.UserPreferenceChanged();
+        _paletteOffice2021Colorful?.UserPreferenceChanged();
+        _paletteOffice2021White?.UserPreferenceChanged();
+        _paletteOffice2021DarkGray?.UserPreferenceChanged();
+        _paletteOffice2021Black?.UserPreferenceChanged();
 
         _paletteVisualStudio2010Office2007Variation?.UserPreferenceChanged();
         _paletteVisualStudio2010Office2010Variation?.UserPreferenceChanged();
@@ -1189,82 +1329,34 @@ public sealed class KryptonManager : Component
 
     private static void UpdatePaletteImages(PaletteMode paletteMode)
     {
-        switch (paletteMode)
+        // The palette-mode to image-set mapping is centralised in PaletteImageSetResolver
+        // (BREAKAGE-LOG T1 consolidation): a new PaletteMode only needs classifying there.
+        // Note: Material currently borrows the Microsoft 365 image set via the resolver
+        // (TODO upstream: create dedicated Material images).
+        switch (PaletteImageSetResolver.GetImageSetFamily(paletteMode))
         {
-            case PaletteMode.Global:
-            case PaletteMode.Custom:
+            case PaletteImageSetFamily.Inherit:
+            case PaletteImageSetFamily.Custom:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.GenericToolBarImages);
                 break;
-            case PaletteMode.ProfessionalSystem:
+            case PaletteImageSetFamily.Professional:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.SystemToolBarImages);
                 break;
-            case PaletteMode.ProfessionalOffice2003:
+            case PaletteImageSetFamily.Office2003:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.Office2003ToolBarImages);
                 break;
-            case PaletteMode.Office2007Blue:
-            case PaletteMode.Office2007BlueDarkMode:
-            case PaletteMode.Office2007BlueLightMode:
-            case PaletteMode.Office2007Silver:
-            case PaletteMode.Office2007SilverDarkMode:
-            case PaletteMode.Office2007SilverLightMode:
-            case PaletteMode.Office2007White:
-            case PaletteMode.Office2007Black:
-            case PaletteMode.Office2007BlackDarkMode:
-            case PaletteMode.VisualStudio2010Render2007:
+            case PaletteImageSetFamily.Office2007:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.Office2007ToolBarImages);
                 break;
-            case PaletteMode.Office2010Blue:
-            case PaletteMode.Office2010BlueDarkMode:
-            case PaletteMode.Office2010BlueLightMode:
-            case PaletteMode.Office2010Silver:
-            case PaletteMode.Office2010SilverDarkMode:
-            case PaletteMode.Office2010SilverLightMode:
-            case PaletteMode.Office2010White:
-            case PaletteMode.Office2010Black:
-            case PaletteMode.Office2010BlackDarkMode:
-            case PaletteMode.SparkleBlue:
-            case PaletteMode.SparkleBlueDarkMode:
-            case PaletteMode.SparkleBlueLightMode:
-            case PaletteMode.SparkleOrange:
-            case PaletteMode.SparkleOrangeDarkMode:
-            case PaletteMode.SparkleOrangeLightMode:
-            case PaletteMode.SparklePurple:
-            case PaletteMode.SparklePurpleDarkMode:
-            case PaletteMode.SparklePurpleLightMode:
-            case PaletteMode.VisualStudio2010Render2010:
+            case PaletteImageSetFamily.Office2010:
+            case PaletteImageSetFamily.Sparkle:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.Office2010ToolBarImages);
                 break;
-            case PaletteMode.Office2013White:
-            case PaletteMode.VisualStudio2010Render2013:
+            case PaletteImageSetFamily.Office2013:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.Office2013ToolBarImages);
                 break;
-            case PaletteMode.Microsoft365Black:
-            case PaletteMode.Microsoft365BlackDarkMode:
-            case PaletteMode.Microsoft365BlackDarkModeAlternate:
-            case PaletteMode.Microsoft365Blue:
-            case PaletteMode.Microsoft365BlueDarkMode:
-            case PaletteMode.Microsoft365BlueLightMode:
-            case PaletteMode.Microsoft365Silver:
-            case PaletteMode.Microsoft365SilverDarkMode:
-            case PaletteMode.Microsoft365SilverLightMode:
-            case PaletteMode.Microsoft365White:
-            case PaletteMode.VisualStudio2010Render365:
+            case PaletteImageSetFamily.Microsoft365:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.Microsoft365ToolBarImages);
-                break;
-            case PaletteMode.MaterialLight:
-            case PaletteMode.MaterialDark:
-            case PaletteMode.MaterialLightRipple:
-            case PaletteMode.MaterialDarkRipple:
-                // TODO create our own Material images
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.Microsoft365ToolBarImages);
-                break;
-            default:
-                // Should not happen!
-
-                // Disable since palette mode is an enum and is not nullable
-                //Debug.Assert(paletteMode is not null);
-
-                DebugTools.NotImplemented(paletteMode.ToString());
                 break;
         }
     }

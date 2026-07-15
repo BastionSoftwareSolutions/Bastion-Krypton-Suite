@@ -170,75 +170,37 @@ public class KryptonHelpCommand : KryptonCommand
     private void UpdateImage(PaletteMode mode)
     {
 
-        switch (mode)
+        // A palette mode no longer selects images directly; the shared
+        // PaletteImageSetResolver maps every PaletteMode (including future ones)
+        // to its image-set family (BREAKAGE-LOG T1 consolidation).
+        switch (PaletteImageSetResolver.GetImageSetFamily(mode))
         {
-            case PaletteMode.Global:
+            case PaletteImageSetFamily.Inherit:
                 break;
-            case PaletteMode.ProfessionalSystem:
+            case PaletteImageSetFamily.Professional:
                 UpdateImage(ProfessionalControlBoxResources.ProfessionalHelpIconNormal);
                 break;
-            case PaletteMode.ProfessionalOffice2003:
+            case PaletteImageSetFamily.Office2003:
                 UpdateImage(Office2003ControlBoxResources.Office2003HelpIconNormal);
                 break;
-            // TODO: Re-enable this once completed
-            // case PaletteMode.Office2007DarkGray:
-            case PaletteMode.Office2007Blue:
-            case PaletteMode.Office2007BlueDarkMode:
-            case PaletteMode.Office2007BlueLightMode:
-            case PaletteMode.Office2007Silver:
-            case PaletteMode.Office2007SilverDarkMode:
-            case PaletteMode.Office2007SilverLightMode:
-            case PaletteMode.Office2007White:
-            case PaletteMode.Office2007Black:
-            case PaletteMode.Office2007BlackDarkMode:
+            case PaletteImageSetFamily.Office2007:
                 UpdateImage(Office2007ControlBoxResources.Office2007HelpIconNormal);
                 break;
-            // TODO: Re-enable this once completed
-            // case PaletteMode.Office2010DarkGray:
-            case PaletteMode.Office2010Blue:
-            case PaletteMode.Office2010BlueDarkMode:
-            case PaletteMode.Office2010BlueLightMode:
-            case PaletteMode.Office2010Silver:
-            case PaletteMode.Office2010SilverDarkMode:
-            case PaletteMode.Office2010SilverLightMode:
-            case PaletteMode.Office2010White:
-            case PaletteMode.Office2010Black:
-            case PaletteMode.Office2010BlackDarkMode:
+            case PaletteImageSetFamily.Office2010:
                 UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                 break;
-            // TODO: Re-enable this once completed
-            // case PaletteMode.Office2013DarkGray:
-            // case PaletteMode.Office2013LightGray:
-            case PaletteMode.Office2013White:
+            case PaletteImageSetFamily.Office2013:
                 UpdateImage(Office2013ControlBoxResources.Office2013HelpNormal);
                 break;
-            // TODO: Re-enable this once completed
-            // case PaletteMode.Microsoft365DarkGray:
-            case PaletteMode.Microsoft365Black:
-            case PaletteMode.Microsoft365BlackDarkMode:
-            case PaletteMode.Microsoft365Blue:
-            case PaletteMode.Microsoft365BlueDarkMode:
-            case PaletteMode.Microsoft365BlueLightMode:
-            case PaletteMode.Microsoft365Silver:
-            case PaletteMode.Microsoft365SilverDarkMode:
-            case PaletteMode.Microsoft365SilverLightMode:
-            case PaletteMode.Microsoft365White:
+            case PaletteImageSetFamily.Microsoft365:
                 UpdateImage(Microsoft365ControlBoxResources.Microsoft365HelpIconNormal);
                 break;
-            case PaletteMode.SparkleBlue:
-            case PaletteMode.SparkleBlueDarkMode:
-            case PaletteMode.SparkleBlueLightMode:
-            case PaletteMode.SparkleOrange:
-            case PaletteMode.SparkleOrangeDarkMode:
-            case PaletteMode.SparkleOrangeLightMode:
-            case PaletteMode.SparklePurple:
-            case PaletteMode.SparklePurpleDarkMode:
-            case PaletteMode.SparklePurpleLightMode:
-            case PaletteMode.Custom:
+            case PaletteImageSetFamily.Sparkle:
                 UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+            case PaletteImageSetFamily.Custom:
+                UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
+                break;
         }
 
         UpdateActiveImage(mode);
@@ -255,76 +217,36 @@ public class KryptonHelpCommand : KryptonCommand
     /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
     private void UpdateActiveImage(PaletteMode mode)
     {
-        switch (mode)
+        // A palette mode no longer selects images directly; the shared
+        // PaletteImageSetResolver maps every PaletteMode (including future ones)
+        // to its image-set family (BREAKAGE-LOG T1 consolidation).
+        switch (PaletteImageSetResolver.GetImageSetFamily(mode))
         {
-            case PaletteMode.Global:
+            case PaletteImageSetFamily.Inherit:
                 break;
-            case PaletteMode.ProfessionalSystem:
+            case PaletteImageSetFamily.Professional:
                 UpdateActiveImage(ProfessionalControlBoxResources.ProfessionalHelpIconNormal);
                 break;
-            case PaletteMode.ProfessionalOffice2003:
+            case PaletteImageSetFamily.Office2003:
                 UpdateActiveImage(ProfessionalControlBoxResources.ProfessionalHelpIconNormal);
                 break;
-            // TODO: Re-enable this once completed
-            // case PaletteMode.Office2007DarkGray:
-            case PaletteMode.Office2007Blue:
-            case PaletteMode.Office2007BlueDarkMode:
-            case PaletteMode.Office2007BlueLightMode:
-            case PaletteMode.Office2007Silver:
-            case PaletteMode.Office2007SilverDarkMode:
-            case PaletteMode.Office2007SilverLightMode:
-            case PaletteMode.Office2007White:
-            case PaletteMode.Office2007Black:
-            case PaletteMode.Office2007BlackDarkMode:
+            case PaletteImageSetFamily.Office2007:
                 UpdateActiveImage(Office2007ControlBoxResources.Office2007HelpIconHover);
                 break;
-            // TODO: Re-enable this once completed
-            // case PaletteMode.Office2010DarkGray:
-            case PaletteMode.Office2010Blue:
-            case PaletteMode.Office2010BlueDarkMode:
-            case PaletteMode.Office2010BlueLightMode:
-            case PaletteMode.Office2010Silver:
-            case PaletteMode.Office2010SilverDarkMode:
-            case PaletteMode.Office2010SilverLightMode:
-            case PaletteMode.Office2010White:
-            case PaletteMode.Office2010Black:
-            case PaletteMode.Office2010BlackDarkMode:
+            case PaletteImageSetFamily.Office2010:
                 UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                 break;
-            // TODO: Re-enable this once completed
-            // case PaletteMode.Office2013DarkGray:
-            // case PaletteMode.Office2013LightGray:
-            case PaletteMode.Office2013White:
+            case PaletteImageSetFamily.Office2013:
                 UpdateActiveImage(Office2013ControlBoxResources.Office2013HelpActive);
                 break;
-            // TODO: Re-enable this once completed
-            // case PaletteMode.Microsoft365DarkGray:
-            case PaletteMode.Microsoft365Black:
-            case PaletteMode.Microsoft365BlackDarkMode:
-            case PaletteMode.Microsoft365Blue:
-            case PaletteMode.Microsoft365BlueDarkMode:
-            case PaletteMode.Microsoft365BlueLightMode:
-            case PaletteMode.Microsoft365Silver:
-            case PaletteMode.Microsoft365SilverDarkMode:
-            case PaletteMode.Microsoft365SilverLightMode:
-            case PaletteMode.Microsoft365White:
+            case PaletteImageSetFamily.Microsoft365:
                 UpdateActiveImage(Microsoft365ControlBoxResources.Microsoft365HelpIconHover);
                 break;
-            case PaletteMode.SparkleBlue:
-            case PaletteMode.SparkleBlueDarkMode:
-            case PaletteMode.SparkleBlueLightMode:
-            case PaletteMode.SparkleOrange:
-            case PaletteMode.SparkleOrangeDarkMode:
-            case PaletteMode.SparkleOrangeLightMode:
-            case PaletteMode.SparklePurple:
-            case PaletteMode.SparklePurpleDarkMode:
-            case PaletteMode.SparklePurpleLightMode:
+            case PaletteImageSetFamily.Sparkle:
                 UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                 break;
-            case PaletteMode.Custom:
+            case PaletteImageSetFamily.Custom:
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
         }
     }
 
@@ -333,104 +255,29 @@ public class KryptonHelpCommand : KryptonCommand
     /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
     private void UpdateDisabledImage(PaletteMode mode)
     {
-        switch (mode)
+        // A palette mode no longer selects images directly; the shared
+        // PaletteImageSetResolver maps every PaletteMode (including future ones)
+        // to its image-set family (BREAKAGE-LOG T1 consolidation).
+        switch (PaletteImageSetResolver.GetImageSetFamily(mode))
         {
-            case PaletteMode.Global:
+            case PaletteImageSetFamily.Inherit:
                 break;
-            case PaletteMode.ProfessionalSystem:
+            case PaletteImageSetFamily.Professional:
                 break;
-            case PaletteMode.ProfessionalOffice2003:
+            case PaletteImageSetFamily.Office2003:
                 break;
-            // TODO: Re-enable this once completed
-            // case PaletteMode.Office2007DarkGray:
-            // break;
-            case PaletteMode.Office2007Blue:
+            case PaletteImageSetFamily.Office2007:
                 break;
-            case PaletteMode.Office2007BlueDarkMode:
+            case PaletteImageSetFamily.Office2010:
                 break;
-            case PaletteMode.Office2007BlueLightMode:
+            case PaletteImageSetFamily.Office2013:
                 break;
-            case PaletteMode.Office2007Silver:
+            case PaletteImageSetFamily.Microsoft365:
                 break;
-            case PaletteMode.Office2007SilverDarkMode:
+            case PaletteImageSetFamily.Sparkle:
                 break;
-            case PaletteMode.Office2007SilverLightMode:
+            case PaletteImageSetFamily.Custom:
                 break;
-            case PaletteMode.Office2007White:
-                break;
-            case PaletteMode.Office2007Black:
-                break;
-            case PaletteMode.Office2007BlackDarkMode:
-                break;
-            // TODO: Re-enable this once completed
-            // case PaletteMode.Office2010DarkGray:
-            //    break;
-            case PaletteMode.Office2010Blue:
-                break;
-            case PaletteMode.Office2010BlueDarkMode:
-                break;
-            case PaletteMode.Office2010BlueLightMode:
-                break;
-            case PaletteMode.Office2010Silver:
-                break;
-            case PaletteMode.Office2010SilverDarkMode:
-                break;
-            case PaletteMode.Office2010SilverLightMode:
-                break;
-            case PaletteMode.Office2010White:
-                break;
-            case PaletteMode.Office2010Black:
-                break;
-            case PaletteMode.Office2010BlackDarkMode:
-                break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2013DarkGray:
-            //case PaletteMode.Office2013LightGray:
-            case PaletteMode.Office2013White:
-                break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Microsoft365DarkGray:
-            //    break;
-            case PaletteMode.Microsoft365Black:
-                break;
-            case PaletteMode.Microsoft365BlackDarkMode:
-                break;
-            case PaletteMode.Microsoft365Blue:
-                break;
-            case PaletteMode.Microsoft365BlueDarkMode:
-                break;
-            case PaletteMode.Microsoft365BlueLightMode:
-                break;
-            case PaletteMode.Microsoft365Silver:
-                break;
-            case PaletteMode.Microsoft365SilverDarkMode:
-                break;
-            case PaletteMode.Microsoft365SilverLightMode:
-                break;
-            case PaletteMode.Microsoft365White:
-                break;
-            case PaletteMode.SparkleBlue:
-                break;
-            case PaletteMode.SparkleBlueDarkMode:
-                break;
-            case PaletteMode.SparkleBlueLightMode:
-                break;
-            case PaletteMode.SparkleOrange:
-                break;
-            case PaletteMode.SparkleOrangeDarkMode:
-                break;
-            case PaletteMode.SparkleOrangeLightMode:
-                break;
-            case PaletteMode.SparklePurple:
-                break;
-            case PaletteMode.SparklePurpleDarkMode:
-                break;
-            case PaletteMode.SparklePurpleLightMode:
-                break;
-            case PaletteMode.Custom:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
         }
     }
 
@@ -439,104 +286,29 @@ public class KryptonHelpCommand : KryptonCommand
     /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
     private void UpdateNormalImage(PaletteMode mode)
     {
-        switch (mode)
+        // A palette mode no longer selects images directly; the shared
+        // PaletteImageSetResolver maps every PaletteMode (including future ones)
+        // to its image-set family (BREAKAGE-LOG T1 consolidation).
+        switch (PaletteImageSetResolver.GetImageSetFamily(mode))
         {
-            case PaletteMode.Global:
+            case PaletteImageSetFamily.Inherit:
                 break;
-            case PaletteMode.ProfessionalSystem:
+            case PaletteImageSetFamily.Professional:
                 break;
-            case PaletteMode.ProfessionalOffice2003:
+            case PaletteImageSetFamily.Office2003:
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2007DarkGray:
-            //    break;
-            case PaletteMode.Office2007Blue:
+            case PaletteImageSetFamily.Office2007:
                 break;
-            case PaletteMode.Office2007BlueDarkMode:
+            case PaletteImageSetFamily.Office2010:
                 break;
-            case PaletteMode.Office2007BlueLightMode:
+            case PaletteImageSetFamily.Office2013:
                 break;
-            case PaletteMode.Office2007Silver:
+            case PaletteImageSetFamily.Microsoft365:
                 break;
-            case PaletteMode.Office2007SilverDarkMode:
+            case PaletteImageSetFamily.Sparkle:
                 break;
-            case PaletteMode.Office2007SilverLightMode:
+            case PaletteImageSetFamily.Custom:
                 break;
-            case PaletteMode.Office2007White:
-                break;
-            case PaletteMode.Office2007Black:
-                break;
-            case PaletteMode.Office2007BlackDarkMode:
-                break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2010DarkGray:
-            //    break;
-            case PaletteMode.Office2010Blue:
-                break;
-            case PaletteMode.Office2010BlueDarkMode:
-                break;
-            case PaletteMode.Office2010BlueLightMode:
-                break;
-            case PaletteMode.Office2010Silver:
-                break;
-            case PaletteMode.Office2010SilverDarkMode:
-                break;
-            case PaletteMode.Office2010SilverLightMode:
-                break;
-            case PaletteMode.Office2010White:
-                break;
-            case PaletteMode.Office2010Black:
-                break;
-            case PaletteMode.Office2010BlackDarkMode:
-                break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2013DarkGray:
-            //case PaletteMode.Office2013LightGray:
-            case PaletteMode.Office2013White:
-                break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Microsoft365DarkGray:
-            //    break;
-            case PaletteMode.Microsoft365Black:
-                break;
-            case PaletteMode.Microsoft365BlackDarkMode:
-                break;
-            case PaletteMode.Microsoft365Blue:
-                break;
-            case PaletteMode.Microsoft365BlueDarkMode:
-                break;
-            case PaletteMode.Microsoft365BlueLightMode:
-                break;
-            case PaletteMode.Microsoft365Silver:
-                break;
-            case PaletteMode.Microsoft365SilverDarkMode:
-                break;
-            case PaletteMode.Microsoft365SilverLightMode:
-                break;
-            case PaletteMode.Microsoft365White:
-                break;
-            case PaletteMode.SparkleBlue:
-                break;
-            case PaletteMode.SparkleBlueDarkMode:
-                break;
-            case PaletteMode.SparkleBlueLightMode:
-                break;
-            case PaletteMode.SparkleOrange:
-                break;
-            case PaletteMode.SparkleOrangeDarkMode:
-                break;
-            case PaletteMode.SparkleOrangeLightMode:
-                break;
-            case PaletteMode.SparklePurple:
-                break;
-            case PaletteMode.SparklePurpleDarkMode:
-                break;
-            case PaletteMode.SparklePurpleLightMode:
-                break;
-            case PaletteMode.Custom:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
         }
     }
 
@@ -545,104 +317,29 @@ public class KryptonHelpCommand : KryptonCommand
     /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
     private void UpdatePressedImage(PaletteMode mode)
     {
-        switch (mode)
+        // A palette mode no longer selects images directly; the shared
+        // PaletteImageSetResolver maps every PaletteMode (including future ones)
+        // to its image-set family (BREAKAGE-LOG T1 consolidation).
+        switch (PaletteImageSetResolver.GetImageSetFamily(mode))
         {
-            case PaletteMode.Global:
+            case PaletteImageSetFamily.Inherit:
                 break;
-            case PaletteMode.ProfessionalSystem:
+            case PaletteImageSetFamily.Professional:
                 break;
-            case PaletteMode.ProfessionalOffice2003:
+            case PaletteImageSetFamily.Office2003:
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2007DarkGray:
-            //    break;
-            case PaletteMode.Office2007Blue:
+            case PaletteImageSetFamily.Office2007:
                 break;
-            case PaletteMode.Office2007BlueDarkMode:
+            case PaletteImageSetFamily.Office2010:
                 break;
-            case PaletteMode.Office2007BlueLightMode:
+            case PaletteImageSetFamily.Office2013:
                 break;
-            case PaletteMode.Office2007Silver:
+            case PaletteImageSetFamily.Microsoft365:
                 break;
-            case PaletteMode.Office2007SilverDarkMode:
+            case PaletteImageSetFamily.Sparkle:
                 break;
-            case PaletteMode.Office2007SilverLightMode:
+            case PaletteImageSetFamily.Custom:
                 break;
-            case PaletteMode.Office2007White:
-                break;
-            case PaletteMode.Office2007Black:
-                break;
-            case PaletteMode.Office2007BlackDarkMode:
-                break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2010DarkGray:
-            //    break;
-            case PaletteMode.Office2010Blue:
-                break;
-            case PaletteMode.Office2010BlueDarkMode:
-                break;
-            case PaletteMode.Office2010BlueLightMode:
-                break;
-            case PaletteMode.Office2010Silver:
-                break;
-            case PaletteMode.Office2010SilverDarkMode:
-                break;
-            case PaletteMode.Office2010SilverLightMode:
-                break;
-            case PaletteMode.Office2010White:
-                break;
-            case PaletteMode.Office2010Black:
-                break;
-            case PaletteMode.Office2010BlackDarkMode:
-                break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2013DarkGray:
-            //case PaletteMode.Office2013LightGray:
-            case PaletteMode.Office2013White:
-                break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Microsoft365DarkGray:
-            //    break;
-            case PaletteMode.Microsoft365Black:
-                break;
-            case PaletteMode.Microsoft365BlackDarkMode:
-                break;
-            case PaletteMode.Microsoft365Blue:
-                break;
-            case PaletteMode.Microsoft365BlueDarkMode:
-                break;
-            case PaletteMode.Microsoft365BlueLightMode:
-                break;
-            case PaletteMode.Microsoft365Silver:
-                break;
-            case PaletteMode.Microsoft365SilverDarkMode:
-                break;
-            case PaletteMode.Microsoft365SilverLightMode:
-                break;
-            case PaletteMode.Microsoft365White:
-                break;
-            case PaletteMode.SparkleBlue:
-                break;
-            case PaletteMode.SparkleBlueDarkMode:
-                break;
-            case PaletteMode.SparkleBlueLightMode:
-                break;
-            case PaletteMode.SparkleOrange:
-                break;
-            case PaletteMode.SparkleOrangeDarkMode:
-                break;
-            case PaletteMode.SparkleOrangeLightMode:
-                break;
-            case PaletteMode.SparklePurple:
-                break;
-            case PaletteMode.SparklePurpleDarkMode:
-                break;
-            case PaletteMode.SparklePurpleLightMode:
-                break;
-            case PaletteMode.Custom:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
         }
     }
 
@@ -653,77 +350,37 @@ public class KryptonHelpCommand : KryptonCommand
     {
         if (_helpButtonSpec is not null)
         {
-            switch (mode)
+            // A palette mode no longer selects images directly; the shared
+            // PaletteImageSetResolver maps every PaletteMode (including future ones)
+            // to its image-set family (BREAKAGE-LOG T1 consolidation).
+            switch (PaletteImageSetResolver.GetImageSetFamily(mode))
             {
-                case PaletteMode.Global:
+                case PaletteImageSetFamily.Inherit:
                     break;
-                case PaletteMode.ProfessionalSystem:
+                case PaletteImageSetFamily.Professional:
                     AddImageStates(null, ProfessionalControlBoxResources.ProfessionalHelpIconDisabled, ProfessionalControlBoxResources.ProfessionalHelpIconNormal, null);
                     break;
-                case PaletteMode.ProfessionalOffice2003:
+                case PaletteImageSetFamily.Office2003:
                     AddImageStates(null, ProfessionalControlBoxResources.ProfessionalHelpIconDisabled, ProfessionalControlBoxResources.ProfessionalHelpIconNormal, null);
                     break;
-                // TODO: Re-enable this once completed
-                //case PaletteMode.Office2007DarkGray:
-                case PaletteMode.Office2007Blue:
-                case PaletteMode.Office2007BlueDarkMode:
-                case PaletteMode.Office2007BlueLightMode:
-                case PaletteMode.Office2007Silver:
-                case PaletteMode.Office2007SilverDarkMode:
-                case PaletteMode.Office2007SilverLightMode:
-                case PaletteMode.Office2007White:
-                case PaletteMode.Office2007Black:
-                case PaletteMode.Office2007BlackDarkMode:
+                case PaletteImageSetFamily.Office2007:
                     AddImageStates(Office2007ControlBoxResources.Office2007HelpIconHover, Office2007ControlBoxResources.Office2007HelpIconDisabled, Office2007ControlBoxResources.Office2007HelpIconNormal, Office2007ControlBoxResources.Office2007HelpIconPressed);
                     break;
-                // TODO: Re-enable this once completed
-                // case PaletteMode.Office2010DarkGray:
-                case PaletteMode.Office2010Blue:
-                case PaletteMode.Office2010BlueDarkMode:
-                case PaletteMode.Office2010BlueLightMode:
-                case PaletteMode.Office2010Silver:
-                case PaletteMode.Office2010SilverDarkMode:
-                case PaletteMode.Office2010SilverLightMode:
-                case PaletteMode.Office2010White:
-                case PaletteMode.Office2010Black:
-                case PaletteMode.Office2010BlackDarkMode:
+                case PaletteImageSetFamily.Office2010:
                     AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                     break;
-                // TODO: Re-enable this once completed
-                //case PaletteMode.Office2013DarkGray:
-                //case PaletteMode.Office2013LightGray:
-                case PaletteMode.Office2013White:
+                case PaletteImageSetFamily.Office2013:
                     AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                     break;
-                // TODO: Re-enable this once completed
-                // case PaletteMode.Microsoft365DarkGray:
-                case PaletteMode.Microsoft365Black:
-                case PaletteMode.Microsoft365BlackDarkMode:
-                case PaletteMode.Microsoft365Blue:
-                case PaletteMode.Microsoft365BlueDarkMode:
-                case PaletteMode.Microsoft365BlueLightMode:
-                case PaletteMode.Microsoft365Silver:
-                case PaletteMode.Microsoft365SilverDarkMode:
-                case PaletteMode.Microsoft365SilverLightMode:
-                case PaletteMode.Microsoft365White:
+                case PaletteImageSetFamily.Microsoft365:
                     AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                     break;
-                case PaletteMode.SparkleBlue:
-                case PaletteMode.SparkleBlueDarkMode:
-                case PaletteMode.SparkleBlueLightMode:
-                case PaletteMode.SparkleOrange:
-                case PaletteMode.SparkleOrangeDarkMode:
-                case PaletteMode.SparkleOrangeLightMode:
-                case PaletteMode.SparklePurple:
-                case PaletteMode.SparklePurpleDarkMode:
-                case PaletteMode.SparklePurpleLightMode:
+                case PaletteImageSetFamily.Sparkle:
                     AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                     break;
-                case PaletteMode.Custom:
+                case PaletteImageSetFamily.Custom:
                     AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
             }
         }
     }

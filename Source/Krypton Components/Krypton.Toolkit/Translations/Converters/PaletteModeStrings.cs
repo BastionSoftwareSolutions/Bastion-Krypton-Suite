@@ -84,6 +84,19 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_MATERIAL_DARK = @"Material - Dark";
     internal const string DEFAULT_PALETTE_MATERIAL_LIGHT_RIPPLE = @"Material - Light (Ripple)";
     internal const string DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE = @"Material - Dark (Ripple)";
+    internal const string DEFAULT_PALETTE_OFFICE_2003_OLIVE = @"Professional - Office 2003 (Olive)";
+    internal const string DEFAULT_PALETTE_OFFICE_2003_SILVER = @"Professional - Office 2003 (Silver)";
+    internal const string DEFAULT_PALETTE_OFFICE_2016_COLORFUL = @"Office 2016 - Colorful";
+    internal const string DEFAULT_PALETTE_OFFICE_2016_WHITE = @"Office 2016 - White";
+    internal const string DEFAULT_PALETTE_OFFICE_2016_DARK_GRAY = @"Office 2016 - Dark Gray";
+    internal const string DEFAULT_PALETTE_OFFICE_2019_COLORFUL = @"Office 2019 - Colorful";
+    internal const string DEFAULT_PALETTE_OFFICE_2019_WHITE = @"Office 2019 - White";
+    internal const string DEFAULT_PALETTE_OFFICE_2019_DARK_GRAY = @"Office 2019 - Dark Gray";
+    internal const string DEFAULT_PALETTE_OFFICE_2019_BLACK = @"Office 2019 - Black";
+    internal const string DEFAULT_PALETTE_OFFICE_2021_COLORFUL = @"Office 2021 - Colorful";
+    internal const string DEFAULT_PALETTE_OFFICE_2021_WHITE = @"Office 2021 - White";
+    internal const string DEFAULT_PALETTE_OFFICE_2021_DARK_GRAY = @"Office 2021 - Dark Gray";
+    internal const string DEFAULT_PALETTE_OFFICE_2021_BLACK = @"Office 2021 - Black";
     internal const string DEFAULT_PALETTE_CUSTOM = @"Custom";
 
     #endregion
@@ -170,6 +183,20 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_MATERIAL_DARK, PaletteMode.MaterialDark },
             { DEFAULT_PALETTE_MATERIAL_LIGHT_RIPPLE, PaletteMode.MaterialLightRipple },
             { DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE, PaletteMode.MaterialDarkRipple },
+            // Bastion additions (Phase 3) — appended before Custom, mirroring the enum order.
+            { DEFAULT_PALETTE_OFFICE_2003_OLIVE, PaletteMode.Office2003Olive },
+            { DEFAULT_PALETTE_OFFICE_2003_SILVER, PaletteMode.Office2003Silver },
+            { DEFAULT_PALETTE_OFFICE_2016_COLORFUL, PaletteMode.Office2016Colorful },
+            { DEFAULT_PALETTE_OFFICE_2016_WHITE, PaletteMode.Office2016White },
+            { DEFAULT_PALETTE_OFFICE_2016_DARK_GRAY, PaletteMode.Office2016DarkGray },
+            { DEFAULT_PALETTE_OFFICE_2019_COLORFUL, PaletteMode.Office2019Colorful },
+            { DEFAULT_PALETTE_OFFICE_2019_WHITE, PaletteMode.Office2019White },
+            { DEFAULT_PALETTE_OFFICE_2019_DARK_GRAY, PaletteMode.Office2019DarkGray },
+            { DEFAULT_PALETTE_OFFICE_2019_BLACK, PaletteMode.Office2019Black },
+            { DEFAULT_PALETTE_OFFICE_2021_COLORFUL, PaletteMode.Office2021Colorful },
+            { DEFAULT_PALETTE_OFFICE_2021_WHITE, PaletteMode.Office2021White },
+            { DEFAULT_PALETTE_OFFICE_2021_DARK_GRAY, PaletteMode.Office2021DarkGray },
+            { DEFAULT_PALETTE_OFFICE_2021_BLACK, PaletteMode.Office2021Black },
             { DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }
         });
 
@@ -248,7 +275,20 @@ public class PaletteModeStrings : GlobalId
         VisualStudio2010With2007Renderer.Equals(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2007) &&
         VisualStudio2010With2010Renderer.Equals(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2010) &&
         VisualStudio2010With2013Renderer.Equals(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2013) &&
-        VisualStudio2010With365Renderer.Equals(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365);
+        VisualStudio2010With365Renderer.Equals(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365) &&
+        Professional2003Olive.Equals(DEFAULT_PALETTE_OFFICE_2003_OLIVE) &&
+        Professional2003Silver.Equals(DEFAULT_PALETTE_OFFICE_2003_SILVER) &&
+        Office2016Colorful.Equals(DEFAULT_PALETTE_OFFICE_2016_COLORFUL) &&
+        Office2016White.Equals(DEFAULT_PALETTE_OFFICE_2016_WHITE) &&
+        Office2016DarkGray.Equals(DEFAULT_PALETTE_OFFICE_2016_DARK_GRAY) &&
+        Office2019Colorful.Equals(DEFAULT_PALETTE_OFFICE_2019_COLORFUL) &&
+        Office2019White.Equals(DEFAULT_PALETTE_OFFICE_2019_WHITE) &&
+        Office2019DarkGray.Equals(DEFAULT_PALETTE_OFFICE_2019_DARK_GRAY) &&
+        Office2019Black.Equals(DEFAULT_PALETTE_OFFICE_2019_BLACK) &&
+        Office2021Colorful.Equals(DEFAULT_PALETTE_OFFICE_2021_COLORFUL) &&
+        Office2021White.Equals(DEFAULT_PALETTE_OFFICE_2021_WHITE) &&
+        Office2021DarkGray.Equals(DEFAULT_PALETTE_OFFICE_2021_DARK_GRAY) &&
+        Office2021Black.Equals(DEFAULT_PALETTE_OFFICE_2021_BLACK);
 
     public void Reset()
     {
@@ -357,6 +397,32 @@ public class PaletteModeStrings : GlobalId
         VisualStudio2010With2013Renderer = DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2013;
 
         VisualStudio2010With365Renderer = DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365;
+
+        Professional2003Olive = DEFAULT_PALETTE_OFFICE_2003_OLIVE;
+
+        Professional2003Silver = DEFAULT_PALETTE_OFFICE_2003_SILVER;
+
+        Office2016Colorful = DEFAULT_PALETTE_OFFICE_2016_COLORFUL;
+
+        Office2016White = DEFAULT_PALETTE_OFFICE_2016_WHITE;
+
+        Office2016DarkGray = DEFAULT_PALETTE_OFFICE_2016_DARK_GRAY;
+
+        Office2019Colorful = DEFAULT_PALETTE_OFFICE_2019_COLORFUL;
+
+        Office2019White = DEFAULT_PALETTE_OFFICE_2019_WHITE;
+
+        Office2019DarkGray = DEFAULT_PALETTE_OFFICE_2019_DARK_GRAY;
+
+        Office2019Black = DEFAULT_PALETTE_OFFICE_2019_BLACK;
+
+        Office2021Colorful = DEFAULT_PALETTE_OFFICE_2021_COLORFUL;
+
+        Office2021White = DEFAULT_PALETTE_OFFICE_2021_WHITE;
+
+        Office2021DarkGray = DEFAULT_PALETTE_OFFICE_2021_DARK_GRAY;
+
+        Office2021Black = DEFAULT_PALETTE_OFFICE_2021_BLACK;
     }
 
     /// <summary>Gets or sets the custom palette name string.</summary>
@@ -804,6 +870,126 @@ public class PaletteModeStrings : GlobalId
     [DefaultValue(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365)]
     [RefreshProperties(RefreshProperties.All)]
     public string VisualStudio2010With365Renderer { get; set; }
+
+    #endregion
+
+    #region Office 2003 Variants
+
+    /// <summary>Gets or sets the Office 2003 Olive palette name string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The Office 2003 Olive palette name.")]
+    [DefaultValue(DEFAULT_PALETTE_OFFICE_2003_OLIVE)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string Professional2003Olive { get; set; }
+
+    /// <summary>Gets or sets the Office 2003 Silver palette name string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The Office 2003 Silver palette name.")]
+    [DefaultValue(DEFAULT_PALETTE_OFFICE_2003_SILVER)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string Professional2003Silver { get; set; }
+
+    #endregion
+
+    #region Office 2016
+
+    /// <summary>Gets or sets the Office 2016 Colorful palette name string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The Office 2016 Colorful palette name.")]
+    [DefaultValue(DEFAULT_PALETTE_OFFICE_2016_COLORFUL)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string Office2016Colorful { get; set; }
+
+    /// <summary>Gets or sets the Office 2016 White palette name string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The Office 2016 White palette name.")]
+    [DefaultValue(DEFAULT_PALETTE_OFFICE_2016_WHITE)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string Office2016White { get; set; }
+
+    /// <summary>Gets or sets the Office 2016 Dark Gray palette name string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The Office 2016 Dark Gray palette name.")]
+    [DefaultValue(DEFAULT_PALETTE_OFFICE_2016_DARK_GRAY)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string Office2016DarkGray { get; set; }
+
+    #endregion
+
+    #region Office 2019
+
+    /// <summary>Gets or sets the Office 2019 Colorful palette name string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The Office 2019 Colorful palette name.")]
+    [DefaultValue(DEFAULT_PALETTE_OFFICE_2019_COLORFUL)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string Office2019Colorful { get; set; }
+
+    /// <summary>Gets or sets the Office 2019 White palette name string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The Office 2019 White palette name.")]
+    [DefaultValue(DEFAULT_PALETTE_OFFICE_2019_WHITE)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string Office2019White { get; set; }
+
+    /// <summary>Gets or sets the Office 2019 Dark Gray palette name string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The Office 2019 Dark Gray palette name.")]
+    [DefaultValue(DEFAULT_PALETTE_OFFICE_2019_DARK_GRAY)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string Office2019DarkGray { get; set; }
+
+    /// <summary>Gets or sets the Office 2019 Black palette name string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The Office 2019 Black palette name.")]
+    [DefaultValue(DEFAULT_PALETTE_OFFICE_2019_BLACK)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string Office2019Black { get; set; }
+
+    #endregion
+
+    #region Office 2021
+
+    /// <summary>Gets or sets the Office 2021 Colorful palette name string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The Office 2021 Colorful palette name.")]
+    [DefaultValue(DEFAULT_PALETTE_OFFICE_2021_COLORFUL)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string Office2021Colorful { get; set; }
+
+    /// <summary>Gets or sets the Office 2021 White palette name string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The Office 2021 White palette name.")]
+    [DefaultValue(DEFAULT_PALETTE_OFFICE_2021_WHITE)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string Office2021White { get; set; }
+
+    /// <summary>Gets or sets the Office 2021 Dark Gray palette name string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The Office 2021 Dark Gray palette name.")]
+    [DefaultValue(DEFAULT_PALETTE_OFFICE_2021_DARK_GRAY)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string Office2021DarkGray { get; set; }
+
+    /// <summary>Gets or sets the Office 2021 Black palette name string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The Office 2021 Black palette name.")]
+    [DefaultValue(DEFAULT_PALETTE_OFFICE_2021_BLACK)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string Office2021Black { get; set; }
 
     #endregion
 

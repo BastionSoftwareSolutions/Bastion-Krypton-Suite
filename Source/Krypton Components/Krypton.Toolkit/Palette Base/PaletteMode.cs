@@ -392,6 +392,76 @@ public enum PaletteMode
     /// </summary>
     MaterialDarkRipple,
 
+    /*
+     * Bastion additions (Phase 3). Appended before Custom so that no existing ordinal shifts
+     * (the enum <-> PaletteModeStrings.SupportedThemes positional contract above).
+     */
+
+    /// <summary>
+    /// Specifies the Olive (Homestead) colour variant of the Office 2003 appearance.
+    /// </summary>
+    Office2003Olive,
+
+    /// <summary>
+    /// Specifies the Silver (Metallic) colour variant of the Office 2003 appearance.
+    /// </summary>
+    Office2003Silver,
+
+    /// <summary>
+    /// Specifies the Colorful variant of the Office 2016 appearance.
+    /// </summary>
+    Office2016Colorful,
+
+    /// <summary>
+    /// Specifies the White variant of the Office 2016 appearance.
+    /// </summary>
+    Office2016White,
+
+    /// <summary>
+    /// Specifies the Dark Gray variant of the Office 2016 appearance.
+    /// </summary>
+    Office2016DarkGray,
+
+    /// <summary>
+    /// Specifies the Colorful variant of the Office 2019 appearance.
+    /// </summary>
+    Office2019Colorful,
+
+    /// <summary>
+    /// Specifies the White variant of the Office 2019 appearance.
+    /// </summary>
+    Office2019White,
+
+    /// <summary>
+    /// Specifies the Dark Gray variant of the Office 2019 appearance.
+    /// </summary>
+    Office2019DarkGray,
+
+    /// <summary>
+    /// Specifies the Black variant of the Office 2019 appearance.
+    /// </summary>
+    Office2019Black,
+
+    /// <summary>
+    /// Specifies the Colorful variant of the Office 2021 appearance.
+    /// </summary>
+    Office2021Colorful,
+
+    /// <summary>
+    /// Specifies the White variant of the Office 2021 appearance.
+    /// </summary>
+    Office2021White,
+
+    /// <summary>
+    /// Specifies the Dark Gray variant of the Office 2021 appearance.
+    /// </summary>
+    Office2021DarkGray,
+
+    /// <summary>
+    /// Specifies the Black variant of the Office 2021 appearance.
+    /// </summary>
+    Office2021Black,
+
     /// <summary>
     /// Specifies a custom palette be used.
     /// </summary>

@@ -71,7 +71,21 @@ internal class PaletteClassTypeConverter : EnumConverter
             {PaletteMode.MaterialLight, typeof(PaletteMaterialLight)},
             {PaletteMode.MaterialDark, typeof(PaletteMaterialDark)},
             {PaletteMode.MaterialLightRipple, typeof(PaletteMaterialLightRipple)},
-            {PaletteMode.MaterialDarkRipple, typeof(PaletteMaterialDarkRipple)}
+            {PaletteMode.MaterialDarkRipple, typeof(PaletteMaterialDarkRipple)},
+            // Bastion additions (Phase 3)
+            {PaletteMode.Office2003Olive, typeof(PaletteOffice2003Olive)},
+            {PaletteMode.Office2003Silver, typeof(PaletteOffice2003Silver)},
+            {PaletteMode.Office2016Colorful, typeof(PaletteOffice2016Colorful)},
+            {PaletteMode.Office2016White, typeof(PaletteOffice2016White)},
+            {PaletteMode.Office2016DarkGray, typeof(PaletteOffice2016DarkGray)},
+            {PaletteMode.Office2019Colorful, typeof(PaletteOffice2019Colorful)},
+            {PaletteMode.Office2019White, typeof(PaletteOffice2019White)},
+            {PaletteMode.Office2019DarkGray, typeof(PaletteOffice2019DarkGray)},
+            {PaletteMode.Office2019Black, typeof(PaletteOffice2019Black)},
+            {PaletteMode.Office2021Colorful, typeof(PaletteOffice2021Colorful)},
+            {PaletteMode.Office2021White, typeof(PaletteOffice2021White)},
+            {PaletteMode.Office2021DarkGray, typeof(PaletteOffice2021DarkGray)},
+            {PaletteMode.Office2021Black, typeof(PaletteOffice2021Black)}
             //{PaletteMode.Custom, typeof(KryptonCustomPaletteBase)}
         });
 

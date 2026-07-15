@@ -158,77 +158,37 @@ public class KryptonIntegratedToolbarPrintPreviewCommand : KryptonCommand
     private void UpdateImage(PaletteMode mode)
     {
 
-        switch (mode)
+        // A palette mode no longer selects images directly; the shared
+        // PaletteImageSetResolver maps every PaletteMode (including future ones)
+        // to its image-set family (BREAKAGE-LOG T1 consolidation).
+        switch (PaletteImageSetResolver.GetImageSetFamily(mode))
         {
-            case PaletteMode.Global:
+            case PaletteImageSetFamily.Inherit:
                 break;
-            case PaletteMode.ProfessionalSystem:
+            case PaletteImageSetFamily.Professional:
                 UpdateImage(SystemToolbarImageResources.SystemToolbarPrintPreviewNormal);
                 break;
-            case PaletteMode.ProfessionalOffice2003:
+            case PaletteImageSetFamily.Office2003:
                 UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2007DarkGray:
-            case PaletteMode.Office2007Blue:
-            case PaletteMode.Office2007BlueDarkMode:
-            case PaletteMode.Office2007BlueLightMode:
-            case PaletteMode.Office2007Silver:
-            case PaletteMode.Office2007SilverDarkMode:
-            case PaletteMode.Office2007SilverLightMode:
-            case PaletteMode.Office2007White:
-            case PaletteMode.Office2007Black:
-            case PaletteMode.Office2007BlackDarkMode:
+            case PaletteImageSetFamily.Office2007:
                 UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2010DarkGray:
-            case PaletteMode.Office2010Blue:
-            case PaletteMode.Office2010BlueDarkMode:
-            case PaletteMode.Office2010BlueLightMode:
-            case PaletteMode.Office2010Silver:
-            case PaletteMode.Office2010SilverDarkMode:
-            case PaletteMode.Office2010SilverLightMode:
-            case PaletteMode.Office2010White:
-            case PaletteMode.Office2010Black:
-            case PaletteMode.Office2010BlackDarkMode:
+            case PaletteImageSetFamily.Office2010:
                 UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2013DarkGray:
-            //case PaletteMode.Office2013LightGray:
-            case PaletteMode.Office2013White:
+            case PaletteImageSetFamily.Office2013:
                 UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewNormal);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Microsoft365DarkGray:
-            case PaletteMode.Microsoft365Black:
-            case PaletteMode.Microsoft365BlackDarkMode:
-            case PaletteMode.Microsoft365Blue:
-            case PaletteMode.Microsoft365BlueDarkMode:
-            case PaletteMode.Microsoft365BlueLightMode:
-            case PaletteMode.Microsoft365Silver:
-            case PaletteMode.Microsoft365SilverDarkMode:
-            case PaletteMode.Microsoft365SilverLightMode:
-            case PaletteMode.Microsoft365White:
+            case PaletteImageSetFamily.Microsoft365:
                 UpdateImage(Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal);
                 break;
-            case PaletteMode.SparkleBlue:
-            case PaletteMode.SparkleBlueDarkMode:
-            case PaletteMode.SparkleBlueLightMode:
-            case PaletteMode.SparkleOrange:
-            case PaletteMode.SparkleOrangeDarkMode:
-            case PaletteMode.SparkleOrangeLightMode:
-            case PaletteMode.SparklePurple:
-            case PaletteMode.SparklePurpleDarkMode:
-            case PaletteMode.SparklePurpleLightMode:
+            case PaletteImageSetFamily.Sparkle:
                 UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                 break;
-            case PaletteMode.Custom:
+            case PaletteImageSetFamily.Custom:
                 UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
         }
 
         UpdateActiveImage(mode);
@@ -245,76 +205,36 @@ public class KryptonIntegratedToolbarPrintPreviewCommand : KryptonCommand
     /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
     private void UpdateActiveImage(PaletteMode mode)
     {
-        switch (mode)
+        // A palette mode no longer selects images directly; the shared
+        // PaletteImageSetResolver maps every PaletteMode (including future ones)
+        // to its image-set family (BREAKAGE-LOG T1 consolidation).
+        switch (PaletteImageSetResolver.GetImageSetFamily(mode))
         {
-            case PaletteMode.Global:
+            case PaletteImageSetFamily.Inherit:
                 break;
-            case PaletteMode.ProfessionalSystem:
+            case PaletteImageSetFamily.Professional:
                 UpdateActiveImage(SystemToolbarImageResources.SystemToolbarPrintPreviewNormal);
                 break;
-            case PaletteMode.ProfessionalOffice2003:
+            case PaletteImageSetFamily.Office2003:
                 UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2007DarkGray:
-            case PaletteMode.Office2007Blue:
-            case PaletteMode.Office2007BlueDarkMode:
-            case PaletteMode.Office2007BlueLightMode:
-            case PaletteMode.Office2007Silver:
-            case PaletteMode.Office2007SilverDarkMode:
-            case PaletteMode.Office2007SilverLightMode:
-            case PaletteMode.Office2007White:
-            case PaletteMode.Office2007Black:
-            case PaletteMode.Office2007BlackDarkMode:
+            case PaletteImageSetFamily.Office2007:
                 UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2010DarkGray:
-            case PaletteMode.Office2010Blue:
-            case PaletteMode.Office2010BlueDarkMode:
-            case PaletteMode.Office2010BlueLightMode:
-            case PaletteMode.Office2010Silver:
-            case PaletteMode.Office2010SilverDarkMode:
-            case PaletteMode.Office2010SilverLightMode:
-            case PaletteMode.Office2010White:
-            case PaletteMode.Office2010Black:
-            case PaletteMode.Office2010BlackDarkMode:
+            case PaletteImageSetFamily.Office2010:
                 UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2013DarkGray:
-            //case PaletteMode.Office2013LightGray:
-            case PaletteMode.Office2013White:
+            case PaletteImageSetFamily.Office2013:
                 UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewNormal);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Microsoft365DarkGray:
-            case PaletteMode.Microsoft365Black:
-            case PaletteMode.Microsoft365BlackDarkMode:
-            case PaletteMode.Microsoft365Blue:
-            case PaletteMode.Microsoft365BlueDarkMode:
-            case PaletteMode.Microsoft365BlueLightMode:
-            case PaletteMode.Microsoft365Silver:
-            case PaletteMode.Microsoft365SilverDarkMode:
-            case PaletteMode.Microsoft365SilverLightMode:
-            case PaletteMode.Microsoft365White:
+            case PaletteImageSetFamily.Microsoft365:
                 UpdateActiveImage(Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal);
                 break;
-            case PaletteMode.SparkleBlue:
-            case PaletteMode.SparkleBlueDarkMode:
-            case PaletteMode.SparkleBlueLightMode:
-            case PaletteMode.SparkleOrange:
-            case PaletteMode.SparkleOrangeDarkMode:
-            case PaletteMode.SparkleOrangeLightMode:
-            case PaletteMode.SparklePurple:
-            case PaletteMode.SparklePurpleDarkMode:
-            case PaletteMode.SparklePurpleLightMode:
+            case PaletteImageSetFamily.Sparkle:
                 UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                 break;
-            case PaletteMode.Custom:
+            case PaletteImageSetFamily.Custom:
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
         }
     }
 
@@ -323,76 +243,36 @@ public class KryptonIntegratedToolbarPrintPreviewCommand : KryptonCommand
     /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
     private void UpdateDisabledImage(PaletteMode mode)
     {
-        switch (mode)
+        // A palette mode no longer selects images directly; the shared
+        // PaletteImageSetResolver maps every PaletteMode (including future ones)
+        // to its image-set family (BREAKAGE-LOG T1 consolidation).
+        switch (PaletteImageSetResolver.GetImageSetFamily(mode))
         {
-            case PaletteMode.Global:
+            case PaletteImageSetFamily.Inherit:
                 break;
-            case PaletteMode.ProfessionalSystem:
+            case PaletteImageSetFamily.Professional:
                 UpdateActiveImage(SystemToolbarImageResources.SystemToolbarPrintPreviewDisabled);
                 break;
-            case PaletteMode.ProfessionalOffice2003:
+            case PaletteImageSetFamily.Office2003:
                 UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewDisabled);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2007DarkGray:
-            case PaletteMode.Office2007Blue:
-            case PaletteMode.Office2007BlueDarkMode:
-            case PaletteMode.Office2007BlueLightMode:
-            case PaletteMode.Office2007Silver:
-            case PaletteMode.Office2007SilverDarkMode:
-            case PaletteMode.Office2007SilverLightMode:
-            case PaletteMode.Office2007White:
-            case PaletteMode.Office2007Black:
-            case PaletteMode.Office2007BlackDarkMode:
+            case PaletteImageSetFamily.Office2007:
                 UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewDisabled);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2010DarkGray:
-            case PaletteMode.Office2010Blue:
-            case PaletteMode.Office2010BlueDarkMode:
-            case PaletteMode.Office2010BlueLightMode:
-            case PaletteMode.Office2010Silver:
-            case PaletteMode.Office2010SilverDarkMode:
-            case PaletteMode.Office2010SilverLightMode:
-            case PaletteMode.Office2010White:
-            case PaletteMode.Office2010Black:
-            case PaletteMode.Office2010BlackDarkMode:
+            case PaletteImageSetFamily.Office2010:
                 UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewDisabled);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2013DarkGray:
-            //case PaletteMode.Office2013LightGray:
-            case PaletteMode.Office2013White:
+            case PaletteImageSetFamily.Office2013:
                 UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewDisabled);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Microsoft365DarkGray:
-            case PaletteMode.Microsoft365Black:
-            case PaletteMode.Microsoft365BlackDarkMode:
-            case PaletteMode.Microsoft365Blue:
-            case PaletteMode.Microsoft365BlueDarkMode:
-            case PaletteMode.Microsoft365BlueLightMode:
-            case PaletteMode.Microsoft365Silver:
-            case PaletteMode.Microsoft365SilverDarkMode:
-            case PaletteMode.Microsoft365SilverLightMode:
-            case PaletteMode.Microsoft365White:
+            case PaletteImageSetFamily.Microsoft365:
                 UpdateActiveImage(Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewDisabled);
                 break;
-            case PaletteMode.SparkleBlue:
-            case PaletteMode.SparkleBlueDarkMode:
-            case PaletteMode.SparkleBlueLightMode:
-            case PaletteMode.SparkleOrange:
-            case PaletteMode.SparkleOrangeDarkMode:
-            case PaletteMode.SparkleOrangeLightMode:
-            case PaletteMode.SparklePurple:
-            case PaletteMode.SparklePurpleDarkMode:
-            case PaletteMode.SparklePurpleLightMode:
+            case PaletteImageSetFamily.Sparkle:
                 UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewDisabled);
                 break;
-            case PaletteMode.Custom:
+            case PaletteImageSetFamily.Custom:
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
         }
     }
 
@@ -401,76 +281,36 @@ public class KryptonIntegratedToolbarPrintPreviewCommand : KryptonCommand
     /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
     private void UpdateNormalImage(PaletteMode mode)
     {
-        switch (mode)
+        // A palette mode no longer selects images directly; the shared
+        // PaletteImageSetResolver maps every PaletteMode (including future ones)
+        // to its image-set family (BREAKAGE-LOG T1 consolidation).
+        switch (PaletteImageSetResolver.GetImageSetFamily(mode))
         {
-            case PaletteMode.Global:
+            case PaletteImageSetFamily.Inherit:
                 break;
-            case PaletteMode.ProfessionalSystem:
+            case PaletteImageSetFamily.Professional:
                 UpdateActiveImage(SystemToolbarImageResources.SystemToolbarPrintPreviewNormal);
                 break;
-            case PaletteMode.ProfessionalOffice2003:
+            case PaletteImageSetFamily.Office2003:
                 UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2007DarkGray:
-            case PaletteMode.Office2007Blue:
-            case PaletteMode.Office2007BlueDarkMode:
-            case PaletteMode.Office2007BlueLightMode:
-            case PaletteMode.Office2007Silver:
-            case PaletteMode.Office2007SilverDarkMode:
-            case PaletteMode.Office2007SilverLightMode:
-            case PaletteMode.Office2007White:
-            case PaletteMode.Office2007Black:
-            case PaletteMode.Office2007BlackDarkMode:
+            case PaletteImageSetFamily.Office2007:
                 UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2010DarkGray:
-            case PaletteMode.Office2010Blue:
-            case PaletteMode.Office2010BlueDarkMode:
-            case PaletteMode.Office2010BlueLightMode:
-            case PaletteMode.Office2010Silver:
-            case PaletteMode.Office2010SilverDarkMode:
-            case PaletteMode.Office2010SilverLightMode:
-            case PaletteMode.Office2010White:
-            case PaletteMode.Office2010Black:
-            case PaletteMode.Office2010BlackDarkMode:
+            case PaletteImageSetFamily.Office2010:
                 UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2013DarkGray:
-            //case PaletteMode.Office2013LightGray:
-            case PaletteMode.Office2013White:
+            case PaletteImageSetFamily.Office2013:
                 UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewNormal);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Microsoft365DarkGray:
-            case PaletteMode.Microsoft365Black:
-            case PaletteMode.Microsoft365BlackDarkMode:
-            case PaletteMode.Microsoft365Blue:
-            case PaletteMode.Microsoft365BlueDarkMode:
-            case PaletteMode.Microsoft365BlueLightMode:
-            case PaletteMode.Microsoft365Silver:
-            case PaletteMode.Microsoft365SilverDarkMode:
-            case PaletteMode.Microsoft365SilverLightMode:
-            case PaletteMode.Microsoft365White:
+            case PaletteImageSetFamily.Microsoft365:
                 UpdateActiveImage(Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal);
                 break;
-            case PaletteMode.SparkleBlue:
-            case PaletteMode.SparkleBlueDarkMode:
-            case PaletteMode.SparkleBlueLightMode:
-            case PaletteMode.SparkleOrange:
-            case PaletteMode.SparkleOrangeDarkMode:
-            case PaletteMode.SparkleOrangeLightMode:
-            case PaletteMode.SparklePurple:
-            case PaletteMode.SparklePurpleDarkMode:
-            case PaletteMode.SparklePurpleLightMode:
+            case PaletteImageSetFamily.Sparkle:
                 UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                 break;
-            case PaletteMode.Custom:
+            case PaletteImageSetFamily.Custom:
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
         }
     }
 
@@ -479,76 +319,36 @@ public class KryptonIntegratedToolbarPrintPreviewCommand : KryptonCommand
     /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
     private void UpdatePressedImage(PaletteMode mode)
     {
-        switch (mode)
+        // A palette mode no longer selects images directly; the shared
+        // PaletteImageSetResolver maps every PaletteMode (including future ones)
+        // to its image-set family (BREAKAGE-LOG T1 consolidation).
+        switch (PaletteImageSetResolver.GetImageSetFamily(mode))
         {
-            case PaletteMode.Global:
+            case PaletteImageSetFamily.Inherit:
                 break;
-            case PaletteMode.ProfessionalSystem:
+            case PaletteImageSetFamily.Professional:
                 UpdateActiveImage(SystemToolbarImageResources.SystemToolbarPrintPreviewNormal);
                 break;
-            case PaletteMode.ProfessionalOffice2003:
+            case PaletteImageSetFamily.Office2003:
                 UpdateActiveImage(Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2007DarkGray:
-            case PaletteMode.Office2007Blue:
-            case PaletteMode.Office2007BlueDarkMode:
-            case PaletteMode.Office2007BlueLightMode:
-            case PaletteMode.Office2007Silver:
-            case PaletteMode.Office2007SilverDarkMode:
-            case PaletteMode.Office2007SilverLightMode:
-            case PaletteMode.Office2007White:
-            case PaletteMode.Office2007Black:
-            case PaletteMode.Office2007BlackDarkMode:
+            case PaletteImageSetFamily.Office2007:
                 UpdateActiveImage(Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2010DarkGray:
-            case PaletteMode.Office2010Blue:
-            case PaletteMode.Office2010BlueDarkMode:
-            case PaletteMode.Office2010BlueLightMode:
-            case PaletteMode.Office2010Silver:
-            case PaletteMode.Office2010SilverDarkMode:
-            case PaletteMode.Office2010SilverLightMode:
-            case PaletteMode.Office2010White:
-            case PaletteMode.Office2010Black:
-            case PaletteMode.Office2010BlackDarkMode:
+            case PaletteImageSetFamily.Office2010:
                 UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Office2013DarkGray:
-            //case PaletteMode.Office2013LightGray:
-            case PaletteMode.Office2013White:
+            case PaletteImageSetFamily.Office2013:
                 UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewNormal);
                 break;
-            // TODO: Re-enable this once completed
-            //case PaletteMode.Microsoft365DarkGray:
-            case PaletteMode.Microsoft365Black:
-            case PaletteMode.Microsoft365BlackDarkMode:
-            case PaletteMode.Microsoft365Blue:
-            case PaletteMode.Microsoft365BlueDarkMode:
-            case PaletteMode.Microsoft365BlueLightMode:
-            case PaletteMode.Microsoft365Silver:
-            case PaletteMode.Microsoft365SilverDarkMode:
-            case PaletteMode.Microsoft365SilverLightMode:
-            case PaletteMode.Microsoft365White:
+            case PaletteImageSetFamily.Microsoft365:
                 UpdateActiveImage(Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal);
                 break;
-            case PaletteMode.SparkleBlue:
-            case PaletteMode.SparkleBlueDarkMode:
-            case PaletteMode.SparkleBlueLightMode:
-            case PaletteMode.SparkleOrange:
-            case PaletteMode.SparkleOrangeDarkMode:
-            case PaletteMode.SparkleOrangeLightMode:
-            case PaletteMode.SparklePurple:
-            case PaletteMode.SparklePurpleDarkMode:
-            case PaletteMode.SparklePurpleLightMode:
+            case PaletteImageSetFamily.Sparkle:
                 UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                 break;
-            case PaletteMode.Custom:
+            case PaletteImageSetFamily.Custom:
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
         }
     }
 
@@ -559,77 +359,37 @@ public class KryptonIntegratedToolbarPrintPreviewCommand : KryptonCommand
     {
         if (_printPreviewButtonSpec != null)
         {
-            switch (mode)
+            // A palette mode no longer selects images directly; the shared
+            // PaletteImageSetResolver maps every PaletteMode (including future ones)
+            // to its image-set family (BREAKAGE-LOG T1 consolidation).
+            switch (PaletteImageSetResolver.GetImageSetFamily(mode))
             {
-                case PaletteMode.Global:
+                case PaletteImageSetFamily.Inherit:
                     break;
-                case PaletteMode.ProfessionalSystem:
+                case PaletteImageSetFamily.Professional:
                     AddImageStates(null, SystemToolbarImageResources.SystemToolbarPrintPreviewDisabled, SystemToolbarImageResources.SystemToolbarPrintPreviewNormal, null);
                     break;
-                case PaletteMode.ProfessionalOffice2003:
+                case PaletteImageSetFamily.Office2003:
                     AddImageStates(null, Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewDisabled, Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal, null);
                     break;
-                // TODO: Re-enable this once completed
-                //case PaletteMode.Office2007DarkGray:
-                case PaletteMode.Office2007Blue:
-                case PaletteMode.Office2007BlueDarkMode:
-                case PaletteMode.Office2007BlueLightMode:
-                case PaletteMode.Office2007Silver:
-                case PaletteMode.Office2007SilverDarkMode:
-                case PaletteMode.Office2007SilverLightMode:
-                case PaletteMode.Office2007White:
-                case PaletteMode.Office2007Black:
-                case PaletteMode.Office2007BlackDarkMode:
+                case PaletteImageSetFamily.Office2007:
                     AddImageStates(Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal, Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewDisabled, Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal, Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal);
                     break;
-                // TODO: Re-enable this once completed
-                //case PaletteMode.Office2010DarkGray:
-                case PaletteMode.Office2010Blue:
-                case PaletteMode.Office2010BlueDarkMode:
-                case PaletteMode.Office2010BlueLightMode:
-                case PaletteMode.Office2010Silver:
-                case PaletteMode.Office2010SilverDarkMode:
-                case PaletteMode.Office2010SilverLightMode:
-                case PaletteMode.Office2010White:
-                case PaletteMode.Office2010Black:
-                case PaletteMode.Office2010BlackDarkMode:
+                case PaletteImageSetFamily.Office2010:
                     AddImageStates(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal, Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewDisabled, Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal, Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                     break;
-                // TODO: Re-enable this once completed
-                //case PaletteMode.Office2013DarkGray:
-                //case PaletteMode.Office2013LightGray:
-                case PaletteMode.Office2013White:
+                case PaletteImageSetFamily.Office2013:
                     AddImageStates(Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal, Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewDisabled, Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal, Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal);
                     break;
-                // TODO: Re-enable this once completed
-                //case PaletteMode.Microsoft365DarkGray:
-                case PaletteMode.Microsoft365Black:
-                case PaletteMode.Microsoft365BlackDarkMode:
-                case PaletteMode.Microsoft365Blue:
-                case PaletteMode.Microsoft365BlueDarkMode:
-                case PaletteMode.Microsoft365BlueLightMode:
-                case PaletteMode.Microsoft365Silver:
-                case PaletteMode.Microsoft365SilverDarkMode:
-                case PaletteMode.Microsoft365SilverLightMode:
-                case PaletteMode.Microsoft365White:
+                case PaletteImageSetFamily.Microsoft365:
                     AddImageStates(Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal, Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewDisabled, Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal, Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal);
                     break;
-                case PaletteMode.SparkleBlue:
-                case PaletteMode.SparkleBlueDarkMode:
-                case PaletteMode.SparkleBlueLightMode:
-                case PaletteMode.SparkleOrange:
-                case PaletteMode.SparkleOrangeDarkMode:
-                case PaletteMode.SparkleOrangeLightMode:
-                case PaletteMode.SparklePurple:
-                case PaletteMode.SparklePurpleDarkMode:
-                case PaletteMode.SparklePurpleLightMode:
+                case PaletteImageSetFamily.Sparkle:
                     AddImageStates(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal, Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewDisabled, Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal, Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                     break;
-                case PaletteMode.Custom:
+                case PaletteImageSetFamily.Custom:
                     AddImageStates(Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal, Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewDisabled, Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal, Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
             }
         }
     }

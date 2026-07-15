@@ -593,6 +593,9 @@ public static class GraphicsExtensions
         {
             PaletteMode.ProfessionalSystem => true,
             PaletteMode.ProfessionalOffice2003 => true,
+            // Bastion: the Office 2003 Olive/Silver companions share the Luna-era icon style.
+            PaletteMode.Office2003Olive => true,
+            PaletteMode.Office2003Silver => true,
             PaletteMode.Office2007Blue => true,
             PaletteMode.Office2007BlueDarkMode => true,
             PaletteMode.Office2007BlueLightMode => true,
@@ -661,6 +664,18 @@ public static class GraphicsExtensions
             PaletteMode.MaterialDark => true,
             PaletteMode.MaterialLightRipple => true,
             PaletteMode.MaterialDarkRipple => true,
+            // Bastion: the Office 2016/2019/2021 palettes are modern (Microsoft 365-era) looks.
+            PaletteMode.Office2016Colorful => true,
+            PaletteMode.Office2016White => true,
+            PaletteMode.Office2016DarkGray => true,
+            PaletteMode.Office2019Colorful => true,
+            PaletteMode.Office2019White => true,
+            PaletteMode.Office2019DarkGray => true,
+            PaletteMode.Office2019Black => true,
+            PaletteMode.Office2021Colorful => true,
+            PaletteMode.Office2021White => true,
+            PaletteMode.Office2021DarkGray => true,
+            PaletteMode.Office2021Black => true,
             _ => false
         };
     }

@@ -23,22 +23,12 @@ public class PaletteProfessionalOffice2003 : PaletteOffice2003Base
         Color.FromArgb( 89, 135, 214),   // Header1Begin
         Color.FromArgb(  4,  57, 148) // Header1End
     ];
-
-    private static readonly Color[] _colorsG =
-    [
-        Color.FromArgb(175, 192, 130),   // Header1Begin
-        Color.FromArgb( 99, 122,  69) // Header1End
-    ];
-
-    private static readonly Color[] _colorsS =
-    [
-        Color.FromArgb(168, 167, 191),   // Header1Begin
-        Color.FromArgb(113, 112, 145) // Header1End
-    ];
     #endregion
 
     #region Instance Fields
-    private bool _usingOffice2003;
+    // BASTION (BREAKAGE-LOG T2): always true now that the Office 2003 look is applied
+    // unconditionally — see GenerateColorTable below.
+    private readonly bool _usingOffice2003 = true;
     #endregion
 
     #region Identity
@@ -49,6 +39,26 @@ public class PaletteProfessionalOffice2003 : PaletteOffice2003Base
     {
         ThemeName = nameof(PaletteProfessionalOffice2003);
     }
+
+    /// <summary>
+    /// Initialize a new instance of the PaletteProfessionalOffice2003 class with a specific
+    /// colour scheme (used by the Office 2003 Olive/Silver companion palettes).
+    /// </summary>
+    /// <param name="scheme">Colour scheme to apply.</param>
+    protected PaletteProfessionalOffice2003(KryptonColorSchemeBase scheme)
+        : base(scheme)
+    {
+        ThemeName = nameof(PaletteProfessionalOffice2003);
+    }
+    #endregion
+
+    #region Header Colors
+    /// <summary>
+    /// Gets the pair of header gradient colours fed to the professional colour table.
+    /// The default is the Office 2003 Luna Blue pair; the Olive/Silver companion palettes
+    /// override this with their Homestead/Metallic pairs.
+    /// </summary>
+    protected virtual Color[] HeaderColors => _colorsB;
     #endregion
 
     #region ColorTable
@@ -58,33 +68,15 @@ public class PaletteProfessionalOffice2003 : PaletteOffice2003Base
     /// <returns>KryptonColorTable instance.</returns>
     internal override KryptonProfessionalKCT GenerateColorTable(bool _)
     {
-        if (Environment.OSVersion.Version.Major < 6)
-        {
-            // Are visual styles being used in this application?
-            if (VisualStyleInformation.IsEnabledByUser)
-            {
-                // Is a predefined scheme being used?
-                switch (VisualStyleInformation.ColorScheme)
-                {
-                    case @"NormalColor":
-                        _usingOffice2003 = true;
-                        return new KryptonProfessionalKCT(_colorsB, false, this);
-                    case @"HomeStead":
-                        _usingOffice2003 = true;
-                        return new KryptonProfessionalKCT(_colorsG, false, this);
-                    case @"Metallic":
-                        _usingOffice2003 = true;
-                        return new KryptonProfessionalKCT(_colorsS, false, this);
-                }
-            }
-        }
-
-        // Not using a recognized office 2003 color scheme
-        _usingOffice2003 = false;
-
-        // Not a recognized scheme, so get the base class to generate something
-        // that looks sensible based on the current system settings
-        return base.GenerateColorTable(true);
+        // BASTION (BREAKAGE-LOG T2): upstream only applied the Office 2003 Luna colours when
+        // running on Windows XP/2003 (Environment.OSVersion.Version.Major < 6) with a matching
+        // visual-styles colour scheme; on Vista through Windows 11 the palette silently fell
+        // back to the system professional colours, so "Professional - Office 2003" never looked
+        // like Office 2003 on any supported OS. The gate is removed so the Luna Blue colours
+        // (or the Olive/Silver pairs supplied by the companion palettes via HeaderColors) apply
+        // unconditionally. The previous system-coloured behaviour remains available through
+        // PaletteMode.ProfessionalSystem.
+        return new KryptonProfessionalKCT(HeaderColors, false, this);
     }
     #endregion
 
@@ -521,8 +513,18 @@ public class PaletteOffice2003Base : PaletteBase
     /// Initialize a new instance of the PaletteOffice2003Base class.
     /// </summary>
     public PaletteOffice2003Base()
+        : this(new PaletteProfessionalSystem_BaseScheme())
     {
-        BaseColors = new PaletteProfessionalSystem_BaseScheme();
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the PaletteOffice2003Base class with a specific colour
+    /// scheme (used by the Bastion Office 2003 variant palettes).
+    /// </summary>
+    /// <param name="scheme">Colour scheme to apply.</param>
+    protected PaletteOffice2003Base(KryptonColorSchemeBase scheme)
+    {
+        BaseColors = scheme;
 
         ThemeName = nameof(PaletteOffice2003Base);
 
