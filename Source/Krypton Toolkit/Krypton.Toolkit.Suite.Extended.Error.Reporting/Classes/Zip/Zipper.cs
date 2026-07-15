@@ -31,10 +31,24 @@ internal class Zipper : IZipper
 {
     public void Zip(string zipFile, IEnumerable<string> files)
     {
+#if NET46
+        // ProDotNetZip (Ionic.Zip) has no net46-compatible package asset; the in-box
+        // System.IO.Compression produces an equivalent archive for this usage
+        // (each file stored at the archive root).
+        using (var zipStream = new FileStream(zipFile, FileMode.Create))
+        using (var archive = new System.IO.Compression.ZipArchive(zipStream, System.IO.Compression.ZipArchiveMode.Create))
+        {
+            foreach (var file in files)
+            {
+                System.IO.Compression.ZipFileExtensions.CreateEntryFromFile(archive, file, Path.GetFileName(file));
+            }
+        }
+#else
         using (var zip = new ZipFile(zipFile))
         {
             zip.AddFiles(files, directoryPathInArchive: "");
             zip.Save();
         }
+#endif
     }
 }

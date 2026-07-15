@@ -159,8 +159,10 @@ public abstract class VisualForm : Form, IKryptonDebug
 
         FadeValues = new FadeValues();
 
-#if !NET462
-            DpiChanged += OnDpiChanged;
+#if NET47_OR_GREATER || !NETFRAMEWORK
+        // DpiChanged (and DpiChangedEventArgs) require .NET Framework 4.7+; on net46 DPI factors
+        // are still initialised via UpdateDpiFactors() but do not track per-monitor DPI changes.
+        DpiChanged += OnDpiChanged;
 #endif
         // Note: Will not handle movement between monitors
         UpdateDpiFactors();
@@ -1771,7 +1773,7 @@ public abstract class VisualForm : Form, IKryptonDebug
         // PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
     }
 
-#if !NET462
+#if NET47_OR_GREATER || !NETFRAMEWORK
         private void OnDpiChanged(object? sender, DpiChangedEventArgs e)
         {
             UpdateDpiFactors();

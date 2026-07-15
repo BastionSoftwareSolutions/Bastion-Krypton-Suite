@@ -203,6 +203,12 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
+	<!-- Bastion: SDK-style .NET Framework builds do not reference System.Net.Http by default;
+	     mirrors the same reference in the core's Krypton.Toolkit csproj. -->
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+		<Reference Include="System.Net.Http" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 		<PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />

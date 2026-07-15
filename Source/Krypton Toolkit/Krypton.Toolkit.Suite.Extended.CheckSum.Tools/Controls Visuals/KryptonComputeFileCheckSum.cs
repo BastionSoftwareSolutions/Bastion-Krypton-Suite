@@ -583,7 +583,13 @@ public partial class KryptonComputeFileCheckSum : KryptonForm
         {
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
 
+#if NET46
+            // The classic WindowsAPICodePack used on net46 has no nullable-maximum overload;
+            // the progress scale is percentage-based, so the maximum is 100.
+            TaskbarManager.Instance.SetProgressValue(e.ProgressPercentage, 100);
+#else
             TaskbarManager.Instance.SetProgressValue(e.ProgressPercentage, null);
+#endif
         }
 
         kpbtsiCalculationProgress.Visible = true;
@@ -601,7 +607,12 @@ public partial class KryptonComputeFileCheckSum : KryptonForm
         {
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
 
+#if NET46
+            // See Calculation_ProgressChanged: classic WindowsAPICodePack overload on net46.
+            TaskbarManager.Instance.SetProgressValue(0, 100);
+#else
             TaskbarManager.Instance.SetProgressValue(0, null);
+#endif
         }
 
         kpbtsiCalculationProgress.Visible = false;

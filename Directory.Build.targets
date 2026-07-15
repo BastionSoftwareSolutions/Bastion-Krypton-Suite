@@ -93,7 +93,12 @@
 						   '%(Filename)' == 'UIAutomationClientSideProviders' OR 
 						   '%(Filename)' == 'UIAutomationProvider' OR 
 						   '%(Filename)' == 'UIAutomationTypes' OR 
-						   '%(Filename)' == 'Accessibility'" />
+						   '%(Filename)' == 'Accessibility' OR 
+						   $([System.String]::new('%(Filename)').StartsWith('Microsoft.Web.WebView2'))" />
+			<!-- Bastion: Microsoft.Web.WebView2's build targets inject its assemblies as plain
+			     references (no NuGetPackageId metadata), so without the exclusion above they get
+			     packed into lib/ even though the package is already a declared dependency
+			     (and NU1012 rejects the un-versioned windows TFM folder names). -->
 			
 			<!-- Include only non-framework assemblies -->
 			<_NonFrameworkAssemblies Include="@(_AllReferences)" Exclude="@(_FrameworkAssemblies);@(_NuGetReferences);@(_ProjectReferenceOutputs)" />
@@ -115,6 +120,14 @@
 	</PropertyGroup>
 
 	<Target Name="IncludeReferencedProjectInPackage" DependsOnTargets="ResolveReferences">
+		<!-- Bastion: NuGet pack (NU1012) requires a platform version in lib/ folder names for
+		     windows-flavoured TFMs. The TFM normalisation to '-windows' (matching the core)
+		     dropped the explicit '7.0', so restore it here for package paths only —
+		     'netX.0-windows' is identical to 'netX.0-windows7.0'. -->
+		<PropertyGroup>
+			<_BastionPackTfmFolder>$(TargetFramework)</_BastionPackTfmFolder>
+			<_BastionPackTfmFolder Condition="$(_BastionPackTfmFolder.EndsWith('-windows'))">$(_BastionPackTfmFolder)7.0</_BastionPackTfmFolder>
+		</PropertyGroup>
 		<ItemGroup>
 			<!-- Include all referenced assemblies -->
 			<_AllReferences Include="@(ReferenceCopyLocalPaths)" />
@@ -139,12 +152,17 @@
 						   '%(Filename)' == 'UIAutomationClientSideProviders' OR 
 						   '%(Filename)' == 'UIAutomationProvider' OR 
 						   '%(Filename)' == 'UIAutomationTypes' OR 
-						   '%(Filename)' == 'Accessibility'" />
+						   '%(Filename)' == 'Accessibility' OR 
+						   $([System.String]::new('%(Filename)').StartsWith('Microsoft.Web.WebView2'))" />
+			<!-- Bastion: Microsoft.Web.WebView2's build targets inject its assemblies as plain
+			     references (no NuGetPackageId metadata), so without the exclusion above they get
+			     packed into lib/ even though the package is already a declared dependency
+			     (and NU1012 rejects the un-versioned windows TFM folder names). -->
 			
 			<!-- Include only non-framework assemblies in the lib folder -->
 			<_NonFrameworkAssemblies Include="@(_AllReferences)" Exclude="@(_FrameworkAssemblies);@(_NuGetReferences);@(_ProjectReferenceOutputs)" />
 			<_AssemblyReferences Include="@(_NonFrameworkAssemblies)" Condition="'%(Extension)' == '.dll' Or '%(Extension)' == '.exe'" />
-			<TfmSpecificPackageFile Include="@(_AssemblyReferences)" PackagePath="lib/$(TargetFramework)/" />
+			<TfmSpecificPackageFile Include="@(_AssemblyReferences)" PackagePath="lib/$(_BastionPackTfmFolder)/" />
 		</ItemGroup>
 		
 		<Message Text="Including in package: %(_NonFrameworkAssemblies.Identity)" Importance="low" />

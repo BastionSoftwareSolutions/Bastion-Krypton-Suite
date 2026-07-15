@@ -45,4 +45,8 @@ global using System.Windows.Forms;
 
 global using Win32Mapi;
 global using HandlebarsDotNet;
+#if !NET46
+// ProDotNetZip has no net46-compatible package asset; on net46 the Zipper class
+// uses the in-box System.IO.Compression instead (see Classes\Zip\Zipper.cs).
 global using Ionic.Zip;
+#endif

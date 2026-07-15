@@ -4,14 +4,20 @@
 		<When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Release' Or '$(Configuration)' == 'Debug'">
 			<PropertyGroup>
 				<!-- Use centralized TFM configuration from Directory.Build.props -->
-		<TargetFrameworks>$(ActiveExtendedToolkitTFMs)</TargetFrameworks>
+		<!-- Bastion: reduced TFM set - the vendored ScottPlot core requires SkiaSharp, which has
+		     no net46-compatible package asset, so net46 is excluded (spec ladder rung d;
+		     documented in the per-TFM feature matrix). -->
+		<TargetFrameworks>$([MSBuild]::Unescape($(ActiveExtendedToolkitTFMs.Replace('net46;', ''))))</TargetFrameworks>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<!--If all else fails-->
 			<PropertyGroup>
 				<!-- Use centralized TFM configuration from Directory.Build.props -->
-		<TargetFrameworks>$(ActiveExtendedToolkitTFMs)</TargetFrameworks>
+		<!-- Bastion: reduced TFM set - the vendored ScottPlot core requires SkiaSharp, which has
+		     no net46-compatible package asset, so net46 is excluded (spec ladder rung d;
+		     documented in the per-TFM feature matrix). -->
+		<TargetFrameworks>$([MSBuild]::Unescape($(ActiveExtendedToolkitTFMs.Replace('net46;', ''))))</TargetFrameworks>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

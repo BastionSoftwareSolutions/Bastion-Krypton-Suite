@@ -14,6 +14,11 @@ public static class Platform
 
     private static Os GetOs()
     {
+#if NETFRAMEWORK && !NET471_OR_GREATER
+        // RuntimeInformation/OSPlatform were added in .NET Framework 4.7.1; earlier
+        // .NET Framework targets only ever run on Windows, so answer directly.
+        return Os.Windows;
+#else
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             return Os.Windows;
@@ -30,6 +35,7 @@ public static class Platform
         }
 
         return Os.Other;
+#endif
     }
 
     /// <summary>

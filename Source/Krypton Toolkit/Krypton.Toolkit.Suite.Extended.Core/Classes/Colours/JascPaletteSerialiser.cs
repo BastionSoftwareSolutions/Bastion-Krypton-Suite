@@ -152,16 +152,17 @@ public class JascPaletteSerialiser : PaletteSerialiser
     /// <param name="palette">The <see cref="ColourCollection" /> to serialize.</param>
     public override void Serialise(Stream? stream, ColourCollection? palette)
     {
+        // ArgumentNullException.ThrowIfNull was added in .NET 6; net5.0 must use the classic throw.
         if (stream == null)
         {
-#if !NETCOREAPP3_0_OR_GREATER
+#if !NET6_0_OR_GREATER
                 throw new ArgumentNullException(nameof(stream));
 #else
             ArgumentNullException.ThrowIfNull(stream);
 #endif
         }
 
-#if !NETCOREAPP3_0_OR_GREATER
+#if !NET6_0_OR_GREATER
             if (palette == null)
             {
                 throw new ArgumentNullException(nameof(palette));

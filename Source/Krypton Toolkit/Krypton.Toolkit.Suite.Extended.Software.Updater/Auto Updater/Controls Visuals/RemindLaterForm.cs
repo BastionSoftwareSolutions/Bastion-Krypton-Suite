@@ -31,7 +31,8 @@
 
             krbYes.Text = AutoUpdaterLanguageManager.LaterWindowStrings.YesText;
 
-            kbtnOk.Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
+            // Bastion: KryptonLanguageManager was removed from the core; KryptonManager.Strings is its successor.
+            kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
 
             kcmbRemindLater.Items.Add(AutoUpdaterLanguageManager.TimingStrings.ThirtyMinutes);
 

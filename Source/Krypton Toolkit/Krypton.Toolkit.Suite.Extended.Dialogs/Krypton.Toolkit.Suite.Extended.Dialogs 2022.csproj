@@ -112,6 +112,9 @@
 	<ItemGroup>
 		<Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
 		<PackageReference Include="System.Speech" Version="10.0.0" Condition="'$(TargetFramework)' != 'net46'" />
+		<!-- Bastion: the System.Speech 10.0.0 package has no net46 asset, but the assembly ships
+		     in-box on .NET Framework, so net46 references it directly (spec ladder rung b). -->
+		<Reference Include="System.Speech" Condition="'$(TargetFramework)' == 'net46'" />
 		<PackageReference Include="WindowsAPICodePackShell" Version="8.0.12" Condition="'$(TargetFramework)' != 'net46'" />
 	</ItemGroup>
 

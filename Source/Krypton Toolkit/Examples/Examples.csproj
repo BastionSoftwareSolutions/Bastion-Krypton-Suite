@@ -76,7 +76,8 @@
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Compression\Krypton.Toolkit.Suite.Extended.Compression 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Controls\Krypton.Toolkit.Suite.Extended.Controls 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Core\Krypton.Toolkit.Suite.Extended.Core 2022.csproj" />
-		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Data.Visualisation\Krypton.Toolkit.Suite.Extended.Data.Visualisation 2022.csproj" />
+		<!-- Bastion: Data.Visualisation does not target net46 (SkiaSharp has no net46 asset). -->
+		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Data.Visualisation\Krypton.Toolkit.Suite.Extended.Data.Visualisation 2022.csproj" Condition="'$(TargetFramework)' != 'net46'" />
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.DataGridView\Krypton.Toolkit.Suite.Extended.DataGridView 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Developer.Utilities\Krypton.Toolkit.Suite.Extended.Developer.Utilities 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Dialogs\Krypton.Toolkit.Suite.Extended.Dialogs 2022.csproj" />

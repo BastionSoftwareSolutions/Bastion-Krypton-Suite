@@ -121,7 +121,10 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3595.46" />
+		<!-- Bastion: WebView2 1.0.3595.46 ships net462+ assets only; net46 pins the last
+		     net45-asset release so the update dialog keeps its embedded browser (ladder rung b). -->
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3595.46" Condition="'$(TargetFramework)' != 'net46'" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2478.35" Condition="'$(TargetFramework)' == 'net46'" />
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
 		<PackageReference Include="ZipStorer" Version="4.2.0" Condition="'$(TargetFramework)' != 'net46'" />
 	</ItemGroup>
@@ -160,14 +163,19 @@
 		</EmbeddedResource>
 	</ItemGroup>
 
-	<ItemGroup>
+	<!-- Bastion: the AutoUpdater vendored code supports WPF hosts (SetOwner(Window), Wpf32Window,
+	     Application.Current.Dispatcher). net4x gets WPF from the framework assemblies below;
+	     .NET (Core) TFMs use UseWPF so net5/6/7 (whose WinForms-only profile omits
+	     WindowsBase/PresentationCore) resolve the same types as net8+. -->
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
 		<Reference Include="PresentationCore" />
-		<Reference Include="PresentationFramework">
-			<HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\PresentationFramework.dll</HintPath>
-		</Reference>
+		<Reference Include="PresentationFramework" />
 		<Reference Include="WindowsBase" />
-		<!--TODO: Need to specify version here-->
 	</ItemGroup>
+
+	<PropertyGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<None Update="License\License.txt">

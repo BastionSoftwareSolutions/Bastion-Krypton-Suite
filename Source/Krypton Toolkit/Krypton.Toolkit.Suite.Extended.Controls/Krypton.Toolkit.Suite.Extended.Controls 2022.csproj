@@ -184,4 +184,11 @@
 		<Optimize>True</Optimize>
 	</PropertyGroup>
 
+	<!-- Bastion: the 8.x WindowsAPICodePack fork has no net46-compatible asset; on net46 the
+	     classic Microsoft-WindowsAPICodePack packages (same namespaces and API surface) are used
+	     instead, so no public member degrades on net46 (spec ladder rung b). -->
+	<ItemGroup Condition="'$(TargetFramework)' == 'net46'">
+		<PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
+	</ItemGroup>
+
 </Project>

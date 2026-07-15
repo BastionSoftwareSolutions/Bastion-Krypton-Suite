@@ -173,6 +173,15 @@
 		<PackageReference Include="System.Management" Version="10.0.0" Condition="'$(TargetFramework)' != 'net46'" />
 	</ItemGroup>
 
+	<!-- Bastion: net46 substitutes — the System.Management 10.0.0 and ProDotNetZip packages have
+	     no net46 asset, but the framework ships System.Management in-box, and System.IO.Compression
+	     replaces Ionic.Zip for the single Zipper usage (see Classes\Zip\Zipper.cs). -->
+	<ItemGroup Condition="'$(TargetFramework)' == 'net46'">
+		<Reference Include="System.Management" />
+		<Reference Include="System.IO.Compression" />
+		<Reference Include="System.IO.Compression.FileSystem" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<Reference Include="System.Deployment" />
 		<Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">

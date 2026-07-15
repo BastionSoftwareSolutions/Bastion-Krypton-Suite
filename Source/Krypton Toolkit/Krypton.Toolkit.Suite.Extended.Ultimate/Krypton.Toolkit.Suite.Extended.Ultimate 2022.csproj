@@ -164,7 +164,8 @@
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.TreeGridView\Krypton.Toolkit.Suite.Extended.TreeGridView 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.VirtualTreeColumnView\Krypton.Toolkit.Suite.Extended.VirtualTreeColumnView 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Outlook.Grid\Krypton.Toolkit.Suite.Extended.Outlook.Grid 2022.csproj" />
-		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Data.Visualisation\Krypton.Toolkit.Suite.Extended.Data.Visualisation 2022.csproj" />
+		<!-- Bastion: Data.Visualisation does not target net46 (SkiaSharp has no net46 asset). -->
+		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Data.Visualisation\Krypton.Toolkit.Suite.Extended.Data.Visualisation 2022.csproj" Condition="'$(TargetFramework)' != 'net46'" />
 		<!--<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Gages\Krypton.Toolkit.Suite.Extended.Gages 2022.csproj" />-->
 		
 		<!-- Dialogs & Notifications -->
@@ -250,6 +251,12 @@
 
 	<!-- Custom target to include ALL dependencies in the package -->
 	<Target Name="IncludeAllDependenciesInPackage" DependsOnTargets="ResolveReferences">
+		<!-- Bastion: NuGet pack (NU1012) needs the platform version in lib/ folder names for
+		     windows-flavoured TFMs; 'netX.0-windows' is identical to 'netX.0-windows7.0'. -->
+		<PropertyGroup>
+			<_BastionPackTfmFolder>$(TargetFramework)</_BastionPackTfmFolder>
+			<_BastionPackTfmFolder Condition="$(_BastionPackTfmFolder.EndsWith('-windows'))">$(_BastionPackTfmFolder)7.0</_BastionPackTfmFolder>
+		</PropertyGroup>
 		<ItemGroup>
 			<!-- Include ONLY non-framework assemblies (exclude System.*, Microsoft.VisualBasic.*, mscorlib, netstandard, WindowsBase, etc.) -->
 			<_AllReferences Include="@(ReferenceCopyLocalPaths)" />
@@ -261,7 +268,7 @@
 			<_NonFrameworkAssemblies Include="@(_AllReferences)" Exclude="@(_FrameworkAssemblies)" />
 			
 			<BuildOutputInPackage Include="@(_NonFrameworkAssemblies)" />
-			<TfmSpecificPackageFile Include="@(_NonFrameworkAssemblies)" PackagePath="lib/$(TargetFramework)/" />
+			<TfmSpecificPackageFile Include="@(_NonFrameworkAssemblies)" PackagePath="lib/$(_BastionPackTfmFolder)/" />
 		</ItemGroup>
 		
 		<Message Text="Including %(TfmSpecificPackageFile.Identity) in package" Importance="low" />

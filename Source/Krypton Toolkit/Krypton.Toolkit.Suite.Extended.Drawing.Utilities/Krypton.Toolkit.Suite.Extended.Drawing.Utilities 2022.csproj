@@ -131,6 +131,10 @@
 	<ItemGroup>
 		<!--<PackageReference Include="Cyotek.Windows.Forms.ColorPicker" Version="1.7.2" />-->
 		<PackageReference Include="Unofficial.Cyotek.Windows.Forms.NET" Version="2.0.1" Condition="'$(TargetFramework)' != 'net46'" />
+		<!-- Bastion: the Unofficial 2.0.1 port has no net46-compatible asset; on net46 the classic
+		     Cyotek package (same namespaces; the API upstream originally built against) is used
+		     instead (spec ladder rung b). -->
+		<PackageReference Include="Cyotek.Windows.Forms.ColorPicker" Version="1.7.2" Condition="'$(TargetFramework)' == 'net46'" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Buttons\Krypton.Toolkit.Suite.Extended.Buttons 2022.csproj" />
