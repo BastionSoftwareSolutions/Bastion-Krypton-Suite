@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!-- Imagery is TFM-independent; net8 is the LTS capture vehicle. The Phase 5 stress
+         suite exercises theme switching on every TFM. -->
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+    <AssemblyName>KryptonThemeBrowser</AssemblyName>
+    <RootNamespace>Bastion.ThemeBrowser</RootNamespace>
+    <KryptonBin>$(MSBuildThisFileDirectory)..\..\Standard-Toolkit\Bin\Release\$(TargetFramework)\</KryptonBin>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Krypton.Toolkit"><HintPath>$(KryptonBin)Krypton.Toolkit.dll</HintPath></Reference>
+    <Reference Include="Krypton.Ribbon"><HintPath>$(KryptonBin)Krypton.Ribbon.dll</HintPath></Reference>
+    <Reference Include="Krypton.Navigator"><HintPath>$(KryptonBin)Krypton.Navigator.dll</HintPath></Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Resources.Extensions" Version="9.0.10" />
+  </ItemGroup>
+
+</Project>
