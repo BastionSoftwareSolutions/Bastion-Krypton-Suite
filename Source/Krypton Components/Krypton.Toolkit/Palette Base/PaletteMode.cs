@@ -280,13 +280,6 @@ public enum PaletteMode
 
     /* ToDo: Re-enable when the gray themes are completed
     /// <summary>
-    /// Specifies the dark Gray color variant of the Microsoft 365 appearance.
-    /// </summary>
-    Microsoft365DarkGray,
-    */
-
-    /* ToDo: Re-enable when the gray themes are completed
-    /// <summary>
     /// Specifies the light Gray color variant of the Microsoft 365 appearance.
     /// </summary>
     Microsoft365LightGray,
@@ -461,6 +454,12 @@ public enum PaletteMode
     /// Specifies the Black variant of the Office 2021 appearance.
     /// </summary>
     Office2021Black,
+
+    /// <summary>
+    /// Specifies the dark Gray color variant of the Microsoft 365 appearance (2026 refresh: real M365 "Dark Gray").
+    /// Appended before Custom so no existing ordinal shifts (the enum and PaletteModeStrings.SupportedThemes share a positional contract).
+    /// </summary>
+    Microsoft365DarkGray,
 
     /// <summary>
     /// Specifies a custom palette be used.

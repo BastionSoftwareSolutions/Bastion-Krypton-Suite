@@ -10,6 +10,16 @@
  */
 #endregion
 
+// =====================================================================================
+// Microsoft 365 (2026) refresh — Bastion Phase 3, spec §4.2 item 4.
+// MAPPING: Microsoft365DarkGray = real 2026 M365 "DARK GRAY" (#54585A frame, #BDBDBD
+// "contrasty controls" card, white chrome text). Previously an upstream TODO (never
+// dispatched); the refresh wires it (KryptonManager/converters/resolvers). Colours and
+// provenance: SchemesPaletteMicrosoft365DarkGray_BaseScheme.cs +
+// docs	hemesm365-2026-colours.md. Light-glyph (Black set) caption buttons for the
+// dark title bar replace the 2010-silver set.
+// =====================================================================================
+
 namespace Krypton.Toolkit;
 
 public class PaletteMicrosoft365DarkGray : PaletteMicrosoft365Base
@@ -18,17 +28,17 @@ public class PaletteMicrosoft365DarkGray : PaletteMicrosoft365Base
 
     #region Colors
 
-    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(190, 187, 184);
+    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(84, 88, 90); // [T] 2026: tab row = frame #54585A ([M5] rect 600,150)
 
     #endregion
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(51, 51, 51);
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(97, 97, 97); // [D] File tab hover = frame edge #616161
 
-    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(140, 140, 140);
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(84, 88, 90); // [T] File tab fill = tab row #54585A
 
-    private static readonly Color _ribbonAppButtonTextColor = SystemColors.Control;
+    private static readonly Color _ribbonAppButtonTextColor = Color.White; // [T] File tab text = tab text #FFFFFF
 
     #endregion
 
@@ -44,22 +54,22 @@ public class PaletteMicrosoft365DarkGray : PaletteMicrosoft365Base
     private static readonly Image?[] _radioButtonArray;
     private static readonly Image? _silverDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
     private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
-    private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010SilverCloseNormal;
-    private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010SilverCloseDisabled;
-    private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010SilverCloseActive;
-    private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010SilverClosePressed;
-    private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010SilverMaximiseNormal;
-    private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010SilverMaximiseDisabled;
-    private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010SilverMaximiseActive;
-    private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010SilverMaximisePressed;
-    private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010SilverMinimiseNormal;
-    private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010SilverMinimiseActive;
-    private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverMinimiseDisabled;
-    private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010SilverMinimisePressed;
-    private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010SilverRestoreNormal;
-    private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010SilverRestoreDisabled;
-    private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010SilverRestoreActive;
-    private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010SilverRestorePressed;
+    private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlackCloseNormal;
+    private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlackCloseDisabled;
+    private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010BlackCloseActive;
+    private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010BlackClosePressed;
+    private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010BackMaximiseNormal;
+    private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlackMaximiseDisabled;
+    private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010BlackMaximiseActive;
+    private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010BlackMaximisePressed;
+    private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlackMinimiseNormal;
+    private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010BlackMinimiseActive;
+    private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlackMinimiseDisabled;
+    private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010BlackMinimisePressed;
+    private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010BlackRestoreNormal;
+    private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlackRestoreDisabled;
+    private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010BlackRestoreActive;
+    private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlackRestorePressed;
     private static readonly Image _formHelpNormal = Microsoft365ControlBoxResources.Microsoft365HelpIconNormal;
     private static readonly Image _formHelpActive = Microsoft365ControlBoxResources.Microsoft365HelpIconHover;
     private static readonly Image _formHelpPressed = Microsoft365ControlBoxResources.Microsoft365HelpIconPressed;

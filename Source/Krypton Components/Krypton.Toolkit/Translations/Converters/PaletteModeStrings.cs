@@ -161,7 +161,6 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_MICROSOFT_365_BLACK, PaletteMode.Microsoft365Black },
             { DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE, PaletteMode.Microsoft365BlackDarkMode },
             { DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE_ALTERNATE, PaletteMode.Microsoft365BlackDarkModeAlternate},
-            //{ DEFAULT_PALETTE_MICROSOFT_365_DARK_GRAY, PaletteMode.Microsoft365DarkGray },
             //{ PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_LIGHT_GRAY, PaletteMode.Microsoft365LightGray },
             { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2007, PaletteMode.VisualStudio2010Render2007 },
             { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2010, PaletteMode.VisualStudio2010Render2010 },
@@ -197,6 +196,9 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_OFFICE_2021_WHITE, PaletteMode.Office2021White },
             { DEFAULT_PALETTE_OFFICE_2021_DARK_GRAY, PaletteMode.Office2021DarkGray },
             { DEFAULT_PALETTE_OFFICE_2021_BLACK, PaletteMode.Office2021Black },
+            // 2026 M365 refresh: Microsoft365DarkGray wired (was upstream TODO). Positioned to match
+            // its appended-before-Custom slot in the PaletteMode enum (positional contract above).
+            { DEFAULT_PALETTE_MICROSOFT_365_DARK_GRAY, PaletteMode.Microsoft365DarkGray },
             { DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }
         });
 

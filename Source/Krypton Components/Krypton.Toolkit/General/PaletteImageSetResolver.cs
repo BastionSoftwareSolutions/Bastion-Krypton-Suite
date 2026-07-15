@@ -138,6 +138,7 @@ internal static class PaletteImageSetResolver
             case PaletteMode.Microsoft365BlackDarkMode:
             case PaletteMode.Microsoft365BlackDarkModeAlternate:
             case PaletteMode.Microsoft365Blue:
+            case PaletteMode.Microsoft365DarkGray: // 2026 refresh: wired
             case PaletteMode.Microsoft365BlueDarkMode:
             case PaletteMode.Microsoft365BlueLightMode:
             case PaletteMode.Microsoft365Silver:

@@ -19,15 +19,15 @@ public class PaletteMicrosoft365BlackDarkMode : PaletteMicrosoft365BlackDarkMode
     private static readonly ImageList _checkBoxList;
     private static readonly ImageList _galleryButtonList;
 
-    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(10, 10, 10);
+    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(28, 34, 39); // [T] 2026: tab row = frame #1C2227 ([M6] rect 600,150)
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(51, 51, 51);
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(41, 41, 41); // [D] File tab hover = card tone #292929
 
-    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(99, 99, 99);
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(28, 34, 39); // [T] File tab fill = tab row #1C2227
 
-    private static readonly Color _ribbonAppButtonTextColor = Color.White;
+    private static readonly Color _ribbonAppButtonTextColor = Color.White; // [T] File tab text = tab text #FFFFFF
 
     #endregion
 

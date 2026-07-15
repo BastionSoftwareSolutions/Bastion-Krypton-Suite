@@ -653,6 +653,7 @@ public static class GraphicsExtensions
             PaletteMode.Microsoft365Blue => true,
             PaletteMode.Microsoft365BlueDarkMode => true,
             PaletteMode.Microsoft365BlueLightMode => true,
+            PaletteMode.Microsoft365DarkGray => true, // 2026 refresh: wired
             PaletteMode.Microsoft365Silver => true,
             PaletteMode.Microsoft365SilverDarkMode => true,
             PaletteMode.Microsoft365SilverLightMode => true,

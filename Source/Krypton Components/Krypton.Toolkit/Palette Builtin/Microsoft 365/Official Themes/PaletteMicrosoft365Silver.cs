@@ -18,17 +18,17 @@ public class PaletteMicrosoft365Silver : PaletteMicrosoft365Base
 
     #region Colors
 
-    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(227, 230, 232);
+    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(220, 224, 228); // [D] 2026 refresh: Silver frame = ruler-margin neutral #DCE0E4 (see scheme header)
 
     #endregion
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(209, 209, 209); // [D] File tab hover = separator tone #D1D1D1
 
-    private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(220, 224, 228); // [D] File tab fill = tab row #DCE0E4
 
-    private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
+    private static readonly Color _ribbonAppButtonTextColor = Color.FromArgb(36, 36, 36); // [T] File tab text = tab text #242424
 
     #endregion
 

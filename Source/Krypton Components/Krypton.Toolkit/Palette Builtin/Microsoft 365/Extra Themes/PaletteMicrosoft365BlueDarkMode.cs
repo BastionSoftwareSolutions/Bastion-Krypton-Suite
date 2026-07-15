@@ -18,17 +18,17 @@ public class PaletteMicrosoft365BlueDarkMode : PaletteMicrosoft365BlueDarkModeBa
 
     #region Colors
 
-    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(134, 179, 236);
+    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(28, 34, 39); // [D] 2026 refresh: Colorful-over-dark — tab row = Black frame #1C2227 (see scheme header)
 
     #endregion
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(84, 158, 243);
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(41, 41, 41); // [D] File tab hover = card tone #292929
 
-    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(31, 72, 161);
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(28, 34, 39); // [D] File tab fill = tab row #1C2227
 
-    private static readonly Color _ribbonAppButtonTextColor = Color.White;
+    private static readonly Color _ribbonAppButtonTextColor = Color.White; // [T] File tab text = tab text #FFFFFF
 
     #endregion Ribbon Specific Colors
 
@@ -44,22 +44,22 @@ public class PaletteMicrosoft365BlueDarkMode : PaletteMicrosoft365BlueDarkModeBa
     private static readonly Image?[] _radioButtonArray;
     private static readonly Image? _blueDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
     private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
-    private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlueCloseNormal;
-    private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlueCloseDisabled;
-    private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010BlueCloseActive;
-    private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010BlueClosePressed;
-    private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010BlueMaximiseNormal;
-    private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlueMaximiseDisabled;
-    private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010BlueMaximiseActive;
-    private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010BlueMaximisePressed;
-    private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlueMinimiseNormal;
-    private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010BlueMinimiseActive;
-    private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlueMinimiseDisabled;
-    private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010BlueMinimisePressed;
-    private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010BlueRestoreNormal;
-    private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlueRestoreDisabled;
-    private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010BlueRestoreActive;
-    private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlueRestorePressed;
+    private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlackCloseNormal;
+    private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlackCloseDisabled;
+    private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010BlackCloseActive;
+    private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010BlackClosePressed;
+    private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010BackMaximiseNormal;
+    private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlackMaximiseDisabled;
+    private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010BlackMaximiseActive;
+    private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010BlackMaximisePressed;
+    private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlackMinimiseNormal;
+    private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010BlackMinimiseActive;
+    private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlackMinimiseDisabled;
+    private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010BlackMinimisePressed;
+    private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010BlackRestoreNormal;
+    private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlackRestoreDisabled;
+    private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010BlackRestoreActive;
+    private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlackRestorePressed;
     private static readonly Image _formHelpNormal = Microsoft365ControlBoxResources.Microsoft365HelpIconNormal;
     private static readonly Image _formHelpActive = Microsoft365ControlBoxResources.Microsoft365HelpIconHover;
     private static readonly Image _formHelpPressed = Microsoft365ControlBoxResources.Microsoft365HelpIconPressed;
@@ -138,7 +138,7 @@ public class PaletteMicrosoft365BlueDarkMode : PaletteMicrosoft365BlueDarkModeBa
             ImageSize = new Size(13, 13),
             ColorDepth = ColorDepth.Depth24Bit
         };
-        _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Blue);
+        _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Black);
 
         _galleryButtonList = new ImageList
         {
@@ -151,13 +151,13 @@ public class PaletteMicrosoft365BlueDarkMode : PaletteMicrosoft365BlueDarkModeBa
         _radioButtonArray =
         [
             Office2010RadioButtonImageResources.RadioButton2010BlueD,
-            Office2010RadioButtonImageResources.RadioButton2010BlueN,
+            Office2010RadioButtonImageResources.RadioButton2010SilverN,
             Office2010RadioButtonImageResources.RadioButton2010BlueT,
             Office2010RadioButtonImageResources.RadioButton2010BlueP,
             Office2010RadioButtonImageResources.RadioButton2010BlueDC,
-            Office2010RadioButtonImageResources.RadioButton2010BlueNC,
-            Office2010RadioButtonImageResources.RadioButton2010BlueTC,
-            Office2010RadioButtonImageResources.RadioButton2010BluePC
+            Office2010RadioButtonImageResources.RadioButton2010SilverNC,
+            Office2010RadioButtonImageResources.RadioButton2010SilverTC,
+            Office2010RadioButtonImageResources.RadioButton2010SilverPC
         ];
     }
 

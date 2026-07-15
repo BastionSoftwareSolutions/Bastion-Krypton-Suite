@@ -59,7 +59,7 @@ internal class PaletteClassTypeConverter : EnumConverter
             {PaletteMode.Microsoft365BlueDarkMode, typeof(PaletteMicrosoft365BlueDarkMode)},
             {PaletteMode.Microsoft365BlueLightMode, typeof(PaletteMicrosoft365BlueLightMode)},
             {PaletteMode.Microsoft365Blue, typeof(PaletteMicrosoft365Blue)},
-            //{PaletteMode.Microsoft365DarkGray, typeof(PaletteMicrosoft365DarkGray)},
+            {PaletteMode.Microsoft365DarkGray, typeof(PaletteMicrosoft365DarkGray)}, // 2026 refresh: wired (was upstream TODO)
             {PaletteMode.Microsoft365Silver, typeof(PaletteMicrosoft365Silver)},
             {PaletteMode.Microsoft365SilverDarkMode, typeof(PaletteMicrosoft365SilverDarkMode)},
             {PaletteMode.Microsoft365SilverLightMode, typeof(PaletteMicrosoft365SilverLightMode)},

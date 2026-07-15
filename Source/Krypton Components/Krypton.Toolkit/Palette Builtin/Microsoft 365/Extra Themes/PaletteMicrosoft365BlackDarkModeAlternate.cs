@@ -15,17 +15,17 @@ public class PaletteMicrosoft365BlackDarkModeAlternate : PaletteMicrosoft365Blac
 
     #region Colors
 
-    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(31, 31, 31);
+    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(41, 41, 41); // [D] 2026 refresh: flat Alternate — tab row = card #292929 (see scheme header)
 
     #endregion
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(51, 51, 51);
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(53, 53, 53); // [D] File tab hover = well #353535
 
-    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(99, 99, 99);
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(41, 41, 41); // [D] File tab fill = tab row #292929
 
-    private static readonly Color _ribbonAppButtonTextColor = Color.White;
+    private static readonly Color _ribbonAppButtonTextColor = Color.White; // [T] File tab text = tab text #FFFFFF
 
     #endregion
 

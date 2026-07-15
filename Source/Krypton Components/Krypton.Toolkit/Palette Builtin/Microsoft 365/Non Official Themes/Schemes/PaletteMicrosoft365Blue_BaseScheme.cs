@@ -3,251 +3,285 @@
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *  Microsoft 365 (2026) refresh © Bastion Software Solutions Ltd 2026. All rights reserved.
  *
  */
 #endregion
+
+// =====================================================================================
+// Microsoft 365 "Blue" colour scheme — 2026 refresh (Bastion Phase 3, spec §4.2 item 4).
+//
+// VARIANT MAPPING (Bastion decision): upstream's Blue/Silver/White/Black axis does not
+// match the real 2026 M365 theme options (White / Colorful / Dark Gray / Black + system
+// Dark Mode). Microsoft365Blue is refreshed as the real M365 "COLORFUL" variant with
+// the canonical Word accent — the same canonical-app convention as the 2016/2019/2021
+// passes. The pre-refresh look is preserved in
+// docs\themes\comparisons\placeholder\Microsoft365Blue.png (sign-off reference).
+//
+// Provenance — every value is tagged:
+//   [T] taken from docs\themes\m365-2026-colours.md ("App accent colours" +
+//       "Colorful variant" tables; sources [M1]/[M2]/[M3] official lossless PNGs under
+//       docs\themes\references\m365-2026\).
+//       Key values: accent = Word #185ABD (24,90,189) — [M1] title rect 97.5% uniform;
+//       selected-tab underline shade #1651AA (22,81,170) — [M1] col scan x=196 (used as
+//       the visible selected-tab accent; Krypton's M365 pipeline has no underline
+//       element); app frame / ribbon tab row #E9EEF2 (233,238,242) — [M1] rect 600,125
+//       100% uniform, NEUTRAL: the accent stays on the title bar only; ribbon card
+//       #FFFFFF; tab text #242424 (36,36,36); ribbon control text #3A3A38 (58,58,56);
+//       group label #555758 (85,87,88); group separator / card edge #D1D1D1 with
+//       #DDE2E6 shadow step; control borders #8A8A8A; status bar #F5F5F5, text #616161;
+//       ruler-margin neutral #DCE0E4; scroll gutter #E4E4E4.
+//   [D] derived — rule stated inline. Hover/pressed, backstage, context menus and
+//       inactive-window colours are open items 2/3/4 in the colour table (not visible
+//       in static imagery) and await Chris's live-install screenshots. Accent
+//       companions: hover = underline shade #1651AA (the table's darker companion of
+//       the same accent system), pressed = accent 25% toward black #12448E (18,68,142)
+//       — same rule as the 2019/2021 passes.
+//   [N] donor value from PaletteOffice2021Colorful_BaseScheme (2021 fidelity pass) —
+//       era-neutral slot with no 2026-specific evidence.
+// =====================================================================================
 
 namespace Krypton.Toolkit;
 
 public sealed class PaletteMicrosoft365Blue_BaseScheme : KryptonColorSchemeBase
 {
-    public override Color TextLabelControl                 { get; set; } = Color.FromArgb(30, 57, 91);
-    public override Color TextButtonNormal                 { get; set; } = Color.FromArgb(30, 57, 91);
-    public override Color TextButtonChecked                { get; set; } = Color.Black;
-    public override Color ButtonNormalBorder               { get; set; } = Color.FromArgb(171, 186, 208);
-    public override Color ButtonNormalDefaultBorder        { get; set; } = Color.FromArgb(117, 144, 175);
-    public override Color ButtonNormalBack1                { get; set; } = Color.FromArgb(225, 237, 250);
-    public override Color ButtonNormalBack2                { get; set; } = Color.FromArgb(208, 223, 238);
-    public override Color ButtonNormalDefaultBack1         { get; set; } = Color.FromArgb(255, 255, 255);
-    public override Color ButtonNormalDefaultBack2         { get; set; } = Color.FromArgb(210, 229, 250);
-    public override Color ButtonNormalNavigatorBack1       { get; set; } = Color.FromArgb(174, 194, 219);
-    public override Color ButtonNormalNavigatorBack2       { get; set; } = Color.FromArgb(174, 194, 219);
-    public override Color PanelClient                      { get; set; } = Color.FromArgb(187, 206, 230);
-    public override Color PanelAlternative                 { get; set; } = Color.FromArgb(174, 194, 219);
-    public override Color ControlBorder                    { get; set; } = Color.FromArgb(133, 158, 191);
-    public override Color SeparatorHighBorder1             { get; set; } = Color.FromArgb(239, 245, 255);
-    public override Color SeparatorHighBorder2             { get; set; } = Color.FromArgb(200, 217, 239);
-    public override Color HeaderPrimaryBack1               { get; set; } = Color.FromArgb(207, 221, 238);
-    public override Color HeaderPrimaryBack2               { get; set; } = Color.FromArgb(174, 194, 219);
-    public override Color HeaderSecondaryBack1             { get; set; } = Color.FromArgb(239, 246, 253);
-    public override Color HeaderSecondaryBack2             { get; set; } = Color.FromArgb(216, 228, 242);
-    public override Color HeaderText                       { get; set; } = Color.FromArgb(30, 57, 91);
-    public override Color StatusStripText                  { get; set; } = Color.FromArgb(30, 57, 91);
-    public override Color ButtonBorder                     { get; set; } = Color.FromArgb(236, 199, 87);
-    public override Color SeparatorLight                   { get; set; } = Color.FromArgb(245, 249, 255);
-    public override Color SeparatorDark                    { get; set; } = Color.FromArgb(120, 141, 165);
-    public override Color GripLight                        { get; set; } = Color.FromArgb(212, 225, 241);
-    public override Color GripDark                         { get; set; } = Color.FromArgb(132, 157, 189);
-    public override Color ToolStripBack                    { get; set; } = Color.FromArgb(187, 206, 230);
-    public override Color StatusStripLight                 { get; set; } = Color.FromArgb(220, 232, 246);
-    public override Color StatusStripDark                  { get; set; } = Color.FromArgb(179, 196, 216);
-    public override Color ImageMargin                      { get; set; } = Color.White;
-    public override Color ToolStripBegin                   { get; set; } = Color.FromArgb(220, 232, 246);
-    public override Color ToolStripMiddle                  { get; set; } = Color.FromArgb(179, 196, 216);
-    public override Color ToolStripEnd                     { get; set; } = Color.FromArgb(179, 196, 216);
-    public override Color OverflowBegin                    { get; set; } = Color.FromArgb(132, 157, 189);
-    public override Color OverflowMiddle                   { get; set; } = Color.FromArgb(132, 157, 189);
-    public override Color OverflowEnd                      { get; set; } = Color.FromArgb(132, 157, 189);
-    public override Color ToolStripBorder                  { get; set; } = Color.FromArgb(132, 157, 189);
-    public override Color FormBorderActive                 { get; set; } = Color.FromArgb(144, 154, 166);
-    public override Color FormBorderInactive               { get; set; } = Color.FromArgb(162, 173, 185);
-    public override Color FormBorderActiveLight            { get; set; } = Color.FromArgb(187, 206, 230);
-    public override Color FormBorderActiveDark             { get; set; } = Color.FromArgb(187, 206, 230);
-    public override Color FormBorderInactiveLight          { get; set; } = Color.FromArgb(223, 235, 247);
-    public override Color FormBorderInactiveDark           { get; set; } = Color.FromArgb(223, 235, 247);
-    public override Color FormBorderHeaderActive           { get; set; } = Color.FromArgb(144, 154, 166);
-    public override Color FormBorderHeaderInactive         { get; set; } = Color.FromArgb(162, 173, 185);
-    public override Color FormBorderHeaderActive1          { get; set; } = Color.FromArgb(187, 206, 230);
-    public override Color FormBorderHeaderActive2          { get; set; } = Color.FromArgb(187, 206, 230);
-    public override Color FormBorderHeaderInactive1        { get; set; } = Color.FromArgb(223, 235, 247);
-    public override Color FormBorderHeaderInactive2        { get; set; } = Color.FromArgb(223, 235, 247);
-    public override Color FormHeaderShortActive            { get; set; } = Color.FromArgb(30, 57, 91);
-    public override Color FormHeaderShortInactive          { get; set; } = Color.FromArgb(106, 128, 168);
-    public override Color FormHeaderLongActive             { get; set; } = Color.FromArgb(30, 57, 91);
-    public override Color FormHeaderLongInactive           { get; set; } = Color.FromArgb(106, 128, 168);
-    public override Color FormButtonBorderTrack            { get; set; } = Color.FromArgb(143, 165, 191);
-    public override Color FormButtonBack1Track             { get; set; } = Color.FromArgb(214, 234, 255);
-    public override Color FormButtonBack2Track             { get; set; } = Color.FromArgb(188, 207, 231);
-    public override Color FormButtonBorderPressed          { get; set; } = Color.FromArgb(143, 165, 191);
-    public override Color FormButtonBack1Pressed           { get; set; } = Color.FromArgb(187, 206, 230);
-    public override Color FormButtonBack2Pressed           { get; set; } = Color.FromArgb(166, 182, 213);
-    public override Color TextButtonFormNormal             { get; set; } = Color.FromArgb(21, 66, 139);
-    public override Color TextButtonFormTracking           { get; set; } = Color.FromArgb(21, 66, 139);
-    public override Color TextButtonFormPressed            { get; set; } = Color.FromArgb(21, 66, 139);
-    public override Color LinkNotVisitedOverrideControl    { get; set; } = Color.Blue;
-    public override Color LinkVisitedOverrideControl       { get; set; } = Color.Purple;
-    public override Color LinkPressedOverrideControl       { get; set; } = Color.Red;
-    public override Color LinkNotVisitedOverridePanel      { get; set; } = Color.Blue;
-    public override Color LinkVisitedOverridePanel         { get; set; } = Color.Purple;
-    public override Color LinkPressedOverridePanel         { get; set; } = Color.Red;
-    public override Color TextLabelPanel                   { get; set; } = Color.FromArgb(30, 57, 91);
-    public override Color RibbonTabTextNormal              { get; set; } = Color.FromArgb(30, 57, 91);
-    public override Color RibbonTabTextChecked             { get; set; } = Color.FromArgb(30, 57, 91);
-    public override Color RibbonTabSelected1               { get; set; } = Color.FromArgb(159, 178, 199);
-    public override Color RibbonTabSelected2               { get; set; } = Color.FromArgb(225, 237, 250);
-    public override Color RibbonTabSelected3               { get; set; } = Color.FromArgb(187, 206, 230);
-    public override Color RibbonTabSelected4               { get; set; } = Color.FromArgb(239, 246, 253);
-    public override Color RibbonTabSelected5               { get; set; } = Color.FromArgb(239, 246, 253);
-    public override Color RibbonTabTracking1               { get; set; } = Color.FromArgb(237, 201, 88);
-    public override Color RibbonTabTracking2               { get; set; } = Color.FromArgb(248, 225, 135);
-    public override Color RibbonTabHighlight1              { get; set; } = Color.FromArgb(159, 178, 199);
-    public override Color RibbonTabHighlight2              { get; set; } = Color.FromArgb(245, 250, 255);
-    public override Color RibbonTabHighlight3              { get; set; } = Color.FromArgb(239, 246, 253);
-    public override Color RibbonTabHighlight4              { get; set; } = Color.FromArgb(239, 246, 253);
-    public override Color RibbonTabHighlight5              { get; set; } = Color.FromArgb(239, 246, 253);
-    public override Color RibbonTabSeparatorColor          { get; set; } = Color.FromArgb(182, 186, 191);
-    public override Color RibbonGroupsArea1                { get; set; } = Color.FromArgb(159, 178, 199);
-    public override Color RibbonGroupsArea2                { get; set; } = Color.FromArgb(114, 142, 173);
-    public override Color RibbonGroupsArea3                { get; set; } = Color.FromArgb(239, 246, 253);
-    public override Color RibbonGroupsArea4                { get; set; } = Color.FromArgb(221, 234, 247);
-    public override Color RibbonGroupsArea5                { get; set; } = Color.FromArgb(216, 228, 242);
-    public override Color RibbonGroupBorder1               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupBorder2               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupTitle1                { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupTitle2                { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupBorderContext1        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupBorderContext2        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupTitleContext1         { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupTitleContext2         { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupDialogDark            { get; set; } = Color.FromArgb(56, 78, 115);
-    public override Color RibbonGroupDialogLight           { get; set; } = Color.FromArgb(221, 234, 247);
-    public override Color RibbonGroupTitleTracking1        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupTitleTracking2        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonMinimizeBarDark            { get; set; } = Color.FromArgb(139, 160, 188);
-    public override Color RibbonMinimizeBarLight           { get; set; } = Color.FromArgb(187, 206, 230);
-    public override Color RibbonGroupCollapsedBorder1      { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBorder2      { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBorder3      { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBorder4      { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBack1        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBack2        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBack3        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBack4        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBorderT1     { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBorderT2     { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBorderT3     { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBorderT4     { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBackT1       { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBackT2       { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBackT3       { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBackT4       { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupFrameBorder1          { get; set; } = Color.FromArgb(189, 203, 218);
-    public override Color RibbonGroupFrameBorder2          { get; set; } = Color.FromArgb(184, 199, 216);
-    public override Color RibbonGroupFrameInside1          { get; set; } = Color.FromArgb(233, 241, 250);
-    public override Color RibbonGroupFrameInside2          { get; set; } = Color.FromArgb(222, 233, 246);
-    public override Color RibbonGroupFrameInside3          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupFrameInside4          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedText         { get; set; } = Color.FromArgb(30, 57, 91);
-    public override Color RibbonGroupButtonText            { get; set; } = Color.FromArgb(30, 57, 91);
-    public override Color AlternatePressedBack1            { get; set; } = Color.FromArgb(118, 153, 200);
-    public override Color AlternatePressedBack2            { get; set; } = Color.FromArgb(184, 215, 253);
-    public override Color AlternatePressedBorder1          { get; set; } = Color.FromArgb(135, 156, 175);
-    public override Color AlternatePressedBorder2          { get; set; } = Color.FromArgb(177, 198, 216);
-    public override Color FormButtonBack1Checked           { get; set; } = Color.FromArgb(150, 194, 239);
-    public override Color FormButtonBack2Checked           { get; set; } = Color.FromArgb(210, 228, 254);
-    public override Color FormButtonBorderCheck            { get; set; } = Color.FromArgb(158, 193, 241);
-    public override Color FormButtonBack1CheckTrack        { get; set; } = Color.FromArgb(140, 184, 229);
-    public override Color FormButtonBack2CheckTrack        { get; set; } = Color.FromArgb(225, 241, 255);
-    public override Color RibbonQATMini1                   { get; set; } = Color.FromArgb(114, 142, 173);
-    public override Color RibbonQATMini2                   { get; set; } = Color.FromArgb(187, 206, 230);
-    public override Color RibbonQATMini3                   { get; set; } = Color.FromArgb(187, 206, 230);
-    public override Color RibbonQATMini4                   { get; set; } = Color.FromArgb(10, Color.White);
-    public override Color RibbonQATMini5                   { get; set; } = Color.FromArgb(72, Color.White);
-    public override Color RibbonQATMini1I                  { get; set; } = Color.FromArgb(153, 176, 206);
-    public override Color RibbonQATMini2I                  { get; set; } = Color.FromArgb(226, 233, 241);
-    public override Color RibbonQATMini3I                  { get; set; } = Color.FromArgb(198, 210, 226);
-    public override Color RibbonQATMini4I                  { get; set; } = Color.FromArgb(128, Color.White);
-    public override Color RibbonQATMini5I                  { get; set; } = Color.FromArgb(72, Color.White);
-    public override Color RibbonQATFullbar1                { get; set; } = Color.FromArgb(187, 206, 230);
-    public override Color RibbonQATFullbar2                { get; set; } = Color.FromArgb(187, 206, 230);
-    public override Color RibbonQATFullbar3                { get; set; } = Color.FromArgb(114, 142, 173);
-    public override Color RibbonQATButtonDark              { get; set; } = Color.FromArgb(114, 142, 173);
-    public override Color RibbonQATButtonLight             { get; set; } = Color.FromArgb(221, 234, 247);
-    public override Color RibbonQATOverflow1               { get; set; } = Color.FromArgb(222, 236, 252);
-    public override Color RibbonQATOverflow2               { get; set; } = Color.FromArgb(123, 139, 156);
-    public override Color RibbonGroupSeparatorDark         { get; set; } = Color.FromArgb(145, 166, 194);
-    public override Color RibbonGroupSeparatorLight        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color ButtonClusterButtonBack1         { get; set; } = Color.FromArgb(192, 212, 241);
-    public override Color ButtonClusterButtonBack2         { get; set; } = Color.FromArgb(200, 219, 238);
-    public override Color ButtonClusterButtonBorder1       { get; set; } = Color.FromArgb(155, 183, 224);
-    public override Color ButtonClusterButtonBorder2       { get; set; } = Color.FromArgb(117, 150, 191);
-    public override Color NavigatorMiniBackColor           { get; set; } = Color.FromArgb(213, 228, 242);
-    public override Color GridListNormal1                  { get; set; } = Color.FromArgb(244, 249, 255);
-    public override Color GridListNormal2                  { get; set; } = Color.FromArgb(218, 231, 245);
-    public override Color GridListPressed1                 { get; set; } = Color.FromArgb(198, 211, 225);
-    public override Color GridListPressed2                 { get; set; } = Color.FromArgb(244, 249, 255);
-    public override Color GridListSelected                 { get; set; } = Color.FromArgb(160, 185, 230);
-    public override Color GridSheetColNormal1              { get; set; } = Color.FromArgb(233, 246, 255);
-    public override Color GridSheetColNormal2              { get; set; } = Color.FromArgb(213, 226, 240);
-    public override Color GridSheetColPressed1             { get; set; } = Color.FromArgb(255, 223, 107);
-    public override Color GridSheetColPressed2             { get; set; } = Color.FromArgb(255, 252, 230);
-    public override Color GridSheetColSelected1            { get; set; } = Color.FromArgb(255, 211, 89);
-    public override Color GridSheetColSelected2            { get; set; } = Color.FromArgb(255, 239, 113);
-    public override Color GridSheetRowNormal               { get; set; } = Color.FromArgb(218, 231, 245);
-    public override Color GridSheetRowPressed              { get; set; } = Color.FromArgb(255, 223, 107);
-    public override Color GridSheetRowSelected             { get; set; } = Color.FromArgb(245, 210, 87);
-    public override Color GridDataCellBorder               { get; set; } = Color.FromArgb(218, 220, 221);
-    public override Color GridDataCellSelected             { get; set; } = Color.FromArgb(183, 219, 255);
-    public override Color InputControlTextNormal           { get; set; } = Color.Black;
-    public override Color InputControlTextDisabled         { get; set; } = Color.FromArgb(168, 168, 168);
-    public override Color InputControlBorderNormal         { get; set; } = Color.FromArgb(177, 192, 214);
-    public override Color InputControlBorderDisabled       { get; set; } = Color.FromArgb(177, 187, 198);
-    public override Color InputControlBackNormal           { get; set; } = Color.FromArgb(255, 255, 255);
-    public override Color InputControlBackDisabled         { get; set; } = Color.FromArgb(240, 240, 240);
-    public override Color InputControlBackInactive         { get; set; } = Color.FromArgb(237, 245, 253);
-    public override Color InputDropDownNormal1             { get; set; } = Color.Black;
-    public override Color InputDropDownNormal2             { get; set; } = Color.Transparent;
-    public override Color InputDropDownDisabled1           { get; set; } = Color.FromArgb(172, 168, 153);
-    public override Color InputDropDownDisabled2           { get; set; } = Color.Transparent;
-    public override Color ContextMenuHeadingBack           { get; set; } = Color.FromArgb(240, 242, 245);
-    public override Color ContextMenuHeadingText           { get; set; } = Color.FromArgb(30, 57, 91);
-    public override Color ContextMenuImageColumn           { get; set; } = Color.White;
-    public override Color AppButtonBack1                   { get; set; } = Color.FromArgb(195, 212, 235);
-    public override Color AppButtonBack2                   { get; set; } = Color.FromArgb(195, 212, 235);
-    public override Color AppButtonBorder                  { get; set; } = Color.FromArgb(114, 142, 173);
-    public override Color AppButtonOuter1                  { get; set; } = Color.FromArgb(195, 212, 235);
-    public override Color AppButtonOuter2                  { get; set; } = Color.FromArgb(195, 212, 235);
-    public override Color AppButtonOuter3                  { get; set; } = Color.FromArgb(195, 212, 235);
-    public override Color AppButtonInner1                  { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color AppButtonInner2                  { get; set; } = Color.FromArgb(114, 142, 173);
-    public override Color AppButtonMenuDocsBack            { get; set; } = Color.White;
-    public override Color AppButtonMenuDocsText            { get; set; } = Color.Black;
-    public override Color SeparatorHighInternalBorder1     { get; set; } = Color.FromArgb(239, 245, 255);
-    public override Color SeparatorHighInternalBorder2     { get; set; } = Color.FromArgb(200, 217, 239);
-    public override Color RibbonGalleryBorder              { get; set; } = Color.FromArgb(177, 192, 214);
-    public override Color RibbonGalleryBackNormal          { get; set; } = Color.FromArgb(237, 245, 253);
-    public override Color RibbonGalleryBackTracking        { get; set; } = Color.FromArgb(242, 247, 252);
-    public override Color RibbonGalleryBack1               { get; set; } = Color.FromArgb(237, 245, 253);
-    public override Color RibbonGalleryBack2               { get; set; } = Color.FromArgb(206, 221, 237);
-    public override Color RibbonTabTracking3               { get; set; } = Color.FromArgb(251, 248, 224);
-    public override Color RibbonTabTracking4               { get; set; } = Color.FromArgb(200, 215, 233);
-    public override Color RibbonGroupBorder3               { get; set; } = Color.FromArgb(147, 167, 195);
-    public override Color RibbonGroupBorder4               { get; set; } = Color.FromArgb(147, 167, 195);
-    public override Color RibbonGroupBorder5               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupTitleText             { get; set; } = Color.FromArgb(56, 78, 115);
-    public override Color RibbonDropArrowLight             { get; set; } = Color.FromArgb(151, 156, 163);
-    public override Color RibbonDropArrowDark              { get; set; } = Color.FromArgb(39, 49, 60);
-    public override Color HeaderDockInactiveBack1          { get; set; } = Color.FromArgb(208, 226, 248);
-    public override Color HeaderDockInactiveBack2          { get; set; } = Color.FromArgb(178, 196, 218);
-    public override Color ButtonNavigatorBorder            { get; set; } = Color.FromArgb(133, 158, 191);
-    public override Color ButtonNavigatorText              { get; set; } = Color.FromArgb(0, 25, 56);
-    public override Color ButtonNavigatorTrack1            { get; set; } = Color.FromArgb(177, 198, 224);
-    public override Color ButtonNavigatorTrack2            { get; set; } = Color.FromArgb(211, 224, 240);
-    public override Color ButtonNavigatorPressed1          { get; set; } = Color.FromArgb(148, 174, 205);
-    public override Color ButtonNavigatorPressed2          { get; set; } = Color.FromArgb(198, 214, 231);
-    public override Color ButtonNavigatorChecked1          { get; set; } = Color.FromArgb(200, 219, 240);
-    public override Color ButtonNavigatorChecked2          { get; set; } = Color.FromArgb(177, 201, 228);
-    public override Color ToolTipBottom                    { get; set; } = Color.FromArgb(201, 217, 239);
-    public override Color MenuItemText                     { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuMarginGradientStart          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuMarginGradientMiddle         { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuMarginGradientEnd            { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color DisabledMenuItemText             { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuStripText                    { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color TrackBarTickMarks                { get; set; } = Color.FromArgb(116, 150, 194);
-    public override Color TrackBarTopTrack                 { get; set; } = Color.FromArgb(116, 150, 194);
-    public override Color TrackBarBottomTrack              { get; set; } = Color.FromArgb(152, 190, 241);
-    public override Color TrackBarFillTrack                { get; set; } = Color.FromArgb(142, 180, 231);
-    public override Color TrackBarOutsidePosition          { get; set; } = Color.FromArgb(64, Color.White);
-    public override Color TrackBarBorderPosition           { get; set; } = Color.FromArgb(63, 101, 152);
+    public override Color TextLabelControl                 { get; set; } = Color.FromArgb(36, 36, 36);    // [T] window/tab text #242424
+    public override Color TextButtonNormal                 { get; set; } = Color.FromArgb(36, 36, 36);    // [T] window text #242424
+    public override Color TextButtonChecked                { get; set; } = Color.FromArgb(36, 36, 36);    // [T] window text #242424
+    public override Color ButtonNormalBorder               { get; set; } = Color.FromArgb(138, 138, 138); // [T] control border #8A8A8A ([M1]/[M2] dropdown borders)
+    public override Color ButtonNormalDefaultBorder        { get; set; } = Color.FromArgb(138, 138, 138); // [T] control border #8A8A8A
+    public override Color ButtonNormalBack1                { get; set; } = Color.White;                   // [D] flat controls merge into the white card
+    public override Color ButtonNormalBack2                { get; set; } = Color.White;                   // [D] white card
+    public override Color ButtonNormalDefaultBack1         { get; set; } = Color.White;                   // [D] white card
+    public override Color ButtonNormalDefaultBack2         { get; set; } = Color.FromArgb(221, 226, 230); // [D] shadow step #DDE2E6 emphasises the default button
+    public override Color ButtonNormalNavigatorBack1       { get; set; } = Color.FromArgb(207, 212, 218); // [N]
+    public override Color ButtonNormalNavigatorBack2       { get; set; } = Color.FromArgb(207, 212, 218); // [N]
+    public override Color PanelClient                      { get; set; } = Color.White;                   // [T] ribbon card #FFFFFF — the pipeline fills the ribbon body with PanelClient (2019-pass note)
+    public override Color PanelAlternative                 { get; set; } = Color.FromArgb(233, 238, 242); // [T] app frame / document surround #E9EEF2
+    public override Color ControlBorder                    { get; set; } = Color.FromArgb(209, 209, 209); // [T] group separator / card edge #D1D1D1
+    public override Color SeparatorHighBorder1             { get; set; } = Color.FromArgb(250, 253, 255); // [N]
+    public override Color SeparatorHighBorder2             { get; set; } = Color.FromArgb(227, 232, 237); // [N]
+    public override Color HeaderPrimaryBack1               { get; set; } = Color.FromArgb(233, 238, 242); // [T] frame neutral #E9EEF2
+    public override Color HeaderPrimaryBack2               { get; set; } = Color.FromArgb(233, 238, 242); // [T] frame neutral #E9EEF2
+    public override Color HeaderSecondaryBack1             { get; set; } = Color.FromArgb(245, 245, 245); // [T] status neutral #F5F5F5
+    public override Color HeaderSecondaryBack2             { get; set; } = Color.FromArgb(245, 245, 245); // [T] status neutral #F5F5F5
+    public override Color HeaderText                       { get; set; } = Color.FromArgb(36, 36, 36);    // [T] window text #242424
+    public override Color StatusStripText                  { get; set; } = Color.FromArgb(97, 97, 97);    // [T] status text #616161 band ([W], verify open item 1)
+    public override Color ButtonBorder                     { get; set; } = Color.FromArgb(236, 199, 87);  // [N] hover border — hover/pressed fills are colour-table open item 2
+    public override Color SeparatorLight                   { get; set; } = Color.FromArgb(247, 250, 252); // [N]
+    public override Color SeparatorDark                    { get; set; } = Color.FromArgb(119, 123, 127); // [N]
+    public override Color GripLight                        { get; set; } = Color.FromArgb(191, 191, 191); // [N]
+    public override Color GripDark                         { get; set; } = Color.FromArgb(191, 191, 191); // [N]
+    public override Color ToolStripBack                    { get; set; } = Color.White;                   // [D] toolbar strip merges into the white card (2021-pass rule)
+    public override Color StatusStripLight                 { get; set; } = Color.FromArgb(245, 245, 245); // [T] status bar #F5F5F5
+    public override Color StatusStripDark                  { get; set; } = Color.FromArgb(245, 245, 245); // [T] status bar #F5F5F5
+    public override Color ImageMargin                      { get; set; } = Color.White;                   // [N]
+    public override Color ToolStripBegin                   { get; set; } = Color.White;                   // [D] strip = white card
+    public override Color ToolStripMiddle                  { get; set; } = Color.White;                   // [D] strip = white card
+    public override Color ToolStripEnd                     { get; set; } = Color.White;                   // [D] strip = white card
+    public override Color OverflowBegin                    { get; set; } = Color.FromArgb(209, 209, 209); // [D] card edge #D1D1D1 for overflow chrome
+    public override Color OverflowMiddle                   { get; set; } = Color.FromArgb(209, 209, 209); // [D] #D1D1D1
+    public override Color OverflowEnd                      { get; set; } = Color.FromArgb(209, 209, 209); // [D] #D1D1D1
+    public override Color ToolStripBorder                  { get; set; } = Color.FromArgb(209, 209, 209); // [T] group separator #D1D1D1
+    public override Color FormBorderActive                 { get; set; } = Color.FromArgb(24, 90, 189);   // [T] app accent (Word) #185ABD — active frame
+    public override Color FormBorderInactive               { get; set; } = Color.FromArgb(134, 139, 145); // [N] inactive frame — colour-table open item 4
+    public override Color FormBorderActiveLight            { get; set; } = Color.FromArgb(24, 90, 189);   // [T] accent #185ABD (flat frame)
+    public override Color FormBorderActiveDark             { get; set; } = Color.FromArgb(24, 90, 189);   // [T] accent #185ABD (flat frame)
+    public override Color FormBorderInactiveLight          { get; set; } = Color.FromArgb(248, 247, 247); // [N] inactive — open item 4
+    public override Color FormBorderInactiveDark           { get; set; } = Color.FromArgb(248, 247, 247); // [N] inactive — open item 4
+    public override Color FormBorderHeaderActive           { get; set; } = Color.FromArgb(24, 90, 189);   // [T] accent #185ABD — caption merges into chrome
+    public override Color FormBorderHeaderInactive         { get; set; } = Color.FromArgb(134, 139, 145); // [N] inactive — open item 4
+    public override Color FormBorderHeaderActive1          { get; set; } = Color.FromArgb(24, 90, 189);   // [T] title bar active = accent #185ABD ([M1] title rect)
+    public override Color FormBorderHeaderActive2          { get; set; } = Color.FromArgb(24, 90, 189);   // [T] title bar active = accent #185ABD
+    public override Color FormBorderHeaderInactive1        { get; set; } = Color.FromArgb(248, 247, 247); // [N] inactive — open item 4
+    public override Color FormBorderHeaderInactive2        { get; set; } = Color.FromArgb(248, 247, 247); // [N] inactive — open item 4
+    public override Color FormHeaderShortActive            { get; set; } = Color.White;                   // [T] title bar text #FFFFFF
+    public override Color FormHeaderShortInactive          { get; set; } = Color.FromArgb(138, 138, 138); // [N] inactive — open item 4
+    public override Color FormHeaderLongActive             { get; set; } = Color.White;                   // [T] title bar text #FFFFFF
+    public override Color FormHeaderLongInactive           { get; set; } = Color.FromArgb(138, 138, 138); // [N] inactive — open item 4
+    public override Color FormButtonBorderTrack            { get; set; } = Color.FromArgb(22, 81, 170);   // [D] caption hover = underline companion #1651AA (hover open item 2)
+    public override Color FormButtonBack1Track             { get; set; } = Color.FromArgb(22, 81, 170);   // [D] #1651AA
+    public override Color FormButtonBack2Track             { get; set; } = Color.FromArgb(22, 81, 170);   // [D] #1651AA
+    public override Color FormButtonBorderPressed          { get; set; } = Color.FromArgb(18, 68, 142);   // [D] pressed = accent blended 25% toward black
+    public override Color FormButtonBack1Pressed           { get; set; } = Color.FromArgb(18, 68, 142);   // [D] accent 25% toward black
+    public override Color FormButtonBack2Pressed           { get; set; } = Color.FromArgb(18, 68, 142);   // [D] accent 25% toward black
+    public override Color TextButtonFormNormal             { get; set; } = Color.White;                   // [T] caption glyph/text white on accent
+    public override Color TextButtonFormTracking           { get; set; } = Color.White;                   // [T] white on accent hover
+    public override Color TextButtonFormPressed            { get; set; } = Color.White;                   // [T] white on accent pressed
+    public override Color LinkNotVisitedOverrideControl    { get; set; } = Color.Blue;                    // [N]
+    public override Color LinkVisitedOverrideControl       { get; set; } = Color.Purple;                  // [N]
+    public override Color LinkPressedOverrideControl       { get; set; } = Color.Red;                     // [N]
+    public override Color LinkNotVisitedOverridePanel      { get; set; } = Color.Blue;                    // [N]
+    public override Color LinkVisitedOverridePanel         { get; set; } = Color.Purple;                  // [N]
+    public override Color LinkPressedOverridePanel         { get; set; } = Color.Red;                     // [N]
+    public override Color TextLabelPanel                   { get; set; } = Color.FromArgb(36, 36, 36);    // [T] window text #242424
+    public override Color RibbonTabTextNormal              { get; set; } = Color.FromArgb(36, 36, 36);    // [T] tab text #242424 — dark text on the NEUTRAL #E9EEF2 tab row
+    public override Color RibbonTabTextChecked             { get; set; } = Color.FromArgb(22, 81, 170);   // [T] selected tab accent = underline shade #1651AA ([M1] col scan x=196)
+    public override Color RibbonTabSelected1               { get; set; } = Color.White;                   // [D] selected tab merges into the white ribbon card
+    public override Color RibbonTabSelected2               { get; set; } = Color.White;                   // [D] white card fill
+    public override Color RibbonTabSelected3               { get; set; } = Color.White;                   // [D] white card fill
+    public override Color RibbonTabSelected4               { get; set; } = Color.White;                   // [D] white card fill
+    public override Color RibbonTabSelected5               { get; set; } = Color.White;                   // [D] white card fill
+    public override Color RibbonTabTracking1               { get; set; } = Color.FromArgb(221, 226, 230); // [D] tab hover = shadow step #DDE2E6 (hover open item 2)
+    public override Color RibbonTabTracking2               { get; set; } = Color.FromArgb(221, 226, 230); // [D] #DDE2E6
+    public override Color RibbonTabHighlight1              { get; set; } = Color.White;                   // [D] mirrors RibbonTabSelected1 (flat selected look)
+    public override Color RibbonTabHighlight2              { get; set; } = Color.White;                   // [D] mirrors selected fill
+    public override Color RibbonTabHighlight3              { get; set; } = Color.White;                   // [D] mirrors selected fill
+    public override Color RibbonTabHighlight4              { get; set; } = Color.White;                   // [D] mirrors selected fill
+    public override Color RibbonTabHighlight5              { get; set; } = Color.White;                   // [D] mirrors selected fill
+    public override Color RibbonTabSeparatorColor          { get; set; } = Color.FromArgb(233, 238, 242); // [D] tab row #E9EEF2 — 2026 draws no tab separators
+    public override Color RibbonGroupsArea1                { get; set; } = Color.FromArgb(209, 209, 209); // [T] card edge #D1D1D1
+    public override Color RibbonGroupsArea2                { get; set; } = Color.FromArgb(209, 209, 209); // [T] group separator #D1D1D1
+    public override Color RibbonGroupsArea3                { get; set; } = Color.FromArgb(209, 209, 209); // [T] group separator #D1D1D1
+    public override Color RibbonGroupsArea4                { get; set; } = Color.White;                   // [T] ribbon card #FFFFFF ([M1] rect 550,200)
+    public override Color RibbonGroupsArea5                { get; set; } = Color.White;                   // [T] ribbon card #FFFFFF
+    public override Color RibbonGroupBorder1               { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupBorder2               { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupTitle1                { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupTitle2                { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupBorderContext1        { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupBorderContext2        { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupTitleContext1         { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupTitleContext2         { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupDialogDark            { get; set; } = Color.FromArgb(102, 109, 124); // [N]
+    public override Color RibbonGroupDialogLight           { get; set; } = Color.FromArgb(233, 238, 242); // [D] frame neutral #E9EEF2
+    public override Color RibbonGroupTitleTracking1        { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupTitleTracking2        { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonMinimizeBarDark            { get; set; } = Color.FromArgb(209, 209, 209); // [T] group separator #D1D1D1
+    public override Color RibbonMinimizeBarLight           { get; set; } = Color.White;                   // [T] ribbon card #FFFFFF
+    public override Color RibbonGroupCollapsedBorder1      { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupCollapsedBorder2      { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupCollapsedBorder3      { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupCollapsedBorder4      { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupCollapsedBack1        { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupCollapsedBack2        { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupCollapsedBack3        { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupCollapsedBack4        { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupCollapsedBorderT1     { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupCollapsedBorderT2     { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupCollapsedBorderT3     { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupCollapsedBorderT4     { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupCollapsedBackT1       { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupCollapsedBackT2       { get; set; } = Color.FromArgb(242, 244, 247); // [N]
+    public override Color RibbonGroupCollapsedBackT3       { get; set; } = Color.FromArgb(238, 241, 245); // [N]
+    public override Color RibbonGroupCollapsedBackT4       { get; set; } = Color.FromArgb(234, 235, 235); // [N]
+    public override Color RibbonGroupFrameBorder1          { get; set; } = Color.FromArgb(209, 209, 209); // [T] group separator #D1D1D1
+    public override Color RibbonGroupFrameBorder2          { get; set; } = Color.FromArgb(209, 209, 209); // [T] group separator #D1D1D1
+    public override Color RibbonGroupFrameInside1          { get; set; } = Color.FromArgb(254, 254, 254); // [N]
+    public override Color RibbonGroupFrameInside2          { get; set; } = Color.FromArgb(254, 254, 254); // [N]
+    public override Color RibbonGroupFrameInside3          { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupFrameInside4          { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupCollapsedText         { get; set; } = Color.FromArgb(36, 36, 36);    // [T] window text #242424
+    public override Color RibbonGroupButtonText            { get; set; } = Color.FromArgb(58, 58, 56);    // [T] ribbon control text #3A3A38
+    public override Color AlternatePressedBack1            { get; set; } = Color.FromArgb(179, 185, 195); // [N]
+    public override Color AlternatePressedBack2            { get; set; } = Color.FromArgb(216, 224, 224); // [N]
+    public override Color AlternatePressedBorder1          { get; set; } = Color.FromArgb(125, 125, 125); // [N]
+    public override Color AlternatePressedBorder2          { get; set; } = Color.FromArgb(186, 186, 186); // [N]
+    public override Color FormButtonBack1Checked           { get; set; } = Color.FromArgb(22, 81, 170);   // [D] checked caption button = companion #1651AA
+    public override Color FormButtonBack2Checked           { get; set; } = Color.FromArgb(22, 81, 170);   // [D] #1651AA
+    public override Color FormButtonBorderCheck            { get; set; } = Color.FromArgb(22, 81, 170);   // [D] #1651AA
+    public override Color FormButtonBack1CheckTrack        { get; set; } = Color.FromArgb(18, 68, 142);   // [D] accent 25% toward black
+    public override Color FormButtonBack2CheckTrack        { get; set; } = Color.FromArgb(18, 68, 142);   // [D] accent 25% toward black
+    public override Color RibbonQATMini1                   { get; set; } = Color.FromArgb(24, 90, 189);   // [D] QAT minibar sits on the accent title bar #185ABD
+    public override Color RibbonQATMini2                   { get; set; } = Color.FromArgb(24, 90, 189);   // [D] accent #185ABD
+    public override Color RibbonQATMini3                   { get; set; } = Color.FromArgb(24, 90, 189);   // [D] accent #185ABD
+    public override Color RibbonQATMini4                   { get; set; } = Color.FromArgb(10, Color.White); // [N]
+    public override Color RibbonQATMini5                   { get; set; } = Color.FromArgb(32, Color.White); // [N]
+    public override Color RibbonQATMini1I                  { get; set; } = Color.FromArgb(200, 200, 200); // [N] inactive — open item 4
+    public override Color RibbonQATMini2I                  { get; set; } = Color.FromArgb(233, 234, 238); // [N] inactive — open item 4
+    public override Color RibbonQATMini3I                  { get; set; } = Color.FromArgb(223, 224, 228); // [N] inactive — open item 4
+    public override Color RibbonQATMini4I                  { get; set; } = Color.FromArgb(10, Color.White); // [N]
+    public override Color RibbonQATMini5I                  { get; set; } = Color.FromArgb(32, Color.White); // [N]
+    public override Color RibbonQATFullbar1                { get; set; } = Color.White;                   // [D] full QAT bar merges into the white card
+    public override Color RibbonQATFullbar2                { get; set; } = Color.White;                   // [D] white card
+    public override Color RibbonQATFullbar3                { get; set; } = Color.FromArgb(209, 209, 209); // [T] group separator #D1D1D1
+    public override Color RibbonQATButtonDark              { get; set; } = Color.FromArgb(176, 182, 188); // [N]
+    public override Color RibbonQATButtonLight             { get; set; } = Color.FromArgb(223, 223, 223); // [N]
+    public override Color RibbonQATOverflow1               { get; set; } = Color.FromArgb(233, 237, 241); // [N]
+    public override Color RibbonQATOverflow2               { get; set; } = Color.FromArgb(138, 144, 150); // [N]
+    public override Color RibbonGroupSeparatorDark         { get; set; } = Color.FromArgb(209, 209, 209); // [T] group separator #D1D1D1
+    public override Color RibbonGroupSeparatorLight        { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color ButtonClusterButtonBack1         { get; set; } = Color.FromArgb(231, 234, 238); // [N]
+    public override Color ButtonClusterButtonBack2         { get; set; } = Color.FromArgb(241, 243, 243); // [N]
+    public override Color ButtonClusterButtonBorder1       { get; set; } = Color.FromArgb(197, 198, 199); // [N]
+    public override Color ButtonClusterButtonBorder2       { get; set; } = Color.FromArgb(157, 158, 159); // [N]
+    public override Color NavigatorMiniBackColor           { get; set; } = Color.FromArgb(238, 238, 244); // [N]
+    public override Color GridListNormal1                  { get; set; } = Color.White;                   // [N]
+    public override Color GridListNormal2                  { get; set; } = Color.White;                   // [N]
+    public override Color GridListPressed1                 { get; set; } = Color.FromArgb(203, 207, 212); // [N]
+    public override Color GridListPressed2                 { get; set; } = Color.White;                   // [N]
+    public override Color GridListSelected                 { get; set; } = Color.FromArgb(186, 189, 194); // [N]
+    public override Color GridSheetColNormal1              { get; set; } = Color.FromArgb(233, 238, 242); // [D] grid headers take the frame neutral #E9EEF2 (Excel Colorful headers not tabled for 2026)
+    public override Color GridSheetColNormal2              { get; set; } = Color.FromArgb(233, 238, 242); // [D] #E9EEF2
+    public override Color GridSheetColPressed1             { get; set; } = Color.FromArgb(220, 224, 228); // [D] header pressed = ruler-margin neutral #DCE0E4 (hover open item 2)
+    public override Color GridSheetColPressed2             { get; set; } = Color.FromArgb(220, 224, 228); // [D] #DCE0E4
+    public override Color GridSheetColSelected1            { get; set; } = Color.FromArgb(205, 230, 247); // [N] selection tint #CDE6F7 (2021 donor; no 2026 sample)
+    public override Color GridSheetColSelected2            { get; set; } = Color.FromArgb(205, 230, 247); // [N] #CDE6F7
+    public override Color GridSheetRowNormal               { get; set; } = Color.FromArgb(233, 238, 242); // [D] frame neutral #E9EEF2
+    public override Color GridSheetRowPressed              { get; set; } = Color.FromArgb(220, 224, 228); // [D] #DCE0E4
+    public override Color GridSheetRowSelected             { get; set; } = Color.FromArgb(205, 230, 247); // [N] #CDE6F7
+    public override Color GridDataCellBorder               { get; set; } = Color.FromArgb(212, 212, 212); // [N] donor grid lines #D4D4D4 family (not sampled for 2026)
+    public override Color GridDataCellSelected             { get; set; } = Color.FromArgb(205, 230, 247); // [N] selection tint #CDE6F7
+    public override Color InputControlTextNormal           { get; set; } = Color.FromArgb(58, 58, 56);    // [T] ribbon control text #3A3A38
+    public override Color InputControlTextDisabled         { get; set; } = Color.FromArgb(168, 168, 168); // [N] light-theme disabled text — colour-table open item
+    public override Color InputControlBorderNormal         { get; set; } = Color.FromArgb(138, 138, 138); // [T] control border #8A8A8A
+    public override Color InputControlBorderDisabled       { get; set; } = Color.FromArgb(187, 187, 187); // [N]
+    public override Color InputControlBackNormal           { get; set; } = Color.FromArgb(255, 255, 255); // [T] inputs stay white on the white card
+    public override Color InputControlBackDisabled         { get; set; } = Color.FromArgb(240, 240, 240); // [N]
+    public override Color InputControlBackInactive         { get; set; } = Color.FromArgb(247, 247, 247); // [N]
+    public override Color InputDropDownNormal1             { get; set; } = Color.Black;                   // [N]
+    public override Color InputDropDownNormal2             { get; set; } = Color.Transparent;             // [N]
+    public override Color InputDropDownDisabled1           { get; set; } = Color.FromArgb(172, 168, 153); // [N]
+    public override Color InputDropDownDisabled2           { get; set; } = Color.Transparent;             // [N]
+    public override Color ContextMenuHeadingBack           { get; set; } = Color.FromArgb(240, 242, 245); // [N] context menu — colour-table open item 3
+    public override Color ContextMenuHeadingText           { get; set; } = Color.FromArgb(36, 36, 36);    // [T] window text #242424
+    public override Color ContextMenuImageColumn           { get; set; } = Color.White;                   // [N] context menu — open item 3
+    public override Color AppButtonBack1                   { get; set; } = Color.FromArgb(224, 227, 231); // [N] backstage — colour-table open item 3
+    public override Color AppButtonBack2                   { get; set; } = Color.FromArgb(224, 227, 231); // [N] backstage — open item 3
+    public override Color AppButtonBorder                  { get; set; } = Color.FromArgb(135, 140, 146); // [N] backstage — open item 3
+    public override Color AppButtonOuter1                  { get; set; } = Color.FromArgb(224, 227, 231); // [N] backstage — open item 3
+    public override Color AppButtonOuter2                  { get; set; } = Color.FromArgb(224, 227, 231); // [N] backstage — open item 3
+    public override Color AppButtonOuter3                  { get; set; } = Color.FromArgb(224, 227, 231); // [N] backstage — open item 3
+    public override Color AppButtonInner1                  { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color AppButtonInner2                  { get; set; } = Color.FromArgb(135, 140, 146); // [N]
+    public override Color AppButtonMenuDocsBack            { get; set; } = Color.White;                   // [N]
+    public override Color AppButtonMenuDocsText            { get; set; } = Color.Black;                   // [N]
+    public override Color SeparatorHighInternalBorder1     { get; set; } = Color.FromArgb(250, 253, 255); // [N]
+    public override Color SeparatorHighInternalBorder2     { get; set; } = Color.FromArgb(227, 232, 237); // [N]
+    public override Color RibbonGalleryBorder              { get; set; } = Color.FromArgb(209, 209, 209); // [T] group separator #D1D1D1
+    public override Color RibbonGalleryBackNormal          { get; set; } = Color.FromArgb(255, 255, 255); // [D] gallery well = white card
+    public override Color RibbonGalleryBackTracking        { get; set; } = Color.FromArgb(255, 255, 255); // [N]
+    public override Color RibbonGalleryBack1               { get; set; } = Color.FromArgb(250, 250, 250); // [N]
+    public override Color RibbonGalleryBack2               { get; set; } = Color.FromArgb(228, 231, 235); // [N]
+    public override Color RibbonTabTracking3               { get; set; } = Color.FromArgb(221, 226, 230); // [D] tab hover = shadow step #DDE2E6 (hover open item 2)
+    public override Color RibbonTabTracking4               { get; set; } = Color.FromArgb(221, 226, 230); // [D] #DDE2E6
+    public override Color RibbonGroupBorder3               { get; set; } = Color.FromArgb(209, 209, 209); // [T] group separator #D1D1D1
+    public override Color RibbonGroupBorder4               { get; set; } = Color.FromArgb(209, 209, 209); // [T] group separator #D1D1D1
+    public override Color RibbonGroupBorder5               { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color RibbonGroupTitleText             { get; set; } = Color.FromArgb(85, 87, 88);    // [T] group label text #555758 ([M4]/[M2] label populations)
+    public override Color RibbonDropArrowLight             { get; set; } = Color.FromArgb(151, 156, 163); // [N]
+    public override Color RibbonDropArrowDark              { get; set; } = Color.FromArgb(58, 58, 56);    // [D] glyph = ribbon control text #3A3A38
+    public override Color HeaderDockInactiveBack1          { get; set; } = Color.FromArgb(237, 242, 248); // [N]
+    public override Color HeaderDockInactiveBack2          { get; set; } = Color.FromArgb(207, 213, 220); // [N]
+    public override Color ButtonNavigatorBorder            { get; set; } = Color.FromArgb(161, 169, 179); // [N]
+    public override Color ButtonNavigatorText              { get; set; } = Color.Black;                   // [N]
+    public override Color ButtonNavigatorTrack1            { get; set; } = Color.FromArgb(207, 213, 220); // [N]
+    public override Color ButtonNavigatorTrack2            { get; set; } = Color.FromArgb(232, 234, 238); // [N]
+    public override Color ButtonNavigatorPressed1          { get; set; } = Color.FromArgb(191, 196, 202); // [N]
+    public override Color ButtonNavigatorPressed2          { get; set; } = Color.FromArgb(225, 226, 230); // [N]
+    public override Color ButtonNavigatorChecked1          { get; set; } = Color.FromArgb(222, 227, 234); // [N]
+    public override Color ButtonNavigatorChecked2          { get; set; } = Color.FromArgb(206, 214, 221); // [N]
+    public override Color ToolTipBottom                    { get; set; } = Color.FromArgb(221, 221, 221); // [N]
+    public override Color MenuItemText                     { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color MenuMarginGradientStart          { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color MenuMarginGradientMiddle         { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color MenuMarginGradientEnd            { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color DisabledMenuItemText             { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color MenuStripText                    { get; set; } = GlobalStaticValues.EMPTY_COLOR; // [N]
+    public override Color TrackBarTickMarks                { get; set; } = Color.FromArgb(36, 36, 36);    // [T] window text #242424
+    public override Color TrackBarTopTrack                 { get; set; } = Color.FromArgb(166, 170, 175); // [N]
+    public override Color TrackBarBottomTrack              { get; set; } = Color.FromArgb(185, 207, 235); // [D] accent 70% toward white
+    public override Color TrackBarFillTrack                { get; set; } = Color.FromArgb(140, 173, 222); // [D] accent 50% toward white
+    public override Color TrackBarOutsidePosition          { get; set; } = Color.FromArgb(64, Color.White); // [N]
+    public override Color TrackBarBorderPosition           { get; set; } = Color.FromArgb(22, 81, 170);   // [D] accent companion #1651AA
 }

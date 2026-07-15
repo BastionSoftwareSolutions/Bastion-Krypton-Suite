@@ -10,6 +10,16 @@
  */
 #endregion
 
+// =====================================================================================
+// Microsoft 365 (2026) refresh — Bastion Phase 3, spec §4.2 item 4.
+// MAPPING: Microsoft365Blue = real 2026 M365 "COLORFUL" (canonical Word accent #185ABD,
+// neutral #E9EEF2 tab row, white ribbon card). Colours and full provenance:
+// SchemesPaletteMicrosoft365Blue_BaseScheme.cs + docs	hemesm365-2026-colours.md.
+// This class supplies the chrome the scheme cannot reach: the neutral tab row, the
+// flat File tab, light-glyph (Black set) caption buttons for the accent title bar,
+// and the neutral (Silver) check-box/radio strips replacing the 2010-blue bitmaps.
+// =====================================================================================
+
 namespace Krypton.Toolkit;
 
 public class PaletteMicrosoft365Blue : PaletteMicrosoft365Base
@@ -18,17 +28,17 @@ public class PaletteMicrosoft365Blue : PaletteMicrosoft365Base
 
     #region Colors
 
-    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(187, 206, 230);
+    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(233, 238, 242); // [T] 2026: NEUTRAL tab row = app frame #E9EEF2 — accent stays on the title bar ([M1] rect 600,125)
 
     #endregion
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(221, 226, 230); // [D] File tab hover = shadow step #DDE2E6 (File renders like the other tabs in 2026)
 
-    private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(233, 238, 242); // [T] File tab fill = tab row #E9EEF2
 
-    private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
+    private static readonly Color _ribbonAppButtonTextColor = Color.FromArgb(36, 36, 36); // [T] File tab text = tab text #242424
 
     #endregion
 
@@ -49,22 +59,22 @@ public class PaletteMicrosoft365Blue : PaletteMicrosoft365Base
 
     private static readonly Image? _blueDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
     private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
-    private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlueCloseNormal;
-    private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlueCloseDisabled;
-    private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010BlueCloseActive;
-    private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010BlueClosePressed;
-    private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010BlueMaximiseNormal;
-    private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlueMaximiseDisabled;
-    private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010BlueMaximiseActive;
-    private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010BlueMaximisePressed;
-    private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlueMinimiseNormal;
-    private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010BlueMinimiseActive;
-    private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlueMinimiseDisabled;
-    private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010BlueMinimisePressed;
-    private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010BlueRestoreNormal;
-    private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlueRestoreDisabled;
-    private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010BlueRestoreActive;
-    private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlueRestorePressed;
+    private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlackCloseNormal;
+    private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlackCloseDisabled;
+    private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010BlackCloseActive;
+    private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010BlackClosePressed;
+    private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010BackMaximiseNormal;
+    private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlackMaximiseDisabled;
+    private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010BlackMaximiseActive;
+    private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010BlackMaximisePressed;
+    private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlackMinimiseNormal;
+    private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010BlackMinimiseActive;
+    private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlackMinimiseDisabled;
+    private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010BlackMinimisePressed;
+    private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010BlackRestoreNormal;
+    private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlackRestoreDisabled;
+    private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010BlackRestoreActive;
+    private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlackRestorePressed;
     private static readonly Image _formHelpNormal = Microsoft365ControlBoxResources.Microsoft365HelpIconNormal;
     private static readonly Image _formHelpActive = Microsoft365ControlBoxResources.Microsoft365HelpIconHover;
     private static readonly Image _formHelpPressed = Microsoft365ControlBoxResources.Microsoft365HelpIconPressed;
@@ -143,7 +153,7 @@ public class PaletteMicrosoft365Blue : PaletteMicrosoft365Base
             ImageSize = new Size(13, 13),
             ColorDepth = ColorDepth.Depth24Bit
         };
-        _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Blue);
+        _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Silver);
 
         _galleryButtonList = new ImageList
         {
@@ -156,13 +166,13 @@ public class PaletteMicrosoft365Blue : PaletteMicrosoft365Base
         _radioButtonArray =
         [
             Office2010RadioButtonImageResources.RadioButton2010BlueD,
-            Office2010RadioButtonImageResources.RadioButton2010BlueN,
+            Office2010RadioButtonImageResources.RadioButton2010SilverN,
             Office2010RadioButtonImageResources.RadioButton2010BlueT,
             Office2010RadioButtonImageResources.RadioButton2010BlueP,
             Office2010RadioButtonImageResources.RadioButton2010BlueDC,
-            Office2010RadioButtonImageResources.RadioButton2010BlueNC,
-            Office2010RadioButtonImageResources.RadioButton2010BlueTC,
-            Office2010RadioButtonImageResources.RadioButton2010BluePC
+            Office2010RadioButtonImageResources.RadioButton2010SilverNC,
+            Office2010RadioButtonImageResources.RadioButton2010SilverTC,
+            Office2010RadioButtonImageResources.RadioButton2010SilverPC
         ];
     }
 

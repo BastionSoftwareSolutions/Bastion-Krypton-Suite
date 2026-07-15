@@ -688,9 +688,8 @@ public sealed class KryptonManager : Component
                 return PaletteMicrosoft365BlueLightMode;
             case PaletteMode.Microsoft365Blue:
                 return PaletteMicrosoft365Blue;
-            // TODO: Re-enable this once completed
-            // case PaletteMode.Microsoft365DarkGray:
-            // return PaletteMicrosoft365DarkGray;
+            case PaletteMode.Microsoft365DarkGray: // 2026 refresh: wired (was upstream TODO)
+                return PaletteMicrosoft365DarkGray;
             case PaletteMode.Microsoft365Silver:
                 return PaletteMicrosoft365Silver;
             case PaletteMode.Microsoft365SilverDarkMode:
@@ -1259,6 +1258,7 @@ public sealed class KryptonManager : Component
 
         _paletteMicrosoft365Black?.UserPreferenceChanged();
         _paletteMicrosoft365Blue?.UserPreferenceChanged();
+        _paletteMicrosoft365DarkGray?.UserPreferenceChanged(); // 2026 refresh: wired (was upstream TODO)
         _paletteMicrosoft365Silver?.UserPreferenceChanged();
         _paletteMicrosoft365White?.UserPreferenceChanged();
 

@@ -10,6 +10,14 @@
  */
 #endregion
 
+// =====================================================================================
+// Microsoft 365 (2026) refresh — Bastion Phase 3, spec §4.2 item 4.
+// MAPPING: Microsoft365Black = real 2026 M365 "BLACK" / system Dark Mode (#1C2227
+// bluish near-black frame, #292929 card, #60BD82 selected-tab accent). Colours and
+// provenance: SchemesPaletteMicrosoft365Black_BaseScheme.cs +
+// docs	hemesm365-2026-colours.md.
+// =====================================================================================
+
 namespace Krypton.Toolkit;
 
 /// <summary>
@@ -21,15 +29,15 @@ public class PaletteMicrosoft365Black : PaletteMicrosoft365Base
 
     #region Colors
 
-    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(99, 99, 99);
+    private static readonly Color _tabRowBackgroundColor = Color.FromArgb(28, 34, 39); // [T] 2026: tab row = frame #1C2227 ([M6] rect 600,150)
 
     #endregion Colors
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
-    private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
-    private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(41, 41, 41); // [D] File tab hover = card tone #292929
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(28, 34, 39); // [T] File tab fill = tab row #1C2227
+    private static readonly Color _ribbonAppButtonTextColor = Color.White; // [T] File tab text = tab text #FFFFFF
 
     #endregion Ribbon Specific Colors
 

@@ -10,6 +10,13 @@
  */
 #endregion
 
+// =====================================================================================
+// Microsoft 365 (2026) refresh — Bastion Phase 3, spec §4.2 item 4.
+// MAPPING: Microsoft365White = real 2026 M365 "WHITE" (neutral #E9EEF2 frame/tab row,
+// no accent title fill, dark #3A3A38 caption text). Colours and full provenance:
+// SchemesPaletteMicrosoft365White_BaseScheme.cs + docs	hemesm365-2026-colours.md.
+// =====================================================================================
+
 namespace Krypton.Toolkit;
 
 /// <summary>
@@ -21,11 +28,11 @@ public class PaletteMicrosoft365White : PaletteMicrosoft365Base
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(221, 226, 230); // [D] File tab hover = shadow step #DDE2E6 (File renders like the other tabs in 2026)
 
-    private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(233, 238, 242); // [T] File tab fill = tab row #E9EEF2
 
-    private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
+    private static readonly Color _ribbonAppButtonTextColor = Color.FromArgb(36, 36, 36); // [T] File tab text = tab text #242424
 
     #endregion
 
@@ -344,7 +351,7 @@ public class PaletteMicrosoft365White : PaletteMicrosoft365Base
         GlobalStaticValues.EMPTY_COLOR;
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => Color.White;
+    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => Color.FromArgb(233, 238, 242); // [T] 2026: tab row = neutral frame #E9EEF2 ([M4] rect 600,160)
 
     /// <inheritdoc />
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
