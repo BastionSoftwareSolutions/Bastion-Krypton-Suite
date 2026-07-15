@@ -120,3 +120,54 @@ The suite could not build from source against our core at all:
 7. Then the warning-clean pass and `TreatWarningsAsErrors=true`.
 
 *Build logs: scratchpad `extended-build-release.log` (pre-mitigation restore), `extended-build-release-2.log` (full build), `extended-build-release-3.log` (converged verification run — byte-identical error set).*
+
+---
+
+## 6. Fix pass results (15 July 2026, second run)
+
+**Outcome: zero build errors across the full plain solution, confirmed by two consecutive `MSBuild /restore /p:Configuration=Release` runs (exit 0, 0 error lines). 64 of the 65 csprojs in the plain solution build; 63 produce all 11 TFMs, Data.Visualisation produces 10 by design, and Themes is deliberately unscheduled (see below).** Logs: scratchpad `fixpass-build-1.log` … `fixpass-build-7.log` (iterations; `-6` is the first zero-error full build, `-7` the convergence check).
+
+### Per-item outcome (numbering from the fix-order brief)
+
+1. **Developer.Utilities net46 CS0234 (the 28-module cascade)** — root cause: `global using Microsoft.WindowsAPICodePack.Dialogs` with the 8.0.12 package excluded on net46. Fixed at **ladder rung (b)**, not (c/d) as first planned: the classic `Microsoft-WindowsAPICodePack-Shell` 1.1.5 package ships `lib/net452` assets with the same namespaces and API (the 8.x line is a fork of it), so a net46-only `PackageReference` restores the full API with **no member degradation**. An interim `#if !NET46` degradation was written and then reverted in favour of this. The same treatment fixed the second-layer net46 failures the unblocked cascade then exposed in **Controls, File.Copier, Networking, Settings, Specialised.Dialogs, Tool.Strip.Items** (public `CommonFileDialogFilter` properties on the browse-box controls survive on net46 intact). One genuine API delta: classic `TaskbarManager.SetProgressValue` has no nullable-maximum overload — two call sites in **CheckSum.Tools** got an `#if NET46` branch passing the explicit percentage maximum (100).
+2. **Software.Updater.Core `System.Net.Http` net4x (×44)** — fixed with `<Reference Include="System.Net.Http" Condition="$(TargetFramework.StartsWith('net4'))"/>`, mirroring the core's Krypton.Toolkit csproj. All 4 TFMs green.
+3. **Missing-API items (×24)** — all fixed:
+   - `ArgumentNullException.ThrowIfNull` on net5 (Core, JascPaletteSerialiser.cs): wrong guard — `#if !NETCOREAPP3_0_OR_GREATER` admits net5.0 but the API is .NET 6+. Both guards tightened to `#if !NET6_0_OR_GREATER` (rung c).
+   - `RuntimeInformation`/`OSPlatform` on net47 (Data.Visualisation, ScottPlot `Platform.cs`): the API needs .NET Framework 4.7.1+, and pre-4.7.1 Framework only runs on Windows, so `GetOs()` returns `Os.Windows` directly under `#if NETFRAMEWORK && !NET471_OR_GREATER` (rung c, behaviourally exact — no compat package needed).
+   - `DpiChangedEventArgs` on net46 (Forms, VisualForm.cs): the file used `#if !NET462` — not a real SDK symbol (never defined for any TFM in the matrix), so the guard admitted net46. Replaced with the core's exact pattern `#if NET47_OR_GREATER || !NETFRAMEWORK` at both the subscription and handler sites, with the core's degradation comment (net46 keeps `UpdateDpiFactors()` initialisation, loses per-monitor DPI tracking) (rung c/d).
+   - WPF types on net5/6/7 (Software.Updater): the csproj referenced net4x framework WPF assemblies via raw `<Reference>` items (one with a hard-coded v4.8 HintPath) that leaked into all TFMs; net8+ tolerated it (merged ref pack), net5/6/7's WinForms-only profile did not. Fixed by restricting the raw references to net4x (HintPath removed — plain framework references suffice) and setting `<UseWPF>true</UseWPF>` for all .NET (Core) TFMs, so `SetOwner(Window)`, `Wpf32Window` and the `Application.Current.Dispatcher` shutdown path work identically on every TFM (rung b — reference alignment, no degradation).
+4. **Error.Reporting net46 (×3)** — `System.Management` ships in-box on .NET Framework, so net46 gets `<Reference Include="System.Management"/>` (full WMI SysInfo retained, rung b). `Ionic.Zip` (ProDotNetZip, no net46 asset): the single internal `Zipper` call site now uses in-box `System.IO.Compression` under `#if NET46` (equivalent archive output; rung c). No degradation.
+5. **Software.Updater `KryptonLanguageManager` (×18) + `BackStyle` (×6)** — clean 1:1 mappings found in the current core; **go**:
+   - `KryptonLanguageManager.GeneralToolkitStrings.{OK,Yes,No}` → `KryptonManager.Strings.GeneralStrings.{OK,Yes,No}` (`KryptonManager.Strings` is `KryptonGlobalToolkitStrings`, which exposes the same `GeneralToolkitStrings` singleton; Extended's own Core module already uses this form throughout). 3 source lines.
+   - `BackStyle` → `GroupBackStyle` on `KryptonForm` — verified identical semantics: the removed `VisualForm.BackStyle` was `_stateCommon.BackStyle` (checked at core tag `56c44e813`), and the current `KryptonForm.GroupBackStyle` is `StateCommon!.BackStyle`. 1 designer line. Record both in CHANGES.md as fix-forwards.
+6. **Themes non-blocking** — the Themes project's 24 `Build.0` entries were removed from the plain solution and 5 from the Dev solution (project remains on disk and in the sln structure; `ActiveCfg` entries retained). Nothing references it (both Ultimates' references were already commented out), so the CS0533 wall no longer blocks anything. Software.Updater needed no such treatment (step 5 was a go).
+
+### Additional root causes fixed during iteration (not in the original brief)
+
+| Item | Cause | Fix |
+|---|---|---|
+| Software.Updater WebView2 on net46 (2 errors) | `Microsoft.Web.WebView2` 1.0.3595.46 ships net462+ assets only | net46 pins **1.0.2478.35** — the last release with `lib/net45` — which contains all three APIs the code uses (`AllowExternalDrop`, `CoreWebView2.Profile`, `BasicAuthenticationRequested`); other TFMs unchanged (rung b) |
+| Software.Updater ILRepack failure on all 10 compiling TFMs (latent — first surfaced when compile succeeded) | `ILRepack.Lib.MSBuild.Task`'s fallback target merges *every* DLL in the output directory into the primary assembly; under the source build that includes the entire Krypton core (`Failed to resolve assembly: Krypton.Toolkit 105.26.7.196`), and would be wrong even if it resolved | New project-local no-op `ILRepack.targets` (suppresses the fallback target; documented in the file). Revisit only if the standalone NuGet package should vendor-merge dependencies |
+| Dialogs net46 `System.Speech` (1 error, latent behind the cascade) | System.Speech 10.0.0 package has no net46 asset | in-box framework `<Reference Include="System.Speech"/>` for net46 (rung b) |
+| Drawing.Utilities net46 Cyotek ColorGrid (18 errors, latent) | `Unofficial.Cyotek.Windows.Forms.NET` 2.0.1 has no net46 asset | net46-only `Cyotek.Windows.Forms.ColorPicker` 1.7.2 (the classic package upstream originally used — its commented-out reference was still in the csproj); same namespaces/API |
+| Networking net46 `System.DirectoryServices` (latent) | package 10.0.0 has no net46 asset | in-box framework reference for net46 (rung b) |
+| Data.Visualisation net46 SkiaSharp wall (146 errors, latent) | SkiaSharp 3.x needs net462+; 39 source files use SKxxx types — beyond any `#if` treatment, and no viable compat package exists | **Documented reduced-TFM set** (spec §3 method step 1): net46 removed from `TargetFrameworks` via `$([MSBuild]::Unescape($(ActiveExtendedToolkitTFMs.Replace('net46;', ''))))` (the `Unescape` is load-bearing: property-function results carry escaped semicolons that break TFM splitting, manifesting as NETSDK1046). Ultimate, Ultimate.Lite and Examples reference it with `Condition="'$(TargetFramework)' != 'net46'"` — so **Ultimate on net46 excludes Data.Visualisation** (feature-matrix entry needed) |
+| Ultimate/Ultimate.Lite pack NU1012 (2 errors, latent) | the dependency-bundling pack targets write `lib/$(TargetFramework)/`, and the TFM normalisation from `netX.0-windows7.0` to `netX.0-windows` produced folder names NuGet pack rejects (missing platform version) | pack paths now re-append `7.0` for windows-flavoured TFMs (`netX.0-windows` ≡ `netX.0-windows7.0`) in `Directory.Build.targets` and both Ultimate csprojs; additionally WebView2 assemblies are excluded from the bundling filters (its build targets inject them without `NuGetPackageId` metadata, and the package is already a declared dependency) |
+
+### Final per-project × TFM status
+
+- **Plain solution: 65 csprojs. 64 scheduled, 64 succeed. 63 of 64 build their full 11-TFM matrix** (this includes previously 0/11 Software.Updater — now 11/11 with packages packing — plus both Ultimates, Software.Updater.Core, Buttons, Core, Drawing.Utilities, Forms, Error.Reporting and the entire former net46-cascade column; Examples, AutoUpdateCreator and ZipExtractor all build 11/11, and the §4 "Examples never scheduled" anomaly resolved itself once its dependency closure stopped failing).
+- **Data.Visualisation: 10/11 by design** (net46 excluded — SkiaSharp; documented above).
+- **Themes: 0/11, deliberately unscheduled** (Build.0 unticked in plain + Dev solutions) pending Chris's CS0533 rewrite decision.
+- MessageDialog and Security remain outside the plain solution (upstream intent, unchanged).
+- Project×TFM pairs: **703 of 704 possible assemblies produced (99.9 %)** versus 628 (89 %) at triage; the single missing pair is Data.Visualisation net46 (by design), plus the whole deliberately-parked Themes row (not counted as buildable).
+- Packing now runs to completion: all module `.nupkg`s and both Ultimate metapackages generate under `Bin\NuGet Packages\Release`.
+
+### Remaining go/no-go list
+
+| Item | Status | Notes |
+|---|---|---|
+| **Themes `CustomPaletteBase` CS0533 rewrite (1,199 errors)** | **No-go pending Chris** | Dormant module, nothing depends on it; unticked from plain/Dev solution builds. The rewrite (delete 109 re-declared abstract members, keep `ThemeName`/`BasePaletteType`/statics) is mechanical but large; record as API-break fix in CHANGES.md if done. |
+| Software.Updater | **Go — shipped** | KryptonLanguageManager/BackStyle fix-forwards applied (CHANGES.md entries needed); ILRepack merge disabled for source builds (revisit for standalone package vendoring); ZipExtractor embedded-resource degradation from §1 still stands. |
+| Data.Visualisation net46 | **Accepted degradation** | Needs a per-TFM feature-matrix entry: no charting on net46, including via Ultimate. |
+| Warning-clean pass | Open (next phase) | `TreatWarningsAsErrors` still off suite-wide, as agreed. Compile-warning baseline unchanged (≈42.5k lines, dominated by nullable annotations); delete the dead net5/net6 `System.Design` references during that pass. |
