@@ -13,7 +13,7 @@ namespace Krypton.Toolkit;
 /// </summary>
 public class PaletteFormBorder : PaletteBorder
 {
-    private readonly VisualForm _ownerForm;
+    private readonly VisualForm? _ownerForm;
 
     #region Identity
 
@@ -47,7 +47,11 @@ public class PaletteFormBorder : PaletteBorder
     {
         get
         {
-            return _ownerForm.FormBorderStyle != FormBorderStyle.None
+            // Bastion: tolerate a null owner — the Extended toolkit's form implementations
+            // construct PaletteFormRedirect without a core VisualForm to hand over, so this
+            // getter must not dereference the owner unconditionally (fires on every
+            // non-client paint, presenting as an NRE inside WndProc).
+            return _ownerForm is null || _ownerForm.FormBorderStyle != FormBorderStyle.None
                 ? base.Draw
                 : InheritBool.False;
         }
@@ -78,7 +82,7 @@ public class PaletteFormBorder : PaletteBorder
                 return -1;
             }
 
-            if (!UseThemeFormChromeBorderWidth)
+            if (!UseThemeFormChromeBorderWidth && _ownerForm is not null)
             {
                 return _ownerForm.RealWindowBorders.Horizontal / 2;
             }
