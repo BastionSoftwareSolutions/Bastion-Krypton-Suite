@@ -1,0 +1,10 @@
+# Upstream clones — independent git repositories, never committed here
+/Standard-Toolkit/
+/ComponentFactory-Krypton/
+/Standard-Toolkit-Demos/
+/Extended-Toolkit/
+
+# Build detritus
+*.log
+[Bb]in/
+[Oo]bj/
