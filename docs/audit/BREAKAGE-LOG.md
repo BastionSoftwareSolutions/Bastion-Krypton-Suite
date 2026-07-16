@@ -153,6 +153,75 @@ Extended-Toolkit module output directory Ã— 11 TFMs. All are pre-existing ups
 
 ### T2. [UPSTREAM] ProfessionalOffice2003 is XP-gated
 - `PaletteProfessionalOffice2003` only applies Luna colours when `Environment.OSVersion.Major < 6`; on Windows 10/11 it silently renders as the system professional palette. The Phase 3 "Office 2003 refresh" therefore reinstates the actual Luna Blue/Olive/Silver look unconditionally (with the system-palette behaviour retained under a distinct mode or documented).
+## Phase 5b functional-sweep findings (16 July 2026)
+
+Found by `Tests/Bastion.Krypton.FunctionalTests` (spec §6.2: per public Component type —
+instantiate → place on a shown KryptonForm → default-render check → property sweep with
+typical values → safe method sweep → dispose → handle-delta + finalizer sweep). The first
+run produced 33 failing types; triage separated harness naivety (members that legitimately
+need data/designer context — now on the justified skip/deny/allow lists in
+`Tests/Bastion.Krypton.FunctionalTests/SweepPolicy.cs`) from the genuine defects below.
+
+### F1. [UPSTREAM] KryptonToggleSwitch: all four public IContentValues members threw NotImplementedException
+- **Repro:** call `GetImage(state)`, `GetImageTransparentColor(state)`, `GetShortText()` or
+  `GetLongText()` on any `KryptonToggleSwitch` — every one threw `NotImplementedException`.
+  The control declares `IContentValues` on its public surface, so any toolkit view/content
+  path (or consumer code) that consumes the control as `IContentValues` crashes.
+- **Affects:** all TFMs; pre-existing on upstream V105-LTS (stubs shipped with the control).
+- **Fix:** benign content values matching the sibling implementations (`ViewDrawAutoHiddenTab`
+  et al.): `GetImage` → `null` (the switch paints its own glyphs),
+  `GetImageTransparentColor` → `Color.Empty`, `GetShortText` → `Text ?? string.Empty`,
+  `GetLongText` → `string.Empty`. (`KryptonToggleSwitch.cs`, Standard-Toolkit
+  `bastion/multitarget`.)
+
+### F2. [UPSTREAM] OPEN — KryptonPage.PaletteMode / Palette setters throw OperationCanceledException
+- **Repro:** set `PaletteMode` or `Palette` on any `KryptonPage` —
+  `OperationCanceledException("Cannot change PaletteMode property")`.
+- **Assessment:** sealing the page palette to the owning Navigator is deliberate (both
+  members are `[Browsable(false)]`/`[EditorBrowsable(Never)]`), but the members remain
+  public **writable** properties and the thrown type misrepresents the contract —
+  `OperationCanceledException` is for cancelled operations; `NotSupportedException` is the
+  correct type (generic reflection/serialisation tooling special-cases it). Changing the
+  thrown type (or making the setters non-public) is an upstream-facing design call.
+- **Disposition:** OPEN — members skip-listed in the sweep with a FIXME referencing this
+  entry.
+
+### F3. [UPSTREAM] OPEN, minor — Workspace StarSize.Value throws ArgumentNullException for non-null malformed input
+- **Repro:** `KryptonWorkspaceCell.StarSize = "Sample"` →
+  `ArgumentNullException("Value must have two values separated by a comma.")` from
+  `StarSize.set_Value` — the argument is not null; the format is wrong.
+  `ArgumentException`/`FormatException` would state the contract correctly.
+- **Disposition:** OPEN — exception-type-only change with no behavioural urgency; the sweep
+  now supplies the documented `"<width>,<height>"` notation, keeping the member covered.
+
+### F4. Framework-only NRE in DataGridView editing controls set standalone (harness naivety, documented)
+- **Repro:** on **net48/.NET Framework only**, the property sweep sets `Text` on
+  `PercentageEditingControl` / `KryptonDataGridViewProgressEditingControl` (both derive from
+  the framework `System.Windows.Forms.DataGridViewTextBoxEditingControl`). The framework's
+  `DataGridViewTextBoxEditingControl.OnTextChanged` dereferences the (null) hosting grid →
+  `NullReferenceException`, escaping a **reflected WM_COMMAND WndProc**, which on .NET
+  Framework routes to a modal `ThreadExceptionDialog` and hangs the unattended run.
+- **Assessment:** the NRE is in **framework code, not Krypton** — these editing controls are
+  only ever created by a `DataGridView`; setting text standalone is not a real scenario.
+  .NET 8 WinForms guards `OnTextChanged`, so net8 is unaffected. Classified as harness
+  naivety.
+- **Disposition:** (a) `Text`/`SelectedText` skip-listed on the `DataGridViewTextBoxEditingControl`
+  base with justification; (b) the sweep now subscribes `Application.ThreadException` on its
+  STA thread, so any future reflected-WndProc exception on Framework becomes a structured
+  test failure instead of a modal-dialog hang.
+
+### Triage notes (harness naivety, not product defects)
+- Empty-collection index contracts (`GetItemHeight(1)` on empty lists, DataGridView
+  scrolling indices, `RichTextBox.Find` beyond an empty document, …), documented WinForms
+  pairing rules (`HoverSelection`/`HotTracking`, `AllowItemReorder`/`AllowDrop`,
+  DataGridView `Custom` border styles, WebBrowser's unsupported ambient properties,
+  `KryptonComboBox`'s by-design rejection of `ComboBoxStyle.Simple`) and blank-by-design
+  default renders (empty panels/grids/workspaces, auto-size labels with empty text) were
+  moved to the explicit, per-entry-justified lists in `SweepPolicy.cs`.
+- Typical-value refinements instead of skips where a member has a value-format contract:
+  `Rtf`/`SelectedRtf` (well-formed RTF), `PromptChar`/`PasswordChar` (distinct canonical
+  chars), `StarSize` (`"50,50"`).
+
 ## Consumer-packaging findings (not bugs; for CHANGES.md and package metadata)
 
 - On net47â€“net481, Krypton's preserialized resources require **System.Resources.Extensions** at runtime; consumers referencing raw DLLs (not NuGet) must ship it. Package dependency metadata must declare it (upstream already does).

@@ -17,14 +17,15 @@
     Failure screenshots land in Tests\artifacts\<project>\<tfm>\screenshots.
 
 .PARAMETER Project
-    UnitTests | FormsTests | FormsTests.VB | StressTests (default UnitTests).
+    UnitTests | FormsTests | FormsTests.VB | FunctionalTests | StressTests (default UnitTests).
 
 .PARAMETER Tfm
     Target framework moniker to run (default net8.0-windows).
 
 .PARAMETER All
-    Sweep the functional projects (UnitTests, FormsTests, FormsTests.VB) across all 11 TFMs
-    and print a summary table. StressTests is excluded (Phase 5c placeholder shell).
+    Sweep the functional projects (UnitTests, FormsTests, FormsTests.VB, FunctionalTests)
+    across all 11 TFMs and print a summary table. StressTests is excluded (Phase 5c
+    placeholder shell).
 
 .PARAMETER NoBuild
     Skip the build step (reuse existing Release outputs).
@@ -36,7 +37,7 @@
 #>
 [CmdletBinding()]
 param(
-    [ValidateSet('UnitTests', 'FormsTests', 'FormsTests.VB', 'StressTests')]
+    [ValidateSet('UnitTests', 'FormsTests', 'FormsTests.VB', 'FunctionalTests', 'StressTests')]
     [string]$Project = 'UnitTests',
 
     [ValidateSet('net46', 'net47', 'net472', 'net48', 'net481',
@@ -57,10 +58,11 @@ $allTfms = @('net46', 'net47', 'net472', 'net48', 'net481',
              'net8.0-windows', 'net9.0-windows', 'net10.0-windows')
 
 $projectNames = @{
-    'UnitTests'     = 'Bastion.Krypton.UnitTests'
-    'FormsTests'    = 'Bastion.Krypton.FormsTests'
-    'FormsTests.VB' = 'Bastion.Krypton.FormsTests.VB'
-    'StressTests'   = 'Bastion.Krypton.StressTests'
+    'UnitTests'       = 'Bastion.Krypton.UnitTests'
+    'FormsTests'      = 'Bastion.Krypton.FormsTests'
+    'FormsTests.VB'   = 'Bastion.Krypton.FormsTests.VB'
+    'FunctionalTests' = 'Bastion.Krypton.FunctionalTests'
+    'StressTests'     = 'Bastion.Krypton.StressTests'
 }
 
 function Find-MSBuild {
@@ -157,7 +159,7 @@ if (-not $NoBuild) { $msbuildPath = Find-MSBuild }
 $runs = @()
 if ($All) {
     # Functional sweep: the three functional projects across all 11 TFMs (spec §6.4).
-    foreach ($projectKey in @('UnitTests', 'FormsTests', 'FormsTests.VB')) {
+    foreach ($projectKey in @('UnitTests', 'FormsTests', 'FormsTests.VB', 'FunctionalTests')) {
         if (-not $NoBuild) { Invoke-ProjectBuild $projectKey $msbuildPath }
         foreach ($tfm in $allTfms) {
             $runs += Invoke-TestRun $projectKey $tfm

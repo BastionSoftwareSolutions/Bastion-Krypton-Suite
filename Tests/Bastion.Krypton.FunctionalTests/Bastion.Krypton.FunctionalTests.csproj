@@ -1,0 +1,29 @@
+<!--
+  © Bastion Software Solutions Ltd 2026. Bastion Krypton Suite test suite (spec §6.2).
+  Phase 5b per-control functional coverage: reflection + TestCaseSource over every public
+  Component type of the five core assemblies — instantiate, place on a real KryptonForm,
+  verify default render, property sweep, method sweep, dispose, handle-delta and
+  finalizer-sweep assertions. No generated source; the catalogue is built at run time.
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(BastionTestTfms)</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Bastion.Krypton.FunctionalTests</RootNamespace>
+    <BastionReferenceKrypton>true</BastionReferenceKrypton>
+    <BastionNUnitProject>true</BastionNUnitProject>
+    <!-- net46 runner mechanism: self-executing NUnitLite console exe (see Tests\README.md). -->
+    <OutputType Condition="'$(TargetFramework)' == 'net46'">Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'net46'">
+    <Compile Remove="NUnitLiteMain.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Shared UI test infrastructure (StaMessagePump, HandleCounter, ScreenshotOnFailure). -->
+    <ProjectReference Include="..\Bastion.Krypton.UnitTests\Bastion.Krypton.UnitTests.csproj" />
+  </ItemGroup>
+
+</Project>

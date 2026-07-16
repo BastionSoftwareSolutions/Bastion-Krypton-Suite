@@ -3,8 +3,9 @@
 © Bastion Software Solutions Ltd 2026. New (Bastion) work in a repository derived from
 BSD-3-Clause licensed code (Component Factory Pty Ltd; Krypton-Suite et al.).
 
-Phase 5a scaffolding: the permanent test-suite structure of spec §6.1. The adversarial
-content (§6.3) lands in Phase 5c; the full-matrix sweep is Phase 5d.
+Phase 5a scaffolding: the permanent test-suite structure of spec §6.1. Phase 5b adds
+`Bastion.Krypton.FunctionalTests` (per-control functional coverage, spec §6.2). The
+adversarial content (§6.3) lands in Phase 5c; the full-matrix sweep is Phase 5d.
 
 ## Framework decision
 
@@ -54,6 +55,7 @@ Both mechanisms are wired into `run-tests.ps1`, which picks the right one per TF
 | `Bastion.Krypton.UnitTests` | Regression/unit tests + the shared UI test infrastructure (`Infrastructure\`: `StaMessagePump`, `HandleCounter`, `ScreenshotOnFailure`/`UiTestBase`). Referenced by the other test projects for those helpers. |
 | `Bastion.Krypton.FormsTests` | C# generated family forms — every instantiable public control of the five core assemblies on real forms via designer-style `InitializeComponent` code — shown, pumped, resized, palette-switched, disposed, handle-stability asserted. |
 | `Bastion.Krypton.FormsTests.VB` | The VB.NET variant of the same (the VB designer path must compile and run). |
+| `Bastion.Krypton.FunctionalTests` | Phase 5b per-control functional coverage (spec §6.2): reflection + `TestCaseSource` — one test case per public `Component` type of the five core assemblies. See below. |
 | `Bastion.Krypton.StressTests` | Adversarial suite shell (§6.3) — helpers wired, one harness smoke test. Content lands in Phase 5c. |
 | `Tools\FormsTestGen` | Generator for the `Generated\` form sources (see below). |
 | `run-tests.ps1` | Build + run a project × TFM; `-All` sweeps the functional projects across all 11 TFMs and prints a summary table. |
@@ -77,6 +79,41 @@ Both mechanisms are wired into `run-tests.ps1`, which picks the right one per TF
 KryptonCalendar/CircularProgressBar/fade regressions (BREAKAGE-LOG E-series) are
 Extended-Toolkit scope and deliberately not here — this suite references the core assemblies
 only.
+
+## FunctionalTests (Phase 5b — spec §6.2)
+
+The exact §6.2 recipe, per public `Component` type, discovered by reflection at run time
+(no generated source) with NUnit `TestCaseSource` so every type is a separate test case:
+
+1. **Instantiate** — types without a public parameterless ctor are skipped and counted.
+2. **Place on a real shown `KryptonForm`**, pump. `Form`-derived types are shown as their own
+   top-level window; `Component`-but-not-`Control` types (and top-level controls such as
+   `ToolStripDropDown`-derived ones) get instantiate + dispose only, per the spec.
+3. **Verify default render** — `DrawToBitmap`, assert no exception and a non-uniform paint.
+   Blank-by-design controls (empty panels, image-less picture box, empty grids/workspaces,
+   auto-size labels with empty text, the ActiveX web browser) are on an explicit allow-list
+   in `SweepPolicy.cs`, each entry with a justification; for those "no exception" is the
+   assertion.
+4. **Property sweep** — every public writable instance property set to a typical value by
+   type (`TypicalValues.cs`: string→"Sample", numerics→1 clamped into a sibling
+   Minimum/Maximum range, bool→toggle, enum→first non-default member, Color→Red, Font/Image
+   → fresh instances, plus a few per-name format contracts such as `Rtf` and `StarSize`);
+   read back where readable. Skip-list (`SweepPolicy.cs`, justified per entry): designer
+   context (`Site`, `WindowTarget`), topology hazards (`Parent`, `TopLevel`, `MdiParent`),
+   data-dependent members (`SelectedIndex` …) and documented by-design setter rejections.
+5. **Method sweep** — public instance methods declared by the Krypton assemblies whose
+   parameters are all mappable safe primitives. Deny-list with justifications: the
+   Dispose/Close/Hide/Show families, `*Dialog*`, `Print*`, clipboard verbs, `*File*` I/O,
+   out/ref parameters, and empty-collection index contracts.
+6. **Dispose**, pump, assert **GDI/USER handle deltas** within tolerance across a second
+   full lifecycle (the first lifecycle warms static palette/font/image caches).
+7. **Finalizer sweep at fixture end** — `GC.Collect`/`WaitForPendingFinalizers` under a
+   first-chance exception trap filtered to finalizer frames; any finalizer-thread exception
+   fails the fixture.
+
+Sweep statistics (types by kind, properties set/skipped, methods invoked/skipped) are
+printed at fixture teardown. Failures carry a structured message: control type + member +
+value + exception. Findings triage: BREAKAGE-LOG.md "Phase 5b functional-sweep findings".
 
 ## Generated forms (FormsTestGen)
 
