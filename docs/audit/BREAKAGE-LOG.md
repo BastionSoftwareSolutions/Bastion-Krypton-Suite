@@ -356,7 +356,7 @@ rule: under attack a contract exception is graceful; defect-class exceptions
   `AdversarialPolicy.cs` with a FIXME referencing this entry; all other attack stages
   still run against it.
 
-### A9. [UPSTREAM] OPEN — theme-switch storm (net48): working set grows ~4-5 MB per full palette cycle, unreclaimed by full GC
+### A10. [UPSTREAM] OPEN — theme-switch storm (net48): working set grows ~4-5 MB per full palette cycle, unreclaimed by full GC
 - **Repro:** `ThemeSwitchStormTests.EveryControlForm_ThemeStorm_25Rounds` on net48 (quiet
   machine, 12m43s): GC-settled working-set samples climbed 1469 → 1582 MB across the 25
   post-warmup rounds and were strictly monotonic across the final 10 (+40 MB), failing the

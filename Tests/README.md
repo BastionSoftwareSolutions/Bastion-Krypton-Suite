@@ -250,7 +250,7 @@ net48/net8.0-windows only):
 | Category | net46 | net48 | net8.0-windows |
 |---|---|---|---|
 | Default (Adversarial, no Endurance) | 189/189 green (~19 min) | 197/197 green (21m17s) | 197/197 green (19m14s) |
-| Endurance | — (by §6.4 the endurance pair is net48 + net8) | 8/9 green + 1 OPEN (A9) | 9/9 green |
+| Endurance | — (by §6.4 the endurance pair is net48 + net8) | 8/9 green + 1 OPEN (A10) | 9/9 green |
 
 Endurance durations, net8.0-windows: RapidCycle 2,500 ×5 families 2m52s–4m14s each;
 OutlookGrid 100k rows 22s; TreeGridView 100k nodes 5m00s; DataGridView-module cells 100k
@@ -261,7 +261,7 @@ Endurance durations, net48: RapidCycle 2,500 — Toolkit 6m54s, Ribbon 7m44s, Na
 8m32s, Workspace 4m43s, Docking 3m48s; OutlookGrid 100k rows 48s; TreeGridView 100k nodes
 12m46s; DataGridView-module cells 100k rows 26s; theme storm 25 rounds 12m43s — **fails
 its bounded-working-set assertion** (+40 MB strictly monotonic across the final 10
-GC-settled rounds, handles flat): BREAKAGE-LOG **A9, OPEN** — deliberately not skipped,
+GC-settled rounds, handles flat): BREAKAGE-LOG **A10, OPEN** — deliberately not skipped,
 the assertion is the repro/detector; the default 3-round storm is unaffected.
 
 Operational note: endurance passes must run **without concurrent suite runs** — under
@@ -270,5 +270,5 @@ with a spurious "test host process crashed" report; every such abort re-ran gree
 isolation (signature recorded in the BREAKAGE-LOG 5c triage notes).
 
 Every crash/hang the suite found became a fix (BREAKAGE-LOG Phase 5c A1–A8) or a
-documented OPEN item (A9); failure screenshots land in
-`artifacts\StressTests\<tfm>\screenshots`.
+documented OPEN item (A9 PoweredBy layout slowness, A10 storm working-set growth);
+failure screenshots land in `artifacts\StressTests\<tfm>\screenshots`.
