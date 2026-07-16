@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <!-- The C# csproj declares RootNamespace 'KryptonFolderBrowserDialog', but every C# file
              uses the namespace below; the VB twin adopts the code namespace so that designer
              resources resolve identically. -->
         <RootNamespace>KryptonFolderBrowserDialog_Example_2019</RootNamespace>
-        <AssemblyName>KryptonFolderBrowserDialog Example VB</AssemblyName>
+        <AssemblyName>KryptonFolderBrowserDialog ExampleVB</AssemblyName>
         <UseWindowsForms>true</UseWindowsForms>
         <!-- Directory.Build.props sets LangVersion=preview for the C# demos; vbc has no
              'preview' language version, so the VB twins pin 'latest' instead. -->

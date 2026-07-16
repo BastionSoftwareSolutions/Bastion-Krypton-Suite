@@ -5,3 +5,8 @@
 # This call site is reachable on all platforms. '...' is only supported on: 'Windows' 7.0 and later.
 # Same policy as the C# demos (Source\.editorconfig): every demo is Windows-only WinForms.
 dotnet_diagnostic.CA1416.severity = None
+
+# Mirror Source\.editorconfig's C#-side severity: the net9+/net10 WinForms analyzer raises WFO1000
+# as error by default; the C# demos downgrade it to warning, so the VB twins match.
+dotnet_diagnostic.WFO1000.severity = warning
+

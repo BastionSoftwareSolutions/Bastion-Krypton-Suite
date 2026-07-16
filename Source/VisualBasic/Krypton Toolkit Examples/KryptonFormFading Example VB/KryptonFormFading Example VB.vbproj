@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <RootNamespace>KryptonFormFadingExamples</RootNamespace>
-        <AssemblyName>Krypton Form Fading Examples VB</AssemblyName>
+        <AssemblyName>Krypton Form Fading ExamplesVB</AssemblyName>
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <UseApplicationTrust>false</UseApplicationTrust>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

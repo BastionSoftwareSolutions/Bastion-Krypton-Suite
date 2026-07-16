@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <!-- The C# csproj declares RootNamespace 'KryptonFontDialog', but every C# file
              uses the namespace below; the VB twin adopts the code namespace so that designer
              resources resolve identically. -->
         <RootNamespace>KryptonFontDialog_Example_2019</RootNamespace>
-        <AssemblyName>Krypton Font Dialog Example VB</AssemblyName>
+        <AssemblyName>Krypton Font Dialog ExampleVB</AssemblyName>
         <UseWindowsForms>true</UseWindowsForms>
         <NeutralLanguage>en</NeutralLanguage>
         <!-- Directory.Build.props sets LangVersion=preview for the C# demos; vbc has no

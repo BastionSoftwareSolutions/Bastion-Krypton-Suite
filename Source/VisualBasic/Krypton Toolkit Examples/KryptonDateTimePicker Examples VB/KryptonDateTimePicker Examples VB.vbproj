@@ -2,7 +2,7 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <RootNamespace>KryptonDateTimePickerExamples</RootNamespace>
-        <AssemblyName>Krypton DateTimePicker Examples VB</AssemblyName>
+        <AssemblyName>Krypton DateTimePicker ExamplesVB</AssemblyName>
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <UseApplicationTrust>false</UseApplicationTrust>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

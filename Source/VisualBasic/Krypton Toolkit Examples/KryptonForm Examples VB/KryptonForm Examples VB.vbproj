@@ -2,7 +2,7 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <RootNamespace>KryptonFormExamples</RootNamespace>
-        <AssemblyName>Krypton Form Examples VB</AssemblyName>
+        <AssemblyName>Krypton Form ExamplesVB</AssemblyName>
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <UseApplicationTrust>false</UseApplicationTrust>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

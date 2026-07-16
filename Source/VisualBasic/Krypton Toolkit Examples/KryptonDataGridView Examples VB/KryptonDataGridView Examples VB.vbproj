@@ -2,7 +2,7 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <RootNamespace>KryptonDataGridViewExamples</RootNamespace>
-        <AssemblyName>Krypton Data GridView Examples VB</AssemblyName>
+        <AssemblyName>Krypton Data GridView ExamplesVB</AssemblyName>
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <UseApplicationTrust>false</UseApplicationTrust>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

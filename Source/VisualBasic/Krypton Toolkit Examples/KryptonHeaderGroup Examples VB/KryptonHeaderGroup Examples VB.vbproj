@@ -2,7 +2,7 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <RootNamespace>KryptonHeaderGroupExamples</RootNamespace>
-        <AssemblyName>Krypton Header Group Examples VB</AssemblyName>
+        <AssemblyName>Krypton Header Group ExamplesVB</AssemblyName>
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <UseApplicationTrust>false</UseApplicationTrust>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

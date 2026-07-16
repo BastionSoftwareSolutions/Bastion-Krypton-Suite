@@ -2,7 +2,7 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <RootNamespace>KryptonDomainUpDownExamples</RootNamespace>
-        <AssemblyName>Krypton Domain UpDown Examples VB</AssemblyName>
+        <AssemblyName>Krypton Domain UpDown ExamplesVB</AssemblyName>
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <UseApplicationTrust>false</UseApplicationTrust>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
