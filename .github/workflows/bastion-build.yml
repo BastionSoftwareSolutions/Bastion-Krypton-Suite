@@ -1,0 +1,116 @@
+# Bastion Krypton Suite — core (Standard-Toolkit) CI build.
+#
+# NAMING: this file is intentionally `bastion-build.yml`, NOT `build.yml`, so it does
+# not clobber the many INHERITED UPSTREAM workflows that ship in this fork
+# (build.yml, release.yml, canary.yml, nightly.yml, repo-mirror.yml, …). Those upstream
+# workflows target the Krypton-Suite org's own runners/secrets and will mostly fail or
+# no-op on a fork — Chris should DISABLE them in the fork's Actions settings (or delete
+# them on the bastion/multitarget branch) and rely on this one. See RELEASE-CHECKLIST.md.
+#
+# WHAT THIS DOES (windows-latest): restore + build the full 11-TFM matrix in Release using
+# DESKTOP MSBuild (net46 needs classic .resx handling; `dotnet build` alone cannot build
+# net46), then pack the 5 core packages + the Suite metapackage, and upload nupkgs + Bin.
+#
+# WHAT CI CANNOT DO (documented, matches spec §9): it does NOT build the CHM (hhc/SHFB),
+# the PDF (wkhtmltopdf) or the Inno Setup installer — those are Windows-tool-dependent
+# MANUAL / self-hosted steps. See docs/RELEASE-CHECKLIST.md in the umbrella repo.
+#
+# UNTESTED ON ACTUAL CI: authored correct-by-construction; it has not been executed on
+# GitHub-hosted runners. First real run is on Chris's push.
+
+name: Bastion Build (core)
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [bastion/multitarget]
+    paths-ignore: ['**/*.md', '.gitignore', '.editorconfig']
+  pull_request:
+    branches: [bastion/multitarget]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest   # currently windows-2022 + VS2022 Enterprise (has desktop MSBuild)
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # preserve full history; never rewritten
+
+      # net5/6/7 targets build against reference packs restored from NuGet
+      # (Microsoft.WindowsDesktop.App.Ref) — the RUNTIMES are not needed to compile,
+      # so only the SDKs that host the build tasks are installed here.
+      - name: Setup .NET SDKs (8, 9, 10)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
+
+      - name: Add desktop MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restore (desktop MSBuild)
+        shell: pwsh
+        run: |
+          $sln = "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+          msbuild $sln -t:Restore -p:Configuration=Release -m -v:m
+          if ($LASTEXITCODE -ne 0) { throw "Restore failed" }
+
+      # Full 11-TFM matrix: net46;net47;net472;net48;net481;net5.0-windows..net10.0-windows.
+      # If the hosted runner's VS lacks a component net46 needs, the ExcludeVs fallback
+      # (ExcludeVs2019UnsupportedTargetFrameworks=true → Framework-only subset) is the
+      # documented degrade path; leave it OFF here so a real gap surfaces loudly.
+      - name: Build core (Release, all TFMs)
+        shell: pwsh
+        run: |
+          $sln = "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+          msbuild $sln -t:Build -p:Configuration=Release -m -v:m -clp:Summary
+          if ($LASTEXITCODE -ne 0) { throw "Build failed" }
+
+      # Pack the 5 core libraries + the Suite metapackage with the Bastion packaging
+      # metadata (BastionPack=true). Version defaults to 1.0.0; override via the
+      # workflow_dispatch input or a repo variable when Chris cuts a real release.
+      - name: Pack core NuGet packages
+        shell: pwsh
+        run: |
+          $ver = if ($env:BASTION_VERSION) { $env:BASTION_VERSION } else { '1.0.0' }
+          $out = Join-Path $PWD 'artifacts/nuget'
+          New-Item -ItemType Directory -Force -Path $out | Out-Null
+          $projects = @(
+            'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj',
+            'Source/Krypton Components/Krypton.Ribbon/Krypton.Ribbon 2022.csproj',
+            'Source/Krypton Components/Krypton.Navigator/Krypton.Navigator 2022.csproj',
+            'Source/Krypton Components/Krypton.Workspace/Krypton.Workspace 2022.csproj',
+            'Source/Krypton Components/Krypton.Docking/Krypton.Docking 2022.csproj',
+            'Packaging/Bastion.Krypton.Suite/Bastion.Krypton.Suite.csproj'
+          )
+          foreach ($p in $projects) {
+            msbuild $p -t:Restore -p:Configuration=Release -p:BastionPack=true -p:TFMs=all `
+              -p:Version=$ver -p:PackageVersion=$ver -v:m
+            if ($LASTEXITCODE -ne 0) { throw "Pack restore failed: $p" }
+            msbuild $p -t:Pack -p:Configuration=Release -p:BastionPack=true -p:TFMs=all `
+              -p:Version=$ver -p:PackageVersion=$ver -p:TreatWarningsAsErrors=false `
+              -p:PackageOutputPath=$out -v:m
+            if ($LASTEXITCODE -ne 0) { throw "Pack failed: $p" }
+          }
+
+      - name: Upload NuGet packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: bastion-core-nupkg
+          path: artifacts/nuget/*.*nupkg
+          if-no-files-found: error
+
+      - name: Upload build output (Bin)
+        uses: actions/upload-artifact@v4
+        with:
+          name: bastion-core-bin
+          path: Bin/Release/**
+          if-no-files-found: warn
