@@ -209,6 +209,25 @@ All five core libraries build **warning-clean (0 warnings / 0 errors)** for the 
 
 ---
 
+## Phase 6 — Documentation (16 July 2026)
+
+Toolchain installed + version-recorded in Phase 0 table above. PDF pipeline decision: **pandoc 3.10 + wkhtmltopdf 0.12.6**.
+
+| Deliverable | Result |
+|---|---|
+| `CHANGES.md` (spec §7.1) | ✅ definitive change record — baseline, 11-TFM strategy, 14 new themes + M365 refresh, sample counts, ~40-defect tally, per-TFM feature matrix, degradations, dual-licence attribution, EOL warnings (commit `07faa8b`) |
+| public `README.md` | ✅ what/why, install (Bastion.Krypton.* "on publication"), C#+VB quick start, theme gallery, drop-in upstream relationship, dual licence |
+| DocFX site (spec §7.2) | ✅ `docs-site/` from XML comments + `docs/help/**` conceptual articles (getting-started, theming, per-family + per-Extended-module, migration note, per-TFM matrix); custom link-checker in `build-docs.ps1` |
+| CHM | ✅ `Help/BastionKryptonSuite.chm` (68.8 MB) via SHFB `.shfbproj` + hhc, headless MSBuild |
+| PDF | ✅ `Help/BastionKryptonSuite-Manual.pdf` (46 pp, TOC) via pandoc→wkhtmltopdf |
+| XML doc coverage (`docs/audit/XMLDOC-COVERAGE.md`) | ✅ **core 87.8% types / 87.9% members** (Docking/Ribbon/Workspace ~100%, Toolkit 85%); Extended reported; project-introduced members filled at source |
+
+All three help formats build from one repeatable `build-docs.ps1` (`-All` or per-format). Generated output git-ignored; scripts/sources/conceptual content committed (`a8755bc`). **CI note (Phase 8):** DocFX is cross-platform, but **CHM (hhc) and the SHFB/PDF steps are Windows-only** — CI builds the DocFX site; CHM/PDF need a Windows runner or manual step.
+
+**Phase 6 complete — 16 July 2026.**
+
+---
+
 ## Phase 5 — Testing suite (16 July 2026)
 
 Framework: **NUnit 3.14** (reaches net46, which NUnit 4 and xUnit-STA do not). Runner mechanism:
