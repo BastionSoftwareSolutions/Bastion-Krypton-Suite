@@ -17,11 +17,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Krypton.Toolkit"><HintPath>$(KryptonBin)Krypton.Toolkit.dll</HintPath></Reference>
-    <Reference Include="Krypton.Ribbon"><HintPath>$(KryptonBin)Krypton.Ribbon.dll</HintPath></Reference>
-    <Reference Include="Krypton.Navigator"><HintPath>$(KryptonBin)Krypton.Navigator.dll</HintPath></Reference>
-    <Reference Include="Krypton.Workspace"><HintPath>$(KryptonBin)Krypton.Workspace.dll</HintPath></Reference>
-    <Reference Include="Krypton.Docking"><HintPath>$(KryptonBin)Krypton.Docking.dll</HintPath></Reference>
+    <Reference Include="Krypton.Toolkit"><HintPath>$(KryptonBin)Bastion.Krypton.Toolkit.dll</HintPath></Reference>
+    <Reference Include="Krypton.Ribbon"><HintPath>$(KryptonBin)Bastion.Krypton.Ribbon.dll</HintPath></Reference>
+    <Reference Include="Krypton.Navigator"><HintPath>$(KryptonBin)Bastion.Krypton.Navigator.dll</HintPath></Reference>
+    <Reference Include="Krypton.Workspace"><HintPath>$(KryptonBin)Bastion.Krypton.Workspace.dll</HintPath></Reference>
+    <Reference Include="Krypton.Docking"><HintPath>$(KryptonBin)Bastion.Krypton.Docking.dll</HintPath></Reference>
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net46'">

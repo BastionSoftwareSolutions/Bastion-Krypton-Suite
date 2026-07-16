@@ -14,9 +14,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Krypton.Toolkit"><HintPath>$(KryptonBin)Krypton.Toolkit.dll</HintPath></Reference>
-    <Reference Include="Krypton.Ribbon"><HintPath>$(KryptonBin)Krypton.Ribbon.dll</HintPath></Reference>
-    <Reference Include="Krypton.Navigator"><HintPath>$(KryptonBin)Krypton.Navigator.dll</HintPath></Reference>
+    <Reference Include="Krypton.Toolkit"><HintPath>$(KryptonBin)Bastion.Krypton.Toolkit.dll</HintPath></Reference>
+    <Reference Include="Krypton.Ribbon"><HintPath>$(KryptonBin)Bastion.Krypton.Ribbon.dll</HintPath></Reference>
+    <Reference Include="Krypton.Navigator"><HintPath>$(KryptonBin)Bastion.Krypton.Navigator.dll</HintPath></Reference>
   </ItemGroup>
 
   <ItemGroup>
