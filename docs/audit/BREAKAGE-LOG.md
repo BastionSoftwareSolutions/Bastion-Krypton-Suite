@@ -140,7 +140,8 @@ Extended-Toolkit module output directory Ã— 11 TFMs. All are pre-existing ups
 
 - **Software.Updater on net5/6/7/8**: the module is an ILRepack candidate that pins `System.Drawing.Common` 10.0. The smoke harness runs on the net8 Windows-Desktop shared framework, which ships `System.Drawing.Common` 8.0; loading the module's raw DLLs via `Assembly.LoadFrom` cannot unify to 10.0 the way a real consuming app's `deps.json` would, so type enumeration throws `FileLoadException`. **net4x Software.Updater passes (8 types, 0 failures).** This is a raw-DLL-loader artifact of the harness, not a defect in the module; a normally-referenced net8 app resolves it correctly.
 
-### E9. [UPSTREAM] Software.Updater: System.Drawing.Common 10.0.0 pin unloadable on net5â€“net9
+### E25. [UPSTREAM] Software.Updater: System.Drawing.Common 10.0.0 pin unloadable on net5â€“net9
+- (Renumbered from a duplicate "E9" — the earlier E9 is the ColourEditorControl ISupportInitialize cast above.)
 - **Repro:** instantiate any Software.Updater form on net5â€“net9 â€” `FileLoadException: Could not load file or assembly 'System.Drawing.Common, Version=10.0.0.0'` (those desktop runtimes ship older framework versions that cannot satisfy the 10.0.0.0 bind).
 - **Fix:** PackageReference removed â€” every TFM in the matrix already gets System.Drawing from the Windows Desktop framework (net5+) or the GAC (net4x).
 

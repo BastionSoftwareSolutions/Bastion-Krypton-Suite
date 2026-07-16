@@ -224,7 +224,7 @@ net5/6/7 (testhost can't see the private legacy runtimes) — both on the true r
 
 Phase 5 exit criteria: functional suite green on all TFMs ✅; adversarial suite executed + all findings triaged ✅; `BREAKAGE-LOG.md` complete ✅. **Phase 5 complete — 16 July 2026.**
 
-Defect tally across the whole test effort (Phases 2–5): **~24 genuine upstream defect classes found and fixed** (six Phase-2 dispose-time NREs, Phase-2 Extended smoke bugs E1–E9, two Phase-3 theme wiring bugs T1–T2, one Phase-5b, eight Phase-5c A1–A8), plus **four OPEN** design-judgement items (A9, A10, F2, F3) documented for Chris. All in `docs/audit/BREAKAGE-LOG.md`, [UPSTREAM]-tagged as upstream-contribution candidates.
+Defect tally across the whole test effort (Phases 2–5), counted from `BREAKAGE-LOG.md` entries: **~40 genuine upstream defect classes found and fixed** — six Phase-2 core dispose-time NREs, **Extended smoke E1–E25** (25 entries; E24 is a harness note, not a defect), two Phase-3 theme wiring bugs T1–T2, one Phase-5b (F1), eight Phase-5c A1–A8 — plus **four OPEN** design-judgement items (A9, A10, F2, F3) documented for Chris. All [UPSTREAM]-tagged as upstream-contribution candidates. (An earlier "~24" figure here under-counted the Extended smoke series; corrected 16 Jul.)
 
 ---
 
