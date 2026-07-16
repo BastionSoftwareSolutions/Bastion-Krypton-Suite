@@ -231,6 +231,21 @@ Investigation verdict CLEAN (`docs/audit/ASSEMBLY-RENAME.md`). Applied atomicall
 
 ---
 
+## Phase 8 — GitHub publishing preparation (16–17 July 2026)
+
+**Nothing pushed** (spec §9 — everything staged local, push-ready for Chris). Commits: umbrella `8855753` (main); source repos on `bastion/multitarget` — Standard-Toolkit `fb161a8c2`, Extended-Toolkit `af3b322c`, Demos `a3e27306`.
+
+- **Publishing model recommended** (`REPO-LAYOUT.md`, for Chris to confirm): four repos, NOT a monorepo (flattening destroys upstream history — ground rule 4). Fork-per-repo (history preserved) + umbrella referencing them; suggested org `Bastion-Software`. On-disk layout: three source clones as git-ignored siblings inside the umbrella root (relative ProjectReferences/HintPaths require it).
+- **Per-repo hygiene:** `BASTION-NOTICE.md` + `CONTRIBUTING.md` per source repo (upstream LICENSE/.editorconfig verified, untouched); umbrella `LICENSE` (dual-licence map), `CONTRIBUTING.md`, `.editorconfig`, `REPO-LAYOUT.md`.
+- **CI:** `bastion-build.yml` (core + Extended) + umbrella `build.yml`, all YAML-validated, correct-by-construction, **untested on real GitHub CI** (first run = Chris's push). CI does site + packages + tests; **cannot** do CHM/PDF/installer (Windows-tool-only) or the full 11-TFM test matrix (net5/6/7 need private runtimes) — documented in each workflow + RELEASE-CHECKLIST.
+- **`build-all.ps1`** (spec §9 exit-criterion): verified here through core build + full-matrix Core pack (0/0); Extended/samples/docs/installer stages wired, verified separately in Phases 6/7.
+- **`docs/RELEASE-CHECKLIST.md`** (Chris's publish steps + decision list) and **`docs/audit/ACCEPTANCE-CHECKLIST.md`** (spec §10 item-by-item).
+
+### Master acceptance checklist (spec §10): **10 ✅ / 2 ⚠️ / 0 ❌**
+The two ⚠️: item 3 (Extended warning-clean pass deferred, ~29k NRT, documented) and item 5 (themes implemented with provenance + comparison images, **awaiting Chris's fidelity sign-off**). Nothing red; nothing blocks a technical release.
+
+**Phase 8 complete — 17 July 2026. ALL EIGHT PHASES COMPLETE.**
+
 ---
 
 ## Phase 6 — Documentation (16 July 2026)
