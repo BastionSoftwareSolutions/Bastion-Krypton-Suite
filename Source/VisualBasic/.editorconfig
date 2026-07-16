@@ -1,0 +1,7 @@
+# Bastion Phase 4c: analyzer settings for the VB.NET twin demos.
+# Mirrors the [*.cs] analyzer suppressions in Source\.editorconfig that apply to VB.
+
+[*.vb]
+# This call site is reachable on all platforms. '...' is only supported on: 'Windows' 7.0 and later.
+# Same policy as the C# demos (Source\.editorconfig): every demo is Windows-only WinForms.
+dotnet_diagnostic.CA1416.severity = None
