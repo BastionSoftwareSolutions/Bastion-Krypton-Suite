@@ -301,3 +301,58 @@ No original sample demonstrates a scenario the same-named modern one dropped (id
 | **Total distinct samples to carry forward** | **125 modern + 1 original-only (Palette Designer) + 1 Extended Examples** = **127** | C# 127 / VB 0 | — |
 
 **Footnote:** the main `D:\Krypton-Ultimate\Standard-Toolkit` repo (outside this audit's scope) also contains a developer smoke-test app at `Source\Krypton Components\TestForm` — worth considering when planning the Phase 4 sample tree.
+
+---
+
+## 7. Phase 4b coverage (2026-07-16)
+
+Purpose-written samples for the §5(b) gap list, added to the Extended-Toolkit `Examples` app (`D:\Krypton-Ultimate\Extended-Toolkit`, branch `bastion/multitarget`). One designer-generated form (real `.Designer.cs` + `InitializeComponent`) per covered module, registered on the `MainWindow` menu. A hidden command-line mode `Examples.exe --smoke` (permanent regression hook, `SmokeTest.cs`) instantiates, shows and disposes every menu-registered form and exits non-zero on any exception.
+
+### 7.1 Modules newly covered (17 — 16 new forms + 1 minimal wiring)
+
+| Module | Demo form | Notes |
+|---|---|---|
+| ComboBox | `ComboBoxExample` | KryptonComboBoxTree + KryptonEnumerationComboBox; the previously dead "ComboBox Items" menu button is now wired (the old `CheckBoxComboBoxTest` exercises the *Controls* module, not this one) |
+| Compression | *(module's own form)* | Borderline include: the module's only public control is `KryptonFileCompressor`, an empty shell form with no logic; the previously dead "Compression Items" menu button now opens it — nothing more is demonstrable upstream |
+| Data.Visualisation | `DataVisualisationExample` | FormsPlot (vendored ScottPlot 5) with two scatter series; excluded on the net46 TFM only (SkiaSharp has no net46 asset), guarded with `#if !NET46` |
+| DataGridView | `DataGridViewColumnsExample` | Specialised Percentage, Rating, Token and TextAndImage columns with sample rows |
+| Drawing.Utilities | `DrawingUtilitiesExample` | ColourWheelControl, ColourEditor and ScreenColourPickerControl linked by a ColourEditorManager, plus KryptonColourButtonExtended and a live preview panel |
+| Effects | `EffectsExample` | FadeManager component: fade out/in and fade-out-and-close |
+| Error.Reporting | `ErrorReportingExample` | Catches a deliberate exception and shows it via `ExceptionReporter.Show` (display only; mail/zip are user-initiated) |
+| File.Copier | `FileCopierExample` | KryptonFileListing user control + click launchers for KryptonFileCopier and KryptonFileMonitor |
+| IO | `IOExample` | KryptonFileSystemTreeView populated with ready drives and their top-level directories + KryptonSystemInformation launcher |
+| Navigator | `NavigatorExample` | OutlookBar with three bands + KryptonNavigatorEditor with two pages |
+| Networking | `NetworkingExample` | Click-only launchers for all five networking forms (several enumerate the network at load, so none opens automatically) |
+| Notifications | `NotificationsExample` | `Alert` helper toasts (success/information/warning/error), KryptonToastNotificationPopup component, KryptonToastNotificationVersion1 window |
+| Outlook.Grid | `OutlookGridExample` | Grouped KryptonOutlookGrid (seven rows grouped by category, alphabetic and date-time group types registered) with drag-to-group KryptonOutlookGridGroupBox |
+| Panels | `PanelsExample` | KryptonPanelExtended with rounded border + KryptonButtonPanel |
+| Specialised.Dialogs | `SpecialisedDialogsExample` | KryptonUACButton (event-based, no real elevation) + KryptonRunDialog in textbox and combobox modes |
+| Utilities | `UtilitiesExample` | Text-to-speech through the vendored managed SAPI `SpeechSynthesizer` facade |
+| VirtualTreeColumnView | `VirtualTreeColumnViewExample` | Three-column virtual tree with callback-supplied cell text (`OnGetRowNodeCellText`) |
+
+### 7.2 Previously orphaned forms now registered on the main menu (6)
+
+`WizardExample` (Wizard), `NaviBarExample` (Navi.Suite), `ToolBoxExample` (Tool.Box), `CoreDialogExamples` and `CoreColourDialogExamples` (Core), `ExternalThemeSelectorChooser` (Theme.Switcher) — these compiled but were unreachable from the menu. `TreeGridViewDataSourceExample` remains unregistered: it reads `DataSource\sales_by_category.xml`, a path that does not exist in the output (folder is `DataSources`, not copied) — pre-existing defect, left for triage.
+
+### 7.3 Module defects fixed en route (3)
+
+1. **Panels / `KryptonPanelExtended`** — the border `Pen` field was declared but never assigned, so the first paint threw `ArgumentNullException`; additionally the default `CornerRadius = 0` produced empty arc rectangles that GDI+ rejects. Fixed with an owned pen behind a new `BorderColour` property and a radius guard.
+2. **IO / `KryptonFileSystemTreeView`** — the `MouseDown` handler was a stub that threw `NotImplementedException`, crashing the host on any click. Stub neutralised.
+3. **TreeGridView / `KryptonTreeGridNodeRow`** — the `ImageIndex` and `Image` setters dereferenced the nullable `_treeCell` unguarded; a row that is sited before its tree cell exists threw `NullReferenceException` (surfaced by the smoke sweep through the pre-existing `TreeGridViewAdvancedExample`, where the WinForms `ThreadExceptionDialog` had silently masked it). Null-conditional guards added; the smoke harness now runs with `UnhandledExceptionMode.ThrowException` so event-handler exceptions register as failures instead of hanging on a modal dialog.
+
+Also fixed in the new samples themselves: the `OutlookBar` control resizes its own `Height` during paint, so it must not be side-docked (a `Dock = Left` assignment fights the control's self-sizing in a repaint loop that pegs a CPU core) — the Navigator demo anchors it instead.
+
+### 7.4 Excluded modules, with reasons
+
+| Category | Modules | Reason |
+|---|---|---|
+| Go/no-go pending with Chris | Themes, Toggle.Switch, Software.Updater | Themes and Toggle.Switch (CPOL lineage) have open go/no-go decisions; Software.Updater's SharpUpdate parts likewise, and the module is parked in "Projects to Work On" upstream |
+| No demonstrable surface | Software.Updater.Core | Headless update engine (NetSparkle): no controls, meaningful demo requires a live update feed (network) |
+| Verified empty stubs | File.Explorer, Gages (assembly `Guages`), Palette.Selectors, PDF, Scintilla.NET (0 source files), Tools, Security, TaskDialogs | Re-verified on 2026-07-16: ≤1 source file each (GlobalDeclarations/Class1 only), no controls |
+| Verified scaffolding | MessageDialog | Two empty `Form` shells (no message/caption/button API, not Krypton-derived); present only in the NuGet solution — a demo would show an empty window |
+| Meta / infrastructure | Shared, Common, Resources, Global.Utilities, Settings, Language.Model, Drawing, Debug.Tools, Developer.Utilities, Ultimate, Ultimate.Lite | Helper/settings/model libraries without demo-worthy controls; Developer.Utilities' debug console is reachable through the File Copier demo; Core's dialogs already had demo forms (now registered, §7.2) |
+
+### 7.5 Verification
+
+- Solution `Krypton Toolkit Suite Extended 2022 - VS2022.sln` builds with **0 errors** across the full 11-TFM matrix (Release; warnings not gated in this repo).
+- `Examples.exe --smoke` on net8.0-windows: **46/46 registered forms pass**, exit code 0 (run 2026-07-16 from `Bin\Examples\Release\net8.0-windows`).
