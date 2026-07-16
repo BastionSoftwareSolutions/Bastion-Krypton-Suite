@@ -289,3 +289,92 @@ Phase 4 exit criteria: sample matrix green ✅; C#/VB parity 100% ✅ (125/125 t
 ---
 
 ---
+
+## Phase 8 — GitHub publishing preparation (17 July 2026)
+
+**Nothing pushed.** Everything staged locally, push-ready, for Chris. No `git push`, no
+GitHub repo creation, no nuget.org.
+
+### Publishing model — the four-repo reality (spec §9 reconciled)
+
+This is **not one repo**. Ground rule 4 (preserve upstream history, never flatten) means the
+correct model is **fork-per-repo + an umbrella repo referencing them**, not spec §9's
+single-repo ideal. Documented in the new **`REPO-LAYOUT.md`**: umbrella (`main`) with the
+three source clones (`bastion/multitarget`) as git-ignored siblings inside its root; relative
+ProjectReferences/HintPaths (`..\Standard-Toolkit` etc.) require exactly that layout.
+**Recommended GitHub names (Chris confirms):** org `Bastion-Software`;
+`bastion-krypton-suite` (umbrella), `bastion-krypton-standard-toolkit`,
+`bastion-krypton-extended-toolkit`, `bastion-krypton-toolkit-demos`.
+
+### Per-repo hygiene ✅
+
+- **Each source repo** (`bastion/multitarget`): added `BASTION-NOTICE.md` (derivation +
+  Bastion additions + pointer to umbrella `CHANGES.md`; **no upstream copyright/licence line
+  altered**) and a brief `CONTRIBUTING.md`. `LICENSE` verified present + correct per tree
+  (Standard-Toolkit BSD-3 with Component Factory + Krypton Suite; Demos BSD-3; Extended MIT).
+  `.editorconfig` already present upstream under `Source/` — verified, not duplicated, not
+  reformatted.
+- **Umbrella** (`main`): added top-level `LICENSE` (BSD-3 with both upstream copyrights +
+  Bastion additions, mapping the per-tree BSD-3/MIT/MS-PL split), `CONTRIBUTING.md`,
+  `.editorconfig`, `REPO-LAYOUT.md`. `.gitignore` verified — ignores the four source clones,
+  `artifacts/`, `docs-site/`, `Help/*.chm`+`*.pdf`, `Tools/`, `.claude/`. `CHANGES.md` /
+  `README.md` already present (Phase 6).
+
+### GitHub Actions ✅ (YAML-validated; UNTESTED on real CI — first run is on Chris's push)
+
+- **Naming decision:** the source repos already carry many **inherited upstream workflows**
+  (release/canary/nightly/mirror/…). To avoid clobbering them, the Bastion workflow is named
+  **`bastion-build.yml`** (not `build.yml`) in Standard-Toolkit + Extended-Toolkit. The
+  umbrella has no prior workflows, so it uses `build.yml`. RELEASE-CHECKLIST tells Chris to
+  **disable the inherited upstream workflows** on his forks.
+- **Standard-Toolkit `bastion-build.yml`**: windows-latest, desktop MSBuild (setup-msbuild),
+  SDK 8/9/10; restore + build full 11-TFM Release; pack the 5 core + Suite metapackage
+  (`BastionPack=true`); upload nupkg + Bin. net46 builds via desktop MSBuild; the ExcludeVs
+  Framework-only fallback is left OFF so a real gap surfaces loudly (documented).
+- **Extended-Toolkit `bastion-build.yml`**: checks out **both** repos into the sibling layout
+  (Extended references core by relative ProjectReference); build + pack the shippable modules
+  (same exclude list as `pack.ps1`). Sibling coords come from repo variables
+  `CORE_REPO`/`CORE_REF`.
+- **Umbrella `build.yml`**: two jobs — `test` (build core all-TFM, run FunctionalTests +
+  UnitTests on the representative subset **net48 / net8 / net10** via `run-tests.ps1`) and
+  `docs` (build net8 core+Extended-Ultimate, `build-docs.ps1 -Site`, upload `docs-site`).
+- **CI can/can't (documented in each header + RELEASE-CHECKLIST):** CI builds site +
+  packages + tests only. **CANNOT** do the CHM (SHFB/hhc), the PDF (pandoc/wkhtmltopdf), or
+  the Inno installer (ISCC) — Windows-tool-dependent MANUAL/self-hosted steps. **Full 11-TFM
+  test matrix not on CI** — net5/6/7 need the private legacy desktop runtimes hosted runners
+  lack; the representative subset is the honest CI slice (full matrix proven locally,
+  `TEST-MATRIX.md`).
+
+### `build-all.ps1` ✅ (spec §9 exit-criterion orchestrator)
+
+Preflight (sibling clones + toolchain, actionable failures) → core → Extended → samples →
+smoke/functional (`run-tests.ps1`) → `pack.ps1` → `build-docs.ps1` → installer. Parameterised
+(`-Tfm`, `-PackScope`, `-Docs Site|All`, `-Version`, `-Skip*`). Idempotent.
+**Verified here** through **core build (net8, 23s) + full 11-TFM Core pack (4m09s, 0
+warnings / 0 errors)**, ending on the "nothing pushed" summary. CHM + installer stages
+verified separately in Phases 6/7 (not re-run here — long).
+
+### Release + acceptance docs ✅
+
+- **`docs/RELEASE-CHECKLIST.md`** — ordered publish steps: baseline re-check, push order
+  (sources then umbrella), disable inherited upstream workflows + set CI repo variables, tag
+  `v1.0.0` per repo, GitHub Release (installer + 57 nupkgs + notes → `CHANGES.md`),
+  `dotnet nuget push` sequence (Chris's key, core-first), GitHub Pages for `docs-site/`,
+  SmartScreen/unsigned-installer note, and the consolidated **owner-decision** list.
+- **`docs/audit/ACCEPTANCE-CHECKLIST.md`** — spec §10's 12 items scored with evidence:
+  **10 ✅ / 2 ⚠️ / 0 ❌**. The two ⚠️: item 3 (Extended warning-clean pass deferred, ~29k NRT,
+  documented) and item 5 (themes implemented with provenance + comparison images but awaiting
+  Chris's fidelity sign-off). Nothing red; nothing blocks a technical release.
+
+### Consolidated owner-decision list (unchanged from prior phases, gathered for release)
+
+Version scheme (SemVer 1.0.0 default vs upstream-aligned) · theme fidelity sign-off + live
+screenshots · licence escalations (gGlowBox CPOL fragment still present; Toggle.Switch +
+SharpUpdate already excluded — confirm; AdvancedWizard courtesy request) · Extended `Themes`
+module go/no-go · Ultimate-parity (RichTextBox ButtonSpecs port / TaskDialog shim / Palette
+Designer) · 4 OPEN test items (A9/A10/F2/F3).
+
+**Phase 8 complete — 17 July 2026.** All eight phases complete; suite is push-ready pending
+the owner decisions above.
+
+---

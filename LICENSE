@@ -1,0 +1,72 @@
+BSD 3-Clause License
+
+Copyright (c) 2017 - 2025, Component Factory Pty Ltd (original Krypton components)
+Copyright (c) 2017 - 2025, Krypton Suite (Standard Toolkit and continued development)
+Copyright (c) 2026, Bastion Software Solutions Ltd (Bastion Krypton Suite additions)
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+--------------------------------------------------------------------------------
+Scope of this licence and the per-tree licences
+--------------------------------------------------------------------------------
+
+This LICENSE covers the content of THIS (umbrella / orchestration) repository:
+the build-log, change record, documentation, scripts, tests, installer sources
+and packaging orchestration authored by Bastion Software Solutions Ltd, together
+with the retained upstream copyrights above.
+
+The Bastion Krypton Suite is a DUAL-LICENCE project spread across four
+repositories. The source trees carry their OWN, unchanged upstream licences,
+which govern the code in those trees:
+
+  * Standard-Toolkit (core five libraries) ...... BSD 3-Clause
+        (c) Component Factory Pty Ltd; (c) Krypton Suite
+        -> Standard-Toolkit/LICENSE
+
+  * Standard-Toolkit-Demos (samples) ............ BSD 3-Clause
+        (c) Krypton Suite
+        -> Standard-Toolkit-Demos/LICENSE
+
+  * Extended-Toolkit (Extended modules) ......... MIT
+        (c) 2017 - 2024 Krypton Suite
+        -> Extended-Toolkit/LICENSE
+        Several Extended modules embed third-party code under MIT / Ms-PL and
+        (historically) other licences; see Extended-Toolkit/THIRD-PARTY-NOTICES.md
+        and docs/audit/THIRD-PARTY-LICENCES.md.
+
+Redistributed BINARIES/PACKAGES carry the licence of the tree they derive from:
+core NuGet packages are BSD-3-Clause; Extended packages are MIT (or "MIT AND
+MS-PL" for the Ms-PL-bundling modules and the Extended Ultimate metapackage). No
+package blends the two licences in one artefact.
+
+Upstream copyright and licence headers are retained unchanged throughout. This
+project is NOT affiliated with or endorsed by Component Factory Pty Ltd or the
+Krypton Suite team; the name "Bastion Krypton Suite" states its derivation
+honestly under the terms of the upstream BSD-3-Clause and MIT licences.
+
+Full attribution and the change record: CHANGES.md.

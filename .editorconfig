@@ -1,0 +1,35 @@
+# Bastion Krypton Suite — umbrella (orchestration) repository.
+#
+# This repo holds scripts, docs, tests and packaging orchestration — not the library
+# source. The authoritative C#/VB code-style rules live in each SOURCE repo's own
+# .editorconfig (Standard-Toolkit/Source/.editorconfig etc.), mirrored from upstream and
+# deliberately NOT duplicated here to avoid divergence. Keep those unchanged; do not
+# mass-reformat upstream code.
+#
+# The settings below apply only to the umbrella's own files (PowerShell, YAML, Markdown,
+# project files).
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[*.{yml,yaml}]
+indent_size = 2
+
+[*.{md,markdown}]
+trim_trailing_whitespace = false   # trailing double-space is a Markdown hard line break
+
+[*.{json,csproj,vbproj,props,targets,shfbproj}]
+indent_size = 2
+
+[*.ps1]
+indent_size = 4
+
+[*.{cmd,bat}]
+end_of_line = crlf

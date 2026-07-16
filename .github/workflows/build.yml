@@ -1,0 +1,169 @@
+# Bastion Krypton Suite — umbrella CI: functional tests + DocFX site.
+#
+# This is the ORCHESTRATION repo. The three source trees are separate repositories cloned
+# as SIBLINGS INTO this repo's root (Standard-Toolkit/, Extended-Toolkit/,
+# Standard-Toolkit-Demos/ — git-ignored here). Scripts assume that layout
+# (`$RepoRoot\Standard-Toolkit\...`). See REPO-LAYOUT.md.
+#
+# CI checks out the needed source siblings via `path:` into this workspace. Set repo
+# variables CORE_REPO / EXT_REPO (owner/name of Chris's forks) and CORE_REF / EXT_REF
+# (default bastion/multitarget); the defaults below are placeholders Chris confirms.
+#
+# ---- WHAT THIS CI CAN DO ----
+#   * Build the core suite and run the functional test projects (UnitTests, FormsTests,
+#     FormsTests.VB, FunctionalTests) on a REPRESENTATIVE TFM SUBSET (net48, net8, net10).
+#   * Build the DocFX documentation SITE (docs-site/) — CI-friendly, ready for GitHub Pages.
+#
+# ---- WHAT THIS CI CANNOT DO (Windows-tool-dependent → MANUAL / self-hosted) ----
+#   * The CHM (SHFB + HTML Help Workshop hhc.exe) and the PDF (pandoc + wkhtmltopdf) — see
+#     build-docs.ps1 header. Installable on a runner but omitted here to keep CI lean;
+#     produced by `build-docs.ps1 -Chm -Pdf` on a Windows box.
+#   * The Inno Setup installer (ISCC) — `Installer/build-installer.ps1` on a Windows box.
+#   * The full 11-TFM TEST matrix. net5/6/7 tests need the PRIVATE legacy desktop runtimes
+#     (Tools\dotnet-legacy\) that hosted runners do not carry and cannot cleanly install;
+#     net46 runs via a self-executing NUnitLite exe (fine on CI) but is folded into the
+#     local/self-hosted full run. The subset here (Framework mainline net48 + the LTS pair
+#     net8/net10) is the representative, honestly-bounded CI slice; the full matrix
+#     (docs/audit/TEST-MATRIX.md) is proven locally via Tests\run-tests.ps1 -All.
+#
+# UNTESTED ON ACTUAL CI: correct-by-construction; first real run is on Chris's push.
+
+name: Bastion Build (umbrella)
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['**/*.md', '.gitignore', '.editorconfig', 'docs/**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  # ---------------------------------------------------------------- functional tests
+  test:
+    runs-on: windows-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout umbrella
+        uses: actions/checkout@v4
+
+      - name: Checkout core (Standard-Toolkit) sibling
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.CORE_REPO != '' && vars.CORE_REPO || 'Bastion-Software/bastion-krypton-standard-toolkit' }}
+          ref: ${{ vars.CORE_REF != '' && vars.CORE_REF || 'bastion/multitarget' }}
+          path: Standard-Toolkit
+          fetch-depth: 1
+
+      - name: Setup .NET SDKs (8, 9, 10)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
+
+      - name: Add desktop MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      # Tests reference the core assemblies by HintPath into Standard-Toolkit\Bin\Release\<tfm>,
+      # so core must be built (all TFMs — net46 needs desktop MSBuild) BEFORE the tests.
+      - name: Build core (Release, all TFMs)
+        shell: pwsh
+        run: |
+          $sln = "Standard-Toolkit/Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+          msbuild $sln -t:Restore -p:Configuration=Release -m -v:m
+          if ($LASTEXITCODE -ne 0) { throw "core restore failed" }
+          msbuild $sln -t:Build -p:Configuration=Release -m -v:m
+          if ($LASTEXITCODE -ne 0) { throw "core build failed" }
+
+      # First call builds the functional projects (all TFMs, once); the -NoBuild calls reuse
+      # those outputs and just run the other subset TFMs.
+      - name: Run functional tests (net8.0-windows)
+        shell: pwsh
+        run: ./Tests/run-tests.ps1 -Project FunctionalTests -Tfm net8.0-windows
+
+      - name: Run functional tests (net48)
+        shell: pwsh
+        run: ./Tests/run-tests.ps1 -Project FunctionalTests -Tfm net48 -NoBuild
+
+      - name: Run functional tests (net10.0-windows)
+        shell: pwsh
+        run: ./Tests/run-tests.ps1 -Project FunctionalTests -Tfm net10.0-windows -NoBuild
+
+      - name: Run UnitTests (net8.0-windows)
+        shell: pwsh
+        run: ./Tests/run-tests.ps1 -Project UnitTests -Tfm net8.0-windows
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bastion-test-results
+          path: Tests/artifacts/**
+          if-no-files-found: warn
+
+  # ------------------------------------------------------------------- DocFX site
+  docs:
+    runs-on: windows-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout umbrella
+        uses: actions/checkout@v4
+
+      - name: Checkout core (Standard-Toolkit) sibling
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.CORE_REPO != '' && vars.CORE_REPO || 'Bastion-Software/bastion-krypton-standard-toolkit' }}
+          ref: ${{ vars.CORE_REF != '' && vars.CORE_REF || 'bastion/multitarget' }}
+          path: Standard-Toolkit
+          fetch-depth: 1
+
+      - name: Checkout Extended sibling
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.EXT_REPO != '' && vars.EXT_REPO || 'Bastion-Software/bastion-krypton-extended-toolkit' }}
+          ref: ${{ vars.EXT_REF != '' && vars.EXT_REF || 'bastion/multitarget' }}
+          path: Extended-Toolkit
+          fetch-depth: 1
+
+      - name: Setup .NET SDKs (8, 10)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Add desktop MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      # DocFX needs the net8 core + Extended Ultimate assemblies + XML (build-docs.ps1
+      # stages Standard-Toolkit\Bin\Release\net8.0-windows and the Extended Ultimate net8
+      # output). Building the Ultimate project at net8 also builds core net8 via the
+      # sibling ProjectReference.
+      - name: Build net8 assemblies for docs
+        shell: pwsh
+        run: |
+          $ult = "Extended-Toolkit/Source/Krypton Toolkit/Krypton.Toolkit.Suite.Extended.Ultimate/Krypton.Toolkit.Suite.Extended.Ultimate 2022.csproj"
+          msbuild $ult -t:Restore -p:Configuration=Release -p:TargetFramework=net8.0-windows -p:TFMs=all -m -v:m
+          if ($LASTEXITCODE -ne 0) { throw "docs asm restore failed" }
+          msbuild $ult -t:Build -p:Configuration=Release -p:TargetFramework=net8.0-windows -p:TFMs=all -m -v:m
+          if ($LASTEXITCODE -ne 0) { throw "docs asm build failed" }
+
+      - name: Install DocFX tool
+        shell: pwsh
+        run: dotnet tool install --global docfx --version 2.78.5
+
+      - name: Build DocFX site
+        shell: pwsh
+        run: ./build-docs.ps1 -Site
+
+      - name: Upload docs-site
+        uses: actions/upload-artifact@v4
+        with:
+          name: bastion-docs-site
+          path: docs-site/**
+          if-no-files-found: error
