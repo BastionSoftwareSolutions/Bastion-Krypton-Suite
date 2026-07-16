@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- © Bastion Software Solutions Ltd 2026. Part of the Bastion Krypton Suite build tooling.
+       Derived-work context: BSD-3-Clause (Standard-Toolkit) tooling. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>DocCoverage</AssemblyName>
+    <RootNamespace>DocCoverage</RootNamespace>
+  </PropertyGroup>
+
+</Project>

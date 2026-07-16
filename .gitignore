@@ -9,7 +9,17 @@
 [Bb]in/
 [Oo]bj/
 
-# Local tooling and session state — never committed
+# Local tooling and session state ï¿½ never committed
 /Tools/
 /.claude/
+
+# Generated documentation artefacts (build-docs.ps1 regenerates these; Phase 8 CI/release ships them)
+/docs-site/
+/artifacts/
+/docs/help/api/
+/docs/help/api-extended/
+/Help/*.chm
+/Help/*.pdf
+/Help/Working/
+/Help/*.log
 

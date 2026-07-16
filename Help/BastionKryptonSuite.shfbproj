@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Bastion Krypton Suite — Sandcastle Help File Builder project (spec §7.2, CHM output).
+  © Bastion Software Solutions Ltd 2026. Build tooling for a BSD-3-Clause (core) / MIT (Extended)
+  derived work. Produces BastionKryptonSuite.chm from the net8.0-windows assemblies + XML docs
+  staged by build-docs.ps1 into ..\artifacts\docfx-asm\ (core + Extended module libraries).
+
+  Build headlessly with desktop MSBuild:
+    MSBuild BastionKryptonSuite.shfbproj /p:Configuration=Release ^
+            /p:SHFBROOT="C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\"
+  Requires HTML Help Workshop (hhc.exe) for the HtmlHelp1 (.chm) compile.
+-->
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B45701CE-1D2A-4C7E-9E2B-5A0F1C6B3D77}</ProjectGuid>
+    <SHFBSchemaVersion>2017.9.26.0</SHFBSchemaVersion>
+    <AssemblyName>BastionKryptonSuite</AssemblyName>
+    <RootNamespace>BastionKryptonSuite</RootNamespace>
+    <Name>BastionKryptonSuite</Name>
+    <!-- The net8.0-windows assemblies are .NET (Core) — use the .NET reflection data set. -->
+    <FrameworkVersion>.NET Core/.NET Standard/.NET 5.0+</FrameworkVersion>
+    <OutputPath>.\</OutputPath>
+    <WorkingPath>.\Working\</WorkingPath>
+    <HtmlHelpName>BastionKryptonSuite</HtmlHelpName>
+    <Language>en-US</Language>
+    <HelpFileFormat>HtmlHelp1</HelpFileFormat>
+    <HelpTitle>Bastion Krypton Suite API Reference</HelpTitle>
+    <HelpFileVersion>1.0.0.0</HelpFileVersion>
+    <CopyrightText>© Bastion Software Solutions Ltd 2026. Core BSD-3-Clause (© Component Factory Pty Ltd / Krypton Suite); Extended MIT (© 2017–2024 Krypton Suite).</CopyrightText>
+    <!-- VS2013 is the presentation style that supports the HtmlHelp1 (.chm) format;
+         the modern Default2022/Themed2026 styles are Website-only. -->
+    <PresentationStyle>VS2013</PresentationStyle>
+    <SyntaxFilters>C#, Visual Basic</SyntaxFilters>
+    <!-- Guid naming keeps topic file names short: MemberName naming overflows Windows
+         MAX_PATH for some vendored explicit-interface members (e.g. the SAPI types in the
+         Utilities module), which fails the HtmlHelp1 file write. -->
+    <NamingMethod>Guid</NamingMethod>
+    <RootNamespaceContainer>True</RootNamespaceContainer>
+    <RootNamespaceTitle>Bastion Krypton Suite</RootNamespaceTitle>
+    <NamespaceGrouping>True</NamespaceGrouping>
+    <MaximumGroupParts>3</MaximumGroupParts>
+    <Preliminary>False</Preliminary>
+    <SdkLinkTarget>Blank</SdkLinkTarget>
+    <DocumentationSources>
+      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Krypton.Toolkit.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Krypton.Ribbon.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Krypton.Navigator.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Krypton.Workspace.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Krypton.Docking.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Krypton.Toolkit.Suite.Extended.*.dll" xmlns="" />
+    </DocumentationSources>
+    <ProjectSummary>The &amp;lt;b&amp;gt;Bastion Krypton Suite&amp;lt;/b&amp;gt; is a multi-targeted fork of the Krypton-Suite Standard and Extended Toolkits for WinForms. Namespaces and public type names are unchanged from upstream; only assembly and package names carry the &amp;lt;c&amp;gt;Bastion.&amp;lt;/c&amp;gt; prefix. This reference is generated from the net8.0-windows assemblies; the public API is near-identical across all supported target frameworks.</ProjectSummary>
+    <NamespaceSummaries>
+      <NamespaceSummaryItem name="Krypton.Toolkit" isDocumented="True">The foundation controls, palettes, renderers and shared infrastructure that every other library builds on.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Krypton.Ribbon" isDocumented="True">The Office-style ribbon control and its tab, group and item element tree.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Krypton.Navigator" isDocumented="True">A themed multi-page container control with tab, header and Outlook-style modes.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Krypton.Workspace" isDocumented="True">Resizable, user-rearrangeable workspace cells for multi-document layouts.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Krypton.Docking" isDocumented="True">Visual-Studio-style docking: dockable, auto-hide and floating panels with layout persistence.</NamespaceSummaryItem>
+    </NamespaceSummaries>
+    <!-- Suppress the "missing documentation" placeholder notes/warnings (thousands on the
+         upstream-inherited Extended surface); the coverage report tracks doc gaps instead. -->
+    <ShowMissingSummaries>False</ShowMissingSummaries>
+    <ShowMissingParams>False</ShowMissingParams>
+    <ShowMissingReturns>False</ShowMissingReturns>
+    <ShowMissingValues>False</ShowMissingValues>
+    <ShowMissingRemarks>False</ShowMissingRemarks>
+    <ShowMissingTypeParams>False</ShowMissingTypeParams>
+    <ShowMissingNamespaces>False</ShowMissingNamespaces>
+    <AutoDocumentConstructors>True</AutoDocumentConstructors>
+    <AutoDocumentDisposeMethods>True</AutoDocumentDisposeMethods>
+    <VisibleItems>Attributes, ExplicitInterfaceImplementations, InheritedMembers, Protected, ProtectedInternalAsProtected, PublicCompilerGenerated, NonBrowsable</VisibleItems>
+    <CleanIntermediates>True</CleanIntermediates>
+    <KeepLogFile>True</KeepLogFile>
+    <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
+    <IndentHtml>False</IndentHtml>
+    <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
+    <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="'$(MSBuildRestoreSessionId)' != ''" />
+  <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" Condition="'$(MSBuildRestoreSessionId)' == ''" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+</Project>

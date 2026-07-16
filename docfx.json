@@ -1,0 +1,76 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "Krypton.Toolkit.dll",
+            "Krypton.Ribbon.dll",
+            "Krypton.Navigator.dll",
+            "Krypton.Workspace.dll",
+            "Krypton.Docking.dll"
+          ],
+          "src": "artifacts/docfx-asm"
+        }
+      ],
+      "dest": "docs/help/api",
+      "outputFormat": "mref",
+      "namespaceLayout": "flattened",
+      "disableGitFeatures": true
+    },
+    {
+      "src": [
+        {
+          "files": [ "Krypton.Toolkit.Suite.Extended.*.dll" ],
+          "exclude": [
+            "Krypton.Toolkit.Suite.Extended.Ultimate.dll",
+            "Krypton.Toolkit.Suite.Extended.Ultimate.Lite.dll"
+          ],
+          "src": "artifacts/docfx-asm"
+        }
+      ],
+      "dest": "docs/help/api-extended",
+      "outputFormat": "mref",
+      "namespaceLayout": "flattened",
+      "disableGitFeatures": true
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [ "**/*.{md,yml}" ],
+        "src": "docs/help",
+        "dest": "."
+      },
+      {
+        "files": [ "*.md" ],
+        "src": "docs/audit",
+        "dest": "audit"
+      },
+      {
+        "files": [ "**/*.md" ],
+        "src": "docs/themes",
+        "dest": "themes"
+      }
+    ],
+    "resource": [
+      {
+        "files": [ "**/*.{png,jpg,jpeg,gif,svg}" ],
+        "src": "docs/help",
+        "dest": "."
+      }
+    ],
+    "output": "docs-site",
+    "template": [ "default", "modern" ],
+    "globalMetadata": {
+      "_appName": "Bastion Krypton Suite",
+      "_appTitle": "Bastion Krypton Suite Documentation",
+      "_appFooter": "Bastion Krypton Suite — © Bastion Software Solutions Ltd 2026. Core BSD-3-Clause; Extended MIT (© 2017–2024 Krypton Suite).",
+      "_enableSearch": true,
+      "_disableContribution": true,
+      "_disableAffix": false
+    },
+    "postProcessors": [ "ExtractSearchIndex" ],
+    "disableGitFeatures": true
+  }
+}
