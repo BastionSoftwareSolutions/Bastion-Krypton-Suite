@@ -117,3 +117,27 @@ Standard-Toolkit-Demos `bastion/multitarget`:
 - Scripted run of the full 125 × 11 launch grid (this file gains the pass/fail table).
 - `Ribbon Gallery` / `KryptonGallery Examples` carry the same CS8602 pattern as the pre-fix `Ribbon Controls`; their `Form1_Load` paths deserve a runtime check.
 - The 276 code-quality warnings (mostly `KryptonToastNotification Examples`) should be burnt down before `TreatWarningsAsErrors` is enabled for the demos tree.
+
+## Phase 4d — launch matrix results (16 July 2026)
+
+**2,750 launch tests (250 sample apps — 125 C# + 125 VB — x 11 TFMs): ALL PASS.** Each app was
+launched on the true runtime for its TFM (net4x native, net5/6/7 via the local legacy runtimes,
+net8+ system dotnet) and had to reach an idle message loop and stay alive 5 seconds.
+
+| TFM | Pass |
+|---|---|| net10.0-windows | 250/250 |
+| net46 | 250/250 |
+| net47 | 250/250 |
+| net472 | 250/250 |
+| net48 | 250/250 |
+| net481 | 250/250 |
+| net5.0-windows | 250/250 |
+| net6.0-windows | 250/250 |
+| net7.0-windows | 250/250 |
+| net8.0-windows | 250/250 |
+| net9.0-windows | 250/250 |
+Runner: `run-sample-matrix.ps1` (incremental CSV, 5-way parallel). One defect class was found and
+fixed: five VB twins crashed during `InitializeComponent` because VB `Handles` binds at
+`WithEvents` field assignment, firing handlers before dependent controls exist (the C# designer
+wires events afterwards) — early-return guards added, documented in-source; a repo-wide sweep
+found no further currently-triggered instances of the pattern.
