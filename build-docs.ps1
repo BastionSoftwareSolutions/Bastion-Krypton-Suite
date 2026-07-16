@@ -221,8 +221,14 @@ function Invoke-Coverage {
         Where-Object { $_.BaseName -notlike '*Ultimate' -and $_.BaseName -notlike '*Ultimate.Lite' } |
         ForEach-Object { $covArgs += $_.FullName }
 
-    & $exe @covArgs
-    if ($LASTEXITCODE -ne 0) { throw "DocCoverage run failed." }
+    # Relax stderr-as-error (the tool may print 'warning:' lines to stderr); judge by exit code.
+    $prevEap = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    try {
+        & $exe @covArgs 2>&1 | ForEach-Object { Write-Host $_ }
+        $code = $LASTEXITCODE
+    } finally { $ErrorActionPreference = $prevEap }
+    if ($code -ne 0) { throw "DocCoverage run failed (exit $code)." }
     Require-File $CoveragePath 'coverage report'
     Write-Host "Coverage report: $CoveragePath" -ForegroundColor Green
 }
