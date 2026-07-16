@@ -222,8 +222,12 @@ Investigation verdict CLEAN (`docs/audit/ASSEMBLY-RENAME.md`). Applied atomicall
 - **Version scheme — Chris decision:** default **SemVer 1.0.0** applied (upstream 105.x baseline in release notes); upstream-aligned scheme available via `pack.ps1 -Version 105.26.x`.
 - Docs build retargeted to the renamed assemblies (commit `a9d85e9`): DocFX site rebuilds green, 3,354 pages, 0 broken links.
 
-### In progress
-- Inno Setup installer (spec §8.2).
+### Inno Setup installer ✅ (workspace `abf77f5`; report `docs/audit/INSTALLER-REPORT.md`)
+- `Bastion Krypton Suite 1.0.0 Setup.exe` (360.7 MB), built headlessly via ISCC 6.7.3. Per-user (`PrivilegesRequired=lowest`), **fixed AppId `{9D307380-9B7C-4DC7-A58D-75CAB5116E96}`** (keep stable for upgrades). Components: libraries (5 core + Extended, all 11 TFMs, DLL+XML+PDB), docs (CHM 69 MB + PDF), Theme Browser app, sample source (C#+VB), designer-integration readme. Toggle.Switch + SharpUpdate excluded per licence audit.
+- **Lifecycle test (sandbox, all `/VERYSILENT`): install / use / upgrade-in-place (1.0.0→1.0.1) / uninstall — all PASS.** "Use" = scratch net8 project consumed the installed `Bastion.Krypton.Toolkit.dll` and instantiated controls (`CONSUME-OK`). Uninstall clean (0 orphans, 0 stray registry).
+- Unsigned; signtool hook (commented directives + readme SmartScreen note) ready for Chris's cert. Real-VM-only items (SmartScreen/MOTW, elevated all-users path, wizard click-through) documented.
+
+**Phase 7 complete — 16 July 2026.** (Chris decision: version scheme — SemVer 1.0.0 applied, upstream-aligned available.)
 
 ---
 
