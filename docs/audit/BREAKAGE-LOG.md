@@ -340,7 +340,7 @@ rule: under attack a contract exception is graceful; defect-class exceptions
   `KryptonDockingManager.cs`, `KryptonCustomPaletteBase.cs`, Standard-Toolkit
   `bastion/multitarget`).
 
-### A8. [UPSTREAM] OPEN — KryptonToolkitPoweredByControl: extreme sizes lay out pathologically slowly (~90 s)
+### A9. [UPSTREAM] OPEN — KryptonToolkitPoweredByControl: extreme sizes lay out pathologically slowly (~90 s)
 - **Repro:** `control.Size = new Size(int.MaxValue, int.MaxValue)` on a shown
   `KryptonToolkitPoweredByControl` — the dock-filled `TableLayoutPanel` of AutoSize
   `KryptonWrapLabel`s hands the framework text-measure a ~2-billion-pixel wrap constraint;
