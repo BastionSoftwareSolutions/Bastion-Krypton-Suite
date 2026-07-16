@@ -1680,6 +1680,25 @@ public class KryptonMonthCalendar : VisualSimpleBase,
         var widthMonths = Math.Max(1, (width - backBorderSize.Width - gap) / (singleMonthSize.Width + gap));
         var heightMonths = Math.Max(1, (height - backBorderSize.Height - gap) / (singleMonthSize.Height + gap));
 
+        // Mirror the WinForms MonthCalendar contract: at most 12 months may be displayed
+        // (the product of the calendar dimensions). Without this cap an extreme control
+        // size asked the layout to build millions of month views — an unbounded hang
+        // (Bastion Phase 5c adversarial finding: Size = int.MaxValue never returned) —
+        // and the recomputed pixel size below overflowed Int32.
+        widthMonths = Math.Min(widthMonths, 12);
+        heightMonths = Math.Min(heightMonths, 12);
+        while (widthMonths * heightMonths > 12)
+        {
+            if (heightMonths > 1)
+            {
+                heightMonths--;
+            }
+            else
+            {
+                widthMonths--;
+            }
+        }
+
         // Calculate new sizes based on showing only full months
         width = backBorderSize.Width + (widthMonths * singleMonthSize.Width) + (gap * (widthMonths + 1));
         height = backBorderSize.Height + (heightMonths * singleMonthSize.Height) + (gap * (heightMonths + 1));

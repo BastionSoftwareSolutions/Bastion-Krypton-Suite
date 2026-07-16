@@ -259,15 +259,30 @@ public class KryptonTableLayoutPanel : TableLayoutPanel
     private void BackGroundPanel_Refreshed()
     {
         // Fix for #774: https://github.com/Krypton-Suite/Standard-Toolkit/issues/774
-        if (_backGroundPanel.Height == 0 || _backGroundPanel.Width == 0)
+        // Bastion Phase 5c hardening: the original guard only caught == 0. A negative or
+        // absurd size (consumer sets Size to an extreme value) reached the Bitmap
+        // constructor, whose ArgumentException escaped WM_WINDOWPOSCHANGED and tore the
+        // process down. Guard non-positive sizes and cap the snapshot at the virtual-screen
+        // bounds — background beyond the screen can never become visible.
+        var width = _backGroundPanel.Width;
+        var height = _backGroundPanel.Height;
+        if (width <= 0 || height <= 0)
         {
             return;
         }
 
-        _bm = new Bitmap(_backGroundPanel.Width, _backGroundPanel.Height, PixelFormat.Format32bppRgb);
-        _backGroundPanel.DrawToBitmap(_bm,
-            new Rectangle(0, 0, _backGroundPanel.Width, _backGroundPanel.Height));
-        BackgroundImage = _bm;
+        Rectangle screen = SystemInformation.VirtualScreen;
+        width = Math.Min(width, Math.Max(screen.Width, 1));
+        height = Math.Min(height, Math.Max(screen.Height, 1));
+
+        var bm = new Bitmap(width, height, PixelFormat.Format32bppRgb);
+        _backGroundPanel.DrawToBitmap(bm, new Rectangle(0, 0, width, height));
+        BackgroundImage = bm;
+
+        // Release the previous snapshot (it was re-created on every resize/refresh and
+        // never disposed — a GDI handle + unmanaged memory leak).
+        _bm?.Dispose();
+        _bm = bm;
     }
 
     private void SetToBehindTable()

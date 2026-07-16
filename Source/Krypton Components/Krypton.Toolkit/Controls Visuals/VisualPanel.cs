@@ -874,13 +874,17 @@ public abstract class VisualPanel : Panel,
         // Cannot process a message for a disposed control
         if (!IsDisposed)
         {
-            // Call base first
+            // Call base first (raises the public Paint event — a subscriber is free to
+            // dispose this control from inside its handler)
             base.OnPaint(e);
 
-            // Do we have a manager to use for painting?
-            if (ViewManager is not null)
+            // Re-validate after the event: disposal above also releases the renderer, and
+            // a null renderer must never reach ViewManager.Paint (Bastion Phase 5c
+            // adversarial finding: dispose-inside-Paint crashed the process with an
+            // ArgumentNullException escaping WM_PAINT).
+            if (!IsDisposed && !Disposing && ViewManager is not null && Renderer is not null)
             {
-                // If the layout is dirty, or the size of the control has changed 
+                // If the layout is dirty, or the size of the control has changed
                 // without a layout being performed, then perform a layout now
                 if (_layoutDirty && (!Size.Equals(_lastLayoutSize)))
                 {
@@ -891,7 +895,7 @@ public abstract class VisualPanel : Panel,
                 PaintTransparentBackground(e);
 
                 // Ask the view to repaint the visual structure
-                ViewManager?.Paint(Renderer!, e);
+                ViewManager.Paint(Renderer, e);
 
                 // Request for a refresh has been serviced
                 _refresh = false;

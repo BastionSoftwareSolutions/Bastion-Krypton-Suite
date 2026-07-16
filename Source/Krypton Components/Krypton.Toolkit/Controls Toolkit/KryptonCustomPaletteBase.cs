@@ -3225,8 +3225,11 @@ public class KryptonCustomPaletteBase : PaletteBase
         // Must close steam before retrieving bytes
         ms.Close();
 
-        // Return the array of raw bytes
-        return ms.GetBuffer();
+        // Return the array of raw bytes.
+        // ToArray, not GetBuffer: GetBuffer returns the whole capacity-sized internal
+        // buffer, so the XML came back padded with trailing NUL bytes — invalid XML for
+        // any strict reader/file consumer (Bastion Phase 5c adversarial finding).
+        return ms.ToArray();
     }
 
     private XmlDocument ExportToXmlDocument(bool ignoreDefaults)

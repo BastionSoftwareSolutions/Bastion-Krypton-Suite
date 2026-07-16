@@ -716,10 +716,11 @@ public abstract class VisualForm : Form,
                 invalidRegion.Exclude(ClientRectangle);
             }
 
-            using Graphics g = Graphics.FromHwnd(Handle);
+            Graphics? g = null;
             IntPtr? hRgn = null;
             try
             {
+                g = Graphics.FromHwnd(Handle);
                 hRgn = invalidRegion.GetHrgn(g);
 
                 PI.RedrawWindow(Handle, IntPtr.Zero, hRgn.Value,
@@ -730,12 +731,23 @@ public abstract class VisualForm : Form,
                 // Object is currently in use elsewhere. ??
                 Debug.WriteLine(ioEx.Message);
             }
+            catch (OutOfMemoryException oomEx)
+            {
+                // GDI+ reports a failed GetDC as OutOfMemoryException: it happens when the
+                // native window behind Handle is already gone (e.g. its owning thread ended
+                // before the managed control was disposed) or the DC pool is exhausted.
+                // This is a best-effort repaint request — never worth crashing a
+                // theme-change notification over (Bastion Phase 5c adversarial finding).
+                Debug.WriteLine(oomEx.Message);
+            }
             finally
             {
                 if (hRgn != null)
                 {
                     PI.DeleteObject(hRgn.Value);
                 }
+
+                g?.Dispose();
             }
         }
     }

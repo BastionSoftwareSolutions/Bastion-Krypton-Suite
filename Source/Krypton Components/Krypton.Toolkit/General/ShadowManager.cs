@@ -37,6 +37,12 @@ internal class ShadowManager
         _parentForm.Closing += KryptonFormOnClosing;
 #endif
 
+        // A form may be disposed without ever being closed (`form.Dispose()` after `Show()`
+        // is legal); Closing never fires on that path and the four shadow popup windows
+        // leaked — 4 USER handles per shown KryptonForm lifecycle (Bastion Phase 5c
+        // adversarial finding, rapid create/show/dispose cycles).
+        _parentForm.Disposed += KryptonFormOnDisposed;
+
         _parentForm.Load += FormLoaded;
 
         shadowValues.EnableShadowsChanged += ShadowValues_EnableShadowsChanged;
@@ -94,7 +100,22 @@ internal class ShadowManager
     {
         _allowDrawing = false;
         FlashWindowExListener.FlashEvent -= OnFlashWindowExListenerOnFlashEvent;
+        DisposeShadowForms();
+    }
 
+    private void KryptonFormOnDisposed(object? sender, EventArgs e)
+    {
+        _allowDrawing = false;
+        FlashWindowExListener.FlashEvent -= OnFlashWindowExListenerOnFlashEvent;
+
+        // Dispose is idempotent (DestroyHandle no-ops on a dead handle), so running after
+        // KryptonFormOnClosing is safe; clearing the array stops any later use.
+        DisposeShadowForms();
+        _shadowForms = null;
+    }
+
+    private void DisposeShadowForms()
+    {
         if (_shadowForms != null)
         {
             foreach (VisualShadowBase shadowForm in _shadowForms)

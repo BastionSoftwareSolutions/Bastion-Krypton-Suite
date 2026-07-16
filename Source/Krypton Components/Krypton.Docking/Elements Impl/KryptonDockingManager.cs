@@ -3262,8 +3262,11 @@ public class KryptonDockingManager : DockingElementOpenCollection
         SaveConfigToStream(ms, encoding);
         ms.Close();
 
-        // Return an array of bytes that contain the streamed XML
-        return ms.GetBuffer();
+        // Return an array of bytes that contain the streamed XML.
+        // ToArray, not GetBuffer: GetBuffer returns the whole capacity-sized internal
+        // buffer, so the XML came back padded with trailing NUL bytes — invalid XML for
+        // any strict reader/file consumer (Bastion Phase 5c adversarial finding).
+        return ms.ToArray();
     }
 
     /// <summary>
