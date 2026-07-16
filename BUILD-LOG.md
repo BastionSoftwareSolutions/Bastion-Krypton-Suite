@@ -17,10 +17,12 @@ Spec: `BASTION-KRYPTON-SPEC.md` v1.1 (15 July 2026). All times local.
 | git | ✅ | 2.54.0.windows.1 |
 | `dotnet pack` (NuGet packing) | ✅ | via .NET SDK 10.0.301 (standalone nuget.exe not installed; not required) |
 | HTML Help Workshop (hhc) | ✅ | `C:\Program Files (x86)\HTML Help Workshop\hhc.exe` (not on PATH) |
-| DocFX | ❌ not installed | Install as dotnet tool (`dotnet tool install -g docfx`) before Phase 6 |
-| Sandcastle Help File Builder (SHFB) | ❌ not installed | Required for CHM in Phase 6 — install before Phase 6 |
-| PDF pipeline (wkhtmltopdf / pandoc) | ❌ not installed | Toolchain choice deferred to Phase 6; install then |
-| Inno Setup 6 | ❌ not installed | Required for Phase 7 installer — install before Phase 7 |
+| DocFX | ✅ (installed 16 Jul, Phase 6) | 2.78.5 global tool (`%USERPROFILE%\.dotnet\tools\docfx.exe`) |
+| Sandcastle Help File Builder (SHFB) | ✅ (installed 16 Jul, Phase 6) | 2026.3.29.0 via MSI; `SHFBROOT=C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\`; headless build engine (MRefBuilder + `.targets`) present — CHM builds via `msbuild *.shfbproj` |
+| PDF pipeline | ✅ (installed 16 Jul, Phase 6) | **Decision: pandoc 3.10 + wkhtmltopdf 0.12.6** (Markdown→PDF via the wkhtmltopdf engine — scriptable, no LaTeX dependency). `%LOCALAPPDATA%\Pandoc\pandoc.exe`; `C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe` |
+| Inno Setup 6 | ✅ (installed 16 Jul, for Phase 7) | ISCC at `%LOCALAPPDATA%\Programs\Inno Setup 6\ISCC.exe` |
+
+**Full Phase 6/7 toolchain verified 16 Jul 2026.** All installed non-interactively (SHFB from its GitHub MSI; the rest via winget). Note: these live on per-user paths, not the machine PATH — `build-docs.ps1`/`pack.ps1` reference them explicitly or prepend to PATH.
 
 **Decision:** core build/test tooling (Phases 1–5) is fully present, so the build proceeds. The four missing items are documentation/packaging tools not needed until Phases 6–7; they are flagged here so they can be installed (winget or direct download; some need admin) before those phases start. This is a recorded deviation from strict "fail fast" — nothing in Phases 1–5 depends on them.
 
