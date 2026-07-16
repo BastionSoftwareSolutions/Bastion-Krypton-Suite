@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <RootNamespace>KryptonLinkWrapLabelExample</RootNamespace>
+        <AssemblyName>Krypton Link Wrap Label ExamplesVB</AssemblyName>
+        <MyType>WindowsFormsWithCustomSubMain</MyType>
+        <StartupObject>KryptonLinkWrapLabelExample.Program</StartupObject>
+        <!-- Directory.Build.props sets LangVersion=preview for the C# demos; vbc rejects 'preview'. -->
+        <LangVersion>Latest</LangVersion>
+        <OptionStrict>On</OptionStrict>
+        <OptionExplicit>On</OptionExplicit>
+        <OptionInfer>On</OptionInfer>
+        <ApplicationIcon>Krypton.ico</ApplicationIcon>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <UseWindowsForms>true</UseWindowsForms>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <NeutralLanguage>en</NeutralLanguage>
+        <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+    </PropertyGroup>
+    <PropertyGroup>
+        <OutputPath>..\..\..\..\Binaries\Krypton Demos\$(Configuration)\</OutputPath>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Remove="Krypton.ico" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="Krypton.ico" />
+    </ItemGroup>
+    <Choose>
+        <When Condition="'$(SolutionName.Endswith(`Nuget`))'">
+            <ItemGroup>
+                <PackageReference Include="Krypton.Toolkit.Canary" Version="100.25.8.234-beta" />
+            </ItemGroup>
+        </When>
+        <Otherwise>
+            <ItemGroup>
+                <ProjectReference Include="..\..\..\..\..\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+            </ItemGroup>
+        </Otherwise>
+    </Choose>
+</Project>
