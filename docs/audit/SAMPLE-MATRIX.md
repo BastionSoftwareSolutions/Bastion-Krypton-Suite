@@ -15,7 +15,7 @@ All **125** C# demo projects (83 Toolkit, 12 Ribbon, 15 Navigator, 7 Workspace, 
 | Projects × TFMs attempted | 125 × 11 = **1 375** |
 | Build errors | **0** |
 | Per-project TFM exclusions | **0** — every demo compiles on every TFM |
-| Build warnings (samples, total across all 11 TFMs) | **276** (`TreatWarningsAsErrors` deliberately not yet enabled — Phase 4a records the count) |
+| Build warnings (samples, total across all 11 TFMs) | **276** summed across the eleven per-TFM legs; a single full-matrix invocation of the master Dev solution reports **282** (a few MSB3243 resolution notices repeat per evaluation context). `TreatWarningsAsErrors` deliberately not yet enabled — Phase 4a records the count |
 
 Canonical build: the **Dev** solution flavour (ProjectReference into the sibling `D:\Krypton-Ultimate\Standard-Toolkit` source tree, `bastion/multitarget`). The relative `..\..\..\..\Standard-Toolkit\Source\Krypton Components\*` paths resolve correctly against the sibling layout and were left unchanged. The NuGet flavour (`Krypton.*.Canary` packages, selected when the solution name ends in `Nuget`) is left intact but is not built. The master build entry point is `Source\Krypton Explorer\Krypton Explorer 2022 - Dev.sln`, which (after this phase) schedules **all** 125 sample projects plus the five core libraries. `Source\WixInstaller` is packaging, not a demo, and is untouched.
 
