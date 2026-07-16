@@ -1,14 +1,14 @@
-{
+﻿{
   "metadata": [
     {
       "src": [
         {
           "files": [
-            "Krypton.Toolkit.dll",
-            "Krypton.Ribbon.dll",
-            "Krypton.Navigator.dll",
-            "Krypton.Workspace.dll",
-            "Krypton.Docking.dll"
+            "Bastion.Krypton.Toolkit.dll",
+            "Bastion.Krypton.Ribbon.dll",
+            "Bastion.Krypton.Navigator.dll",
+            "Bastion.Krypton.Workspace.dll",
+            "Bastion.Krypton.Docking.dll"
           ],
           "src": "artifacts/docfx-asm"
         }
@@ -21,10 +21,10 @@
     {
       "src": [
         {
-          "files": [ "Krypton.Toolkit.Suite.Extended.*.dll" ],
+          "files": [ "Bastion.Krypton.Extended.*.dll" ],
           "exclude": [
-            "Krypton.Toolkit.Suite.Extended.Ultimate.dll",
-            "Krypton.Toolkit.Suite.Extended.Ultimate.Lite.dll"
+            "Bastion.Krypton.Extended.Ultimate.dll",
+            "Bastion.Krypton.Extended.Ultimate.Lite.dll"
           ],
           "src": "artifacts/docfx-asm"
         }
@@ -65,7 +65,7 @@
     "globalMetadata": {
       "_appName": "Bastion Krypton Suite",
       "_appTitle": "Bastion Krypton Suite Documentation",
-      "_appFooter": "Bastion Krypton Suite — © Bastion Software Solutions Ltd 2026. Core BSD-3-Clause; Extended MIT (© 2017–2024 Krypton Suite).",
+      "_appFooter": "Bastion Krypton Suite â€” Â© Bastion Software Solutions Ltd 2026. Core BSD-3-Clause; Extended MIT (Â© 2017â€“2024 Krypton Suite).",
       "_enableSearch": true,
       "_disableContribution": true,
       "_disableAffix": false

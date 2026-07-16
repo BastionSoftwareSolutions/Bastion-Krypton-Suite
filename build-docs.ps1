@@ -82,7 +82,7 @@ $CoveragePath = Join-Path $RepoRoot 'docs\audit\XMLDOC-COVERAGE.md'
 $DocFxJson  = Join-Path $RepoRoot 'docfx.json'
 $HelpSrc    = Join-Path $RepoRoot 'docs\help'
 
-$CoreAsms = @('Krypton.Toolkit','Krypton.Ribbon','Krypton.Navigator','Krypton.Workspace','Krypton.Docking')
+$CoreAsms = @('Bastion.Krypton.Toolkit','Bastion.Krypton.Ribbon','Bastion.Krypton.Navigator','Bastion.Krypton.Workspace','Bastion.Krypton.Docking')
 
 function Require-File($path, $what) {
     if (-not (Test-Path -LiteralPath $path)) {
@@ -217,7 +217,7 @@ function Invoke-Coverage {
     # NB: do not use $args here - it is a PowerShell automatic variable inside a function.
     $covArgs = @($CoveragePath)
     foreach ($a in $CoreAsms) { $covArgs += (Join-Path $CoreBin "$a.dll") }
-    Get-ChildItem -LiteralPath $ExtBin -Filter 'Krypton.Toolkit.Suite.Extended.*.dll' |
+    Get-ChildItem -LiteralPath $ExtBin -Filter 'Bastion.Krypton.Extended.*.dll' |
         Where-Object { $_.BaseName -notlike '*Ultimate' -and $_.BaseName -notlike '*Ultimate.Lite' } |
         ForEach-Object { $covArgs += $_.FullName }
 

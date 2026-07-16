@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
-  Bastion Krypton Suite — Sandcastle Help File Builder project (spec §7.2, CHM output).
-  © Bastion Software Solutions Ltd 2026. Build tooling for a BSD-3-Clause (core) / MIT (Extended)
+  Bastion Krypton Suite â€” Sandcastle Help File Builder project (spec Â§7.2, CHM output).
+  Â© Bastion Software Solutions Ltd 2026. Build tooling for a BSD-3-Clause (core) / MIT (Extended)
   derived work. Produces BastionKryptonSuite.chm from the net8.0-windows assemblies + XML docs
   staged by build-docs.ps1 into ..\artifacts\docfx-asm\ (core + Extended module libraries).
 
@@ -22,7 +22,7 @@
     <AssemblyName>BastionKryptonSuite</AssemblyName>
     <RootNamespace>BastionKryptonSuite</RootNamespace>
     <Name>BastionKryptonSuite</Name>
-    <!-- The net8.0-windows assemblies are .NET (Core) — use the .NET reflection data set. -->
+    <!-- The net8.0-windows assemblies are .NET (Core) â€” use the .NET reflection data set. -->
     <FrameworkVersion>.NET Core/.NET Standard/.NET 5.0+</FrameworkVersion>
     <OutputPath>.\</OutputPath>
     <WorkingPath>.\Working\</WorkingPath>
@@ -31,7 +31,7 @@
     <HelpFileFormat>HtmlHelp1</HelpFileFormat>
     <HelpTitle>Bastion Krypton Suite API Reference</HelpTitle>
     <HelpFileVersion>1.0.0.0</HelpFileVersion>
-    <CopyrightText>© Bastion Software Solutions Ltd 2026. Core BSD-3-Clause (© Component Factory Pty Ltd / Krypton Suite); Extended MIT (© 2017–2024 Krypton Suite).</CopyrightText>
+    <CopyrightText>Â© Bastion Software Solutions Ltd 2026. Core BSD-3-Clause (Â© Component Factory Pty Ltd / Krypton Suite); Extended MIT (Â© 2017â€“2024 Krypton Suite).</CopyrightText>
     <!-- VS2013 is the presentation style that supports the HtmlHelp1 (.chm) format;
          the modern Default2022/Themed2026 styles are Website-only. -->
     <PresentationStyle>VS2013</PresentationStyle>
@@ -47,12 +47,12 @@
     <Preliminary>False</Preliminary>
     <SdkLinkTarget>Blank</SdkLinkTarget>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Krypton.Toolkit.dll" xmlns="" />
-      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Krypton.Ribbon.dll" xmlns="" />
-      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Krypton.Navigator.dll" xmlns="" />
-      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Krypton.Workspace.dll" xmlns="" />
-      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Krypton.Docking.dll" xmlns="" />
-      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Krypton.Toolkit.Suite.Extended.*.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Bastion.Krypton.Toolkit.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Bastion.Krypton.Ribbon.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Bastion.Krypton.Navigator.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Bastion.Krypton.Workspace.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Bastion.Krypton.Docking.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\artifacts\docfx-asm\Bastion.Krypton.Extended.*.dll" xmlns="" />
     </DocumentationSources>
     <ProjectSummary>The &amp;lt;b&amp;gt;Bastion Krypton Suite&amp;lt;/b&amp;gt; is a multi-targeted fork of the Krypton-Suite Standard and Extended Toolkits for WinForms. Namespaces and public type names are unchanged from upstream; only assembly and package names carry the &amp;lt;c&amp;gt;Bastion.&amp;lt;/c&amp;gt; prefix. This reference is generated from the net8.0-windows assemblies; the public API is near-identical across all supported target frameworks.</ProjectSummary>
     <NamespaceSummaries>
