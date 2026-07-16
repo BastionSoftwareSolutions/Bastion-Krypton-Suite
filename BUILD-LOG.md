@@ -209,6 +209,26 @@ All five core libraries build **warning-clean (0 warnings / 0 errors)** for the 
 
 ---
 
+## Phase 7 — Packaging (16 July 2026)
+
+### Assembly rename ✅ (spec §8.1, ground rule 3)
+Investigation verdict CLEAN (`docs/audit/ASSEMBLY-RENAME.md`). Applied atomically: assembly file + PackageId gain the `Bastion.` prefix; **namespaces, RootNamespace and all public type names stay `Krypton.*`** (drop-in compatible). Core commit `13e2f23` (Standard-Toolkit): 5 libs, the 5 load-bearing edits (2 `[Editor]` strings→`typeof`, 3 InternalsVisibleTo names); **11-TFM matrix 0 warnings/0 errors**; SmokeTest net8 243 controls, 0 failures (assemblies report `Bastion.Krypton.*`, types still `Krypton.*`). Extended commit `9a012a7`: 63 module csprojs → `Bastion.Krypton.Extended.*`, 7 assembly-qualified designer strings fixed; plain solution 0 errors.
+
+### NuGet packages ✅ (workspace `ed2a0a2`; report `docs/audit/PACKAGE-REPORT.md`)
+- **57 packages, version 1.0.0** (+ 56 snupkg symbol packages): 5 core + `Bastion.Krypton.Suite` metapackage + **50 Extended module packages** + `Bastion.Krypton.Extended.Ultimate` metapackage. Built via `pack.ps1` (`-Scope Core|Extended|All`, `-Version` parameterised).
+- **Full-feed validation (`Scripts/PackageValidate`): 56/57 full 11-TFM matrix + correct per-TFM dependency groups, SPDX expressions, snupkg symbols, SourceLink/repo, deps on `Bastion.Krypton.*` core (no upstream `Krypton.*` leak).** The 1 non-11-TFM package — `Bastion.Krypton.Extended.Data.Visualisation` (10 TFMs, **no net46 by design**: ScottPlot/SkiaSharp have no net46 asset — documented Phase 2 reduced-TFM decision) — is a legitimate degradation, not a defect.
+- **Licence split correct:** core + Suite = `BSD-3-Clause`; Extended = `MIT`; Ms-PL-bundling modules (Outlook.Grid, AdvancedDataGridView) + Extended.Ultimate = `MIT AND MS-PL`.
+- **Scratch-consume green** on net48 + net8.0-windows (Toolkit + Suite metapackage, KryptonButton/KryptonRibbon, builds + runs to idle). **All `Bastion.Krypton.*` IDs unclaimed on nuget.org** (404).
+- **Version scheme — Chris decision:** default **SemVer 1.0.0** applied (upstream 105.x baseline in release notes); upstream-aligned scheme available via `pack.ps1 -Version 105.26.x`.
+- Docs build retargeted to the renamed assemblies (commit `a9d85e9`): DocFX site rebuilds green, 3,354 pages, 0 broken links.
+
+### In progress
+- Inno Setup installer (spec §8.2).
+
+---
+
+---
+
 ## Phase 6 — Documentation (16 July 2026)
 
 Toolchain installed + version-recorded in Phase 0 table above. PDF pipeline decision: **pandoc 3.10 + wkhtmltopdf 0.12.6**.
