@@ -3,7 +3,9 @@
 /*
  * MIT License
  *
- * Copyright (c) 2017 - 2024 Krypton Suite
+ * © Bastion Software Solutions Ltd. New file for the Bastion Krypton Suite,
+ * a derived work from the MIT-licensed Krypton Toolkit Suite Extended
+ * (Copyright (c) 2017 - 2024 Krypton Suite).
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,28 +30,34 @@
 #endregion
 namespace Examples
 {
-    internal static class Program
+    /// <summary>Demonstrates the ComboBox module: KryptonComboBoxTree and KryptonEnumerationComboBox.</summary>
+    public partial class ComboBoxExample : KryptonForm
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
+        public ComboBoxExample()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            //6ApplicationConfiguration.Initialize();
+            InitializeComponent();
 
-            // Bastion: hidden regression hook — "Examples.exe --smoke" instantiates, shows and
-            // disposes every form registered with the main menu, then exits (non-zero on failure).
-            if (args.Length > 0 && string.Equals(args[0], "--smoke", StringComparison.OrdinalIgnoreCase))
-            {
-                Environment.ExitCode = SmokeTest.Run();
+            // The enumeration combo box fills itself from this enum when its handle is created.
+            kecbDayOfWeek.TargetEnum = typeof(DayOfWeek);
+        }
 
-                return;
-            }
+        private void ComboBoxExample_Load(object sender, EventArgs e)
+        {
+            var projects = new TreeNode("Projects");
 
-            Application.Run(new MainWindow());
+            projects.Nodes.Add("Bastion Krypton Suite");
+
+            projects.Nodes.Add("Extended Toolkit");
+
+            var documents = new TreeNode("Documents");
+
+            documents.Nodes.Add("Invoices");
+
+            documents.Nodes.Add("Reports");
+
+            kcbtNavigation.Nodes.Add(projects);
+
+            kcbtNavigation.Nodes.Add(documents);
         }
     }
 }

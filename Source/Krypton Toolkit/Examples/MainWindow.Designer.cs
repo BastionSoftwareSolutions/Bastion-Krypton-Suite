@@ -83,6 +83,27 @@ namespace Examples
             this.ktnToolStripItems = new Krypton.Toolkit.KryptonButton();
             this.kbtnButtonItems = new Krypton.Toolkit.KryptonButton();
             this.kbtnRadialMenu = new Krypton.Toolkit.KryptonButton();
+            this.kbtnOutlookGrid = new Krypton.Toolkit.KryptonButton();
+            this.kbtnDataGridViewColumns = new Krypton.Toolkit.KryptonButton();
+            this.kbtnVirtualTreeColumnView = new Krypton.Toolkit.KryptonButton();
+            this.kbtnDataVisualisation = new Krypton.Toolkit.KryptonButton();
+            this.kbtnDrawingUtilities = new Krypton.Toolkit.KryptonButton();
+            this.kbtnErrorReporting = new Krypton.Toolkit.KryptonButton();
+            this.kbtnFileCopier = new Krypton.Toolkit.KryptonButton();
+            this.kbtnFileSystem = new Krypton.Toolkit.KryptonButton();
+            this.kbtnOutlookBar = new Krypton.Toolkit.KryptonButton();
+            this.kbtnNetworking = new Krypton.Toolkit.KryptonButton();
+            this.kbtnToastAlerts = new Krypton.Toolkit.KryptonButton();
+            this.kbtnPanels = new Krypton.Toolkit.KryptonButton();
+            this.kbtnSpecialisedDialogs = new Krypton.Toolkit.KryptonButton();
+            this.kbtnTextToSpeech = new Krypton.Toolkit.KryptonButton();
+            this.kbtnFadeEffects = new Krypton.Toolkit.KryptonButton();
+            this.kbtnWizard = new Krypton.Toolkit.KryptonButton();
+            this.kbtnNaviBar = new Krypton.Toolkit.KryptonButton();
+            this.kbtnToolBox = new Krypton.Toolkit.KryptonButton();
+            this.kbtnCoreDialogs = new Krypton.Toolkit.KryptonButton();
+            this.kbtnCoreColourDialogs = new Krypton.Toolkit.KryptonButton();
+            this.kbtnExternalThemeSelector = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -90,6 +111,27 @@ namespace Examples
             // kryptonPanel1
             // 
             this.kryptonPanel1.Controls.Add(this.kbtnRadialMenu);
+            this.kryptonPanel1.Controls.Add(this.kbtnOutlookGrid);
+            this.kryptonPanel1.Controls.Add(this.kbtnDataGridViewColumns);
+            this.kryptonPanel1.Controls.Add(this.kbtnVirtualTreeColumnView);
+            this.kryptonPanel1.Controls.Add(this.kbtnDataVisualisation);
+            this.kryptonPanel1.Controls.Add(this.kbtnDrawingUtilities);
+            this.kryptonPanel1.Controls.Add(this.kbtnErrorReporting);
+            this.kryptonPanel1.Controls.Add(this.kbtnFileCopier);
+            this.kryptonPanel1.Controls.Add(this.kbtnFileSystem);
+            this.kryptonPanel1.Controls.Add(this.kbtnOutlookBar);
+            this.kryptonPanel1.Controls.Add(this.kbtnNetworking);
+            this.kryptonPanel1.Controls.Add(this.kbtnToastAlerts);
+            this.kryptonPanel1.Controls.Add(this.kbtnPanels);
+            this.kryptonPanel1.Controls.Add(this.kbtnSpecialisedDialogs);
+            this.kryptonPanel1.Controls.Add(this.kbtnTextToSpeech);
+            this.kryptonPanel1.Controls.Add(this.kbtnFadeEffects);
+            this.kryptonPanel1.Controls.Add(this.kbtnWizard);
+            this.kryptonPanel1.Controls.Add(this.kbtnNaviBar);
+            this.kryptonPanel1.Controls.Add(this.kbtnToolBox);
+            this.kryptonPanel1.Controls.Add(this.kbtnCoreDialogs);
+            this.kryptonPanel1.Controls.Add(this.kbtnCoreColourDialogs);
+            this.kryptonPanel1.Controls.Add(this.kbtnExternalThemeSelector);
             this.kryptonPanel1.Controls.Add(this.kbtnControls);
             this.kryptonPanel1.Controls.Add(this.kbtnCheckBoxComboBoxExample);
             this.kryptonPanel1.Controls.Add(this.kbtnProgressBars);
@@ -117,7 +159,7 @@ namespace Examples
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(628, 390);
+            this.kryptonPanel1.Size = new System.Drawing.Size(628, 420);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnControls
@@ -298,6 +340,7 @@ namespace Examples
             this.kryptonButton5.TabIndex = 6;
             this.kryptonButton5.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton5.Values.Text = "Compression Items";
+            this.kryptonButton5.Click += new System.EventHandler(this.kryptonButton5_Click);
             // 
             // kryptonButton4
             // 
@@ -307,6 +350,7 @@ namespace Examples
             this.kryptonButton4.TabIndex = 5;
             this.kryptonButton4.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton4.Values.Text = "ComboBox Items";
+            this.kryptonButton4.Click += new System.EventHandler(this.kryptonButton4_Click);
             // 
             // kbtnCheckSum
             // 
@@ -367,12 +411,201 @@ namespace Examples
             this.kbtnRadialMenu.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnRadialMenu.Values.Text = "Radial Menu";
             this.kbtnRadialMenu.Click += new System.EventHandler(this.kbtnRadialMenu_Click);
-            // 
+            //
+            // kbtnOutlookGrid
+            //
+            this.kbtnOutlookGrid.Location = new System.Drawing.Point(10, 210);
+            this.kbtnOutlookGrid.Name = "kbtnOutlookGrid";
+            this.kbtnOutlookGrid.Size = new System.Drawing.Size(148, 25);
+            this.kbtnOutlookGrid.TabIndex = 26;
+            this.kbtnOutlookGrid.Values.Text = "Outlook Grid";
+            this.kbtnOutlookGrid.Click += new System.EventHandler(this.kbtnOutlookGrid_Click);
+            //
+            // kbtnDataGridViewColumns
+            //
+            this.kbtnDataGridViewColumns.Location = new System.Drawing.Point(164, 210);
+            this.kbtnDataGridViewColumns.Name = "kbtnDataGridViewColumns";
+            this.kbtnDataGridViewColumns.Size = new System.Drawing.Size(148, 25);
+            this.kbtnDataGridViewColumns.TabIndex = 27;
+            this.kbtnDataGridViewColumns.Values.Text = "DataGridView Columns";
+            this.kbtnDataGridViewColumns.Click += new System.EventHandler(this.kbtnDataGridViewColumns_Click);
+            //
+            // kbtnVirtualTreeColumnView
+            //
+            this.kbtnVirtualTreeColumnView.Location = new System.Drawing.Point(318, 210);
+            this.kbtnVirtualTreeColumnView.Name = "kbtnVirtualTreeColumnView";
+            this.kbtnVirtualTreeColumnView.Size = new System.Drawing.Size(148, 25);
+            this.kbtnVirtualTreeColumnView.TabIndex = 28;
+            this.kbtnVirtualTreeColumnView.Values.Text = "Virtual Tree Column View";
+            this.kbtnVirtualTreeColumnView.Click += new System.EventHandler(this.kbtnVirtualTreeColumnView_Click);
+            //
+            // kbtnDataVisualisation
+            //
+            this.kbtnDataVisualisation.Location = new System.Drawing.Point(472, 210);
+            this.kbtnDataVisualisation.Name = "kbtnDataVisualisation";
+            this.kbtnDataVisualisation.Size = new System.Drawing.Size(148, 25);
+            this.kbtnDataVisualisation.TabIndex = 29;
+            this.kbtnDataVisualisation.Values.Text = "Data Visualisation";
+            this.kbtnDataVisualisation.Click += new System.EventHandler(this.kbtnDataVisualisation_Click);
+            //
+            // kbtnDrawingUtilities
+            //
+            this.kbtnDrawingUtilities.Location = new System.Drawing.Point(10, 238);
+            this.kbtnDrawingUtilities.Name = "kbtnDrawingUtilities";
+            this.kbtnDrawingUtilities.Size = new System.Drawing.Size(148, 25);
+            this.kbtnDrawingUtilities.TabIndex = 30;
+            this.kbtnDrawingUtilities.Values.Text = "Drawing Utilities";
+            this.kbtnDrawingUtilities.Click += new System.EventHandler(this.kbtnDrawingUtilities_Click);
+            //
+            // kbtnErrorReporting
+            //
+            this.kbtnErrorReporting.Location = new System.Drawing.Point(164, 238);
+            this.kbtnErrorReporting.Name = "kbtnErrorReporting";
+            this.kbtnErrorReporting.Size = new System.Drawing.Size(148, 25);
+            this.kbtnErrorReporting.TabIndex = 31;
+            this.kbtnErrorReporting.Values.Text = "Error Reporting";
+            this.kbtnErrorReporting.Click += new System.EventHandler(this.kbtnErrorReporting_Click);
+            //
+            // kbtnFileCopier
+            //
+            this.kbtnFileCopier.Location = new System.Drawing.Point(318, 238);
+            this.kbtnFileCopier.Name = "kbtnFileCopier";
+            this.kbtnFileCopier.Size = new System.Drawing.Size(148, 25);
+            this.kbtnFileCopier.TabIndex = 32;
+            this.kbtnFileCopier.Values.Text = "File Copier";
+            this.kbtnFileCopier.Click += new System.EventHandler(this.kbtnFileCopier_Click);
+            //
+            // kbtnFileSystem
+            //
+            this.kbtnFileSystem.Location = new System.Drawing.Point(472, 238);
+            this.kbtnFileSystem.Name = "kbtnFileSystem";
+            this.kbtnFileSystem.Size = new System.Drawing.Size(148, 25);
+            this.kbtnFileSystem.TabIndex = 33;
+            this.kbtnFileSystem.Values.Text = "File System (IO)";
+            this.kbtnFileSystem.Click += new System.EventHandler(this.kbtnFileSystem_Click);
+            //
+            // kbtnOutlookBar
+            //
+            this.kbtnOutlookBar.Location = new System.Drawing.Point(10, 266);
+            this.kbtnOutlookBar.Name = "kbtnOutlookBar";
+            this.kbtnOutlookBar.Size = new System.Drawing.Size(148, 25);
+            this.kbtnOutlookBar.TabIndex = 34;
+            this.kbtnOutlookBar.Values.Text = "Outlook Bar";
+            this.kbtnOutlookBar.Click += new System.EventHandler(this.kbtnOutlookBar_Click);
+            //
+            // kbtnNetworking
+            //
+            this.kbtnNetworking.Location = new System.Drawing.Point(164, 266);
+            this.kbtnNetworking.Name = "kbtnNetworking";
+            this.kbtnNetworking.Size = new System.Drawing.Size(148, 25);
+            this.kbtnNetworking.TabIndex = 35;
+            this.kbtnNetworking.Values.Text = "Networking";
+            this.kbtnNetworking.Click += new System.EventHandler(this.kbtnNetworking_Click);
+            //
+            // kbtnToastAlerts
+            //
+            this.kbtnToastAlerts.Location = new System.Drawing.Point(318, 266);
+            this.kbtnToastAlerts.Name = "kbtnToastAlerts";
+            this.kbtnToastAlerts.Size = new System.Drawing.Size(148, 25);
+            this.kbtnToastAlerts.TabIndex = 36;
+            this.kbtnToastAlerts.Values.Text = "Toasts && Alerts";
+            this.kbtnToastAlerts.Click += new System.EventHandler(this.kbtnToastAlerts_Click);
+            //
+            // kbtnPanels
+            //
+            this.kbtnPanels.Location = new System.Drawing.Point(472, 266);
+            this.kbtnPanels.Name = "kbtnPanels";
+            this.kbtnPanels.Size = new System.Drawing.Size(148, 25);
+            this.kbtnPanels.TabIndex = 37;
+            this.kbtnPanels.Values.Text = "Panels";
+            this.kbtnPanels.Click += new System.EventHandler(this.kbtnPanels_Click);
+            //
+            // kbtnSpecialisedDialogs
+            //
+            this.kbtnSpecialisedDialogs.Location = new System.Drawing.Point(10, 294);
+            this.kbtnSpecialisedDialogs.Name = "kbtnSpecialisedDialogs";
+            this.kbtnSpecialisedDialogs.Size = new System.Drawing.Size(148, 25);
+            this.kbtnSpecialisedDialogs.TabIndex = 38;
+            this.kbtnSpecialisedDialogs.Values.Text = "Specialised Dialogs";
+            this.kbtnSpecialisedDialogs.Click += new System.EventHandler(this.kbtnSpecialisedDialogs_Click);
+            //
+            // kbtnTextToSpeech
+            //
+            this.kbtnTextToSpeech.Location = new System.Drawing.Point(164, 294);
+            this.kbtnTextToSpeech.Name = "kbtnTextToSpeech";
+            this.kbtnTextToSpeech.Size = new System.Drawing.Size(148, 25);
+            this.kbtnTextToSpeech.TabIndex = 39;
+            this.kbtnTextToSpeech.Values.Text = "Text To Speech";
+            this.kbtnTextToSpeech.Click += new System.EventHandler(this.kbtnTextToSpeech_Click);
+            //
+            // kbtnFadeEffects
+            //
+            this.kbtnFadeEffects.Location = new System.Drawing.Point(318, 294);
+            this.kbtnFadeEffects.Name = "kbtnFadeEffects";
+            this.kbtnFadeEffects.Size = new System.Drawing.Size(148, 25);
+            this.kbtnFadeEffects.TabIndex = 40;
+            this.kbtnFadeEffects.Values.Text = "Fade Effects";
+            this.kbtnFadeEffects.Click += new System.EventHandler(this.kbtnFadeEffects_Click);
+            //
+            // kbtnWizard
+            //
+            this.kbtnWizard.Location = new System.Drawing.Point(472, 294);
+            this.kbtnWizard.Name = "kbtnWizard";
+            this.kbtnWizard.Size = new System.Drawing.Size(148, 25);
+            this.kbtnWizard.TabIndex = 41;
+            this.kbtnWizard.Values.Text = "Wizard";
+            this.kbtnWizard.Click += new System.EventHandler(this.kbtnWizard_Click);
+            //
+            // kbtnNaviBar
+            //
+            this.kbtnNaviBar.Location = new System.Drawing.Point(10, 322);
+            this.kbtnNaviBar.Name = "kbtnNaviBar";
+            this.kbtnNaviBar.Size = new System.Drawing.Size(148, 25);
+            this.kbtnNaviBar.TabIndex = 42;
+            this.kbtnNaviBar.Values.Text = "Navi Bar";
+            this.kbtnNaviBar.Click += new System.EventHandler(this.kbtnNaviBar_Click);
+            //
+            // kbtnToolBox
+            //
+            this.kbtnToolBox.Location = new System.Drawing.Point(164, 322);
+            this.kbtnToolBox.Name = "kbtnToolBox";
+            this.kbtnToolBox.Size = new System.Drawing.Size(148, 25);
+            this.kbtnToolBox.TabIndex = 43;
+            this.kbtnToolBox.Values.Text = "Tool Box";
+            this.kbtnToolBox.Click += new System.EventHandler(this.kbtnToolBox_Click);
+            //
+            // kbtnCoreDialogs
+            //
+            this.kbtnCoreDialogs.Location = new System.Drawing.Point(318, 322);
+            this.kbtnCoreDialogs.Name = "kbtnCoreDialogs";
+            this.kbtnCoreDialogs.Size = new System.Drawing.Size(148, 25);
+            this.kbtnCoreDialogs.TabIndex = 44;
+            this.kbtnCoreDialogs.Values.Text = "Core Dialogs";
+            this.kbtnCoreDialogs.Click += new System.EventHandler(this.kbtnCoreDialogs_Click);
+            //
+            // kbtnCoreColourDialogs
+            //
+            this.kbtnCoreColourDialogs.Location = new System.Drawing.Point(472, 322);
+            this.kbtnCoreColourDialogs.Name = "kbtnCoreColourDialogs";
+            this.kbtnCoreColourDialogs.Size = new System.Drawing.Size(148, 25);
+            this.kbtnCoreColourDialogs.TabIndex = 45;
+            this.kbtnCoreColourDialogs.Values.Text = "Core Colour Dialogs";
+            this.kbtnCoreColourDialogs.Click += new System.EventHandler(this.kbtnCoreColourDialogs_Click);
+            //
+            // kbtnExternalThemeSelector
+            //
+            this.kbtnExternalThemeSelector.Location = new System.Drawing.Point(10, 350);
+            this.kbtnExternalThemeSelector.Name = "kbtnExternalThemeSelector";
+            this.kbtnExternalThemeSelector.Size = new System.Drawing.Size(148, 25);
+            this.kbtnExternalThemeSelector.TabIndex = 46;
+            this.kbtnExternalThemeSelector.Values.Text = "External Theme Selector";
+            this.kbtnExternalThemeSelector.Click += new System.EventHandler(this.kbtnExternalThemeSelector_Click);
+            //
             // MainWindow
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(628, 390);
+            this.ClientSize = new System.Drawing.Size(628, 420);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
@@ -411,5 +644,26 @@ namespace Examples
         private KryptonButton kbtnCheckBoxComboBoxExample;
         private KryptonButton kbtnControls;
         private KryptonButton kbtnRadialMenu;
+        private KryptonButton kbtnOutlookGrid;
+        private KryptonButton kbtnDataGridViewColumns;
+        private KryptonButton kbtnVirtualTreeColumnView;
+        private KryptonButton kbtnDataVisualisation;
+        private KryptonButton kbtnDrawingUtilities;
+        private KryptonButton kbtnErrorReporting;
+        private KryptonButton kbtnFileCopier;
+        private KryptonButton kbtnFileSystem;
+        private KryptonButton kbtnOutlookBar;
+        private KryptonButton kbtnNetworking;
+        private KryptonButton kbtnToastAlerts;
+        private KryptonButton kbtnPanels;
+        private KryptonButton kbtnSpecialisedDialogs;
+        private KryptonButton kbtnTextToSpeech;
+        private KryptonButton kbtnFadeEffects;
+        private KryptonButton kbtnWizard;
+        private KryptonButton kbtnNaviBar;
+        private KryptonButton kbtnToolBox;
+        private KryptonButton kbtnCoreDialogs;
+        private KryptonButton kbtnCoreColourDialogs;
+        private KryptonButton kbtnExternalThemeSelector;
     }
 }

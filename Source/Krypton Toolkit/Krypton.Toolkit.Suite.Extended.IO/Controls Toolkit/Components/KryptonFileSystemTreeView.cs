@@ -100,7 +100,9 @@ public class KryptonFileSystemTreeView : KryptonTreeView
 
     private void KryptonFileSystemTreeView_MouseDown(object sender, MouseEventArgs e)
     {
-        throw new System.NotImplementedException();
+        // Bastion fix: this stub threw NotImplementedException, so any mouse click on the
+        // control crashed the host application. Selection behaviour comes from the base
+        // KryptonTreeView; no additional mouse-down handling is required yet.
     }
     #endregion
 }

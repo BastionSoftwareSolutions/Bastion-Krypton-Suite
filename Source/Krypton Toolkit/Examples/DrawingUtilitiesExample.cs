@@ -3,7 +3,9 @@
 /*
  * MIT License
  *
- * Copyright (c) 2017 - 2024 Krypton Suite
+ * © Bastion Software Solutions Ltd. New file for the Bastion Krypton Suite,
+ * a derived work from the MIT-licensed Krypton Toolkit Suite Extended
+ * (Copyright (c) 2017 - 2024 Krypton Suite).
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,28 +30,22 @@
 #endregion
 namespace Examples
 {
-    internal static class Program
+    /// <summary>
+    /// Demonstrates the Drawing.Utilities module: the colour wheel, colour editor and screen
+    /// colour picker controls, kept in step by a ColourEditorManager component.
+    /// </summary>
+    public partial class DrawingUtilitiesExample : KryptonForm
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
+        public DrawingUtilitiesExample()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            //6ApplicationConfiguration.Initialize();
+            InitializeComponent();
+        }
 
-            // Bastion: hidden regression hook — "Examples.exe --smoke" instantiates, shows and
-            // disposes every form registered with the main menu, then exits (non-zero on failure).
-            if (args.Length > 0 && string.Equals(args[0], "--smoke", StringComparison.OrdinalIgnoreCase))
-            {
-                Environment.ExitCode = SmokeTest.Run();
+        private void cemManager_ColourChanged(object sender, EventArgs e)
+        {
+            kpnlPreview.StateCommon.Color1 = cemManager.Colour;
 
-                return;
-            }
-
-            Application.Run(new MainWindow());
+            kpnlPreview.StateCommon.Color2 = cemManager.Colour;
         }
     }
 }

@@ -3,7 +3,9 @@
 /*
  * MIT License
  *
- * Copyright (c) 2017 - 2024 Krypton Suite
+ * © Bastion Software Solutions Ltd. New file for the Bastion Krypton Suite,
+ * a derived work from the MIT-licensed Krypton Toolkit Suite Extended
+ * (Copyright (c) 2017 - 2024 Krypton Suite).
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,28 +30,17 @@
 #endregion
 namespace Examples
 {
-    internal static class Program
+    /// <summary>Demonstrates the Navigator module: the OutlookBar control and the KryptonNavigatorEditor.</summary>
+    public partial class NavigatorExample : KryptonForm
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
+        public NavigatorExample()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            //6ApplicationConfiguration.Initialize();
+            InitializeComponent();
+        }
 
-            // Bastion: hidden regression hook — "Examples.exe --smoke" instantiates, shows and
-            // disposes every form registered with the main menu, then exits (non-zero on failure).
-            if (args.Length > 0 && string.Equals(args[0], "--smoke", StringComparison.OrdinalIgnoreCase))
-            {
-                Environment.ExitCode = SmokeTest.Run();
-
-                return;
-            }
-
-            Application.Run(new MainWindow());
+        private void obNavigation_ButtonClicked(object sender, EventArgs e)
+        {
+            Text = $"Navigator Example - {obNavigation.SelectedButton?.Text}";
         }
     }
 }

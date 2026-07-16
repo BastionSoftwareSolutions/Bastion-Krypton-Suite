@@ -3,7 +3,9 @@
 /*
  * MIT License
  *
- * Copyright (c) 2017 - 2024 Krypton Suite
+ * © Bastion Software Solutions Ltd. New file for the Bastion Krypton Suite,
+ * a derived work from the MIT-licensed Krypton Toolkit Suite Extended
+ * (Copyright (c) 2017 - 2024 Krypton Suite).
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,30 +28,34 @@
  */
 
 #endregion
+using Krypton.Toolkit.Suite.Extended.Error.Reporting;
+
 namespace Examples
 {
-    internal static class Program
+    /// <summary>Demonstrates the Error.Reporting module: showing an exception report for a caught exception.</summary>
+    public partial class ErrorReportingExample : KryptonForm
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
+        public ErrorReportingExample()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            //6ApplicationConfiguration.Initialize();
-
-            // Bastion: hidden regression hook — "Examples.exe --smoke" instantiates, shows and
-            // disposes every form registered with the main menu, then exits (non-zero on failure).
-            if (args.Length > 0 && string.Equals(args[0], "--smoke", StringComparison.OrdinalIgnoreCase))
-            {
-                Environment.ExitCode = SmokeTest.Run();
-
-                return;
-            }
-
-            Application.Run(new MainWindow());
+            InitializeComponent();
         }
+
+        private void kbtnShowReport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ThrowDemonstrationException();
+            }
+            catch (Exception exception)
+            {
+                var reporter = new ExceptionReporter();
+
+                // Display only — no mail is sent unless the user presses the email button.
+                reporter.Show(exception);
+            }
+        }
+
+        private static void ThrowDemonstrationException() =>
+            throw new InvalidOperationException("This demonstration exception was thrown deliberately so that the exception report view has something to display.");
     }
 }

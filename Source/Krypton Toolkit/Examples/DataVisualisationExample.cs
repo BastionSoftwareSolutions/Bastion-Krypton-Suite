@@ -3,7 +3,9 @@
 /*
  * MIT License
  *
- * Copyright (c) 2017 - 2024 Krypton Suite
+ * © Bastion Software Solutions Ltd. New file for the Bastion Krypton Suite,
+ * a derived work from the MIT-licensed Krypton Toolkit Suite Extended
+ * (Copyright (c) 2017 - 2024 Krypton Suite).
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,28 +30,38 @@
 #endregion
 namespace Examples
 {
-    internal static class Program
+    /// <summary>Demonstrates the Data.Visualisation module: a FormsPlot scatter and signal chart.</summary>
+    public partial class DataVisualisationExample : KryptonForm
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
+        public DataVisualisationExample()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            //6ApplicationConfiguration.Initialize();
+            InitializeComponent();
+        }
 
-            // Bastion: hidden regression hook — "Examples.exe --smoke" instantiates, shows and
-            // disposes every form registered with the main menu, then exits (non-zero on failure).
-            if (args.Length > 0 && string.Equals(args[0], "--smoke", StringComparison.OrdinalIgnoreCase))
+        private void DataVisualisationExample_Load(object sender, EventArgs e)
+        {
+            const int pointCount = 100;
+
+            double[] xs = new double[pointCount];
+
+            double[] sine = new double[pointCount];
+
+            double[] cosine = new double[pointCount];
+
+            for (int i = 0; i < pointCount; i++)
             {
-                Environment.ExitCode = SmokeTest.Run();
+                xs[i] = i * 0.1;
 
-                return;
+                sine[i] = Math.Sin(xs[i]);
+
+                cosine[i] = Math.Cos(xs[i]);
             }
 
-            Application.Run(new MainWindow());
+            formsPlot.Plot.Add.Scatter(xs, sine);
+
+            formsPlot.Plot.Add.Scatter(xs, cosine);
+
+            formsPlot.Refresh();
         }
     }
 }

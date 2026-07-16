@@ -196,7 +196,9 @@ public class KryptonTreeGridNodeRow : DataGridViewRow//, IComponent
             if (_isSited)
             {
                 // when the image changes the cell's style must be updated
-                _treeCell.UpdateStyle();
+                // Bastion fix: the row can be sited before its tree cell exists, so the
+                // unguarded dereference threw NullReferenceException (smoke-found).
+                _treeCell?.UpdateStyle();
                 if (Displayed)
                 {
                     Grid.InvalidateRow(RowIndex);
@@ -238,7 +240,8 @@ public class KryptonTreeGridNodeRow : DataGridViewRow//, IComponent
             if (_isSited)
             {
                 // when the image changes the cell's style must be updated
-                _treeCell.UpdateStyle();
+                // Bastion fix: guarded like ImageIndex above (the tree cell can be absent).
+                _treeCell?.UpdateStyle();
                 if (Displayed)
                 {
                     Grid.InvalidateRow(RowIndex);

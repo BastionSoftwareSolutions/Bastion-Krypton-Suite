@@ -33,11 +33,33 @@ public class KryptonPanelExtended : KryptonPanel
     #region Intsance Fields
     private int _cornerRadius;
 
-    private Pen _pen;
+    // Bastion fix: '_pen' was declared but never assigned, so the first paint threw an
+    // ArgumentNullException inside Graphics.DrawArc. The pen is now owned by the control,
+    // created from the new 'BorderColour' property and disposed with the control.
+    private Pen _pen = new Pen(SystemColors.WindowFrame);
+
+    private Color _borderColour = SystemColors.WindowFrame;
     #endregion
 
     #region Public
     public int CornerRadius { get => _cornerRadius; set { _cornerRadius = value; Invalidate(); } }
+
+    /// <summary>Gets or sets the colour used to draw the rounded border.</summary>
+    public Color BorderColour
+    {
+        get => _borderColour;
+
+        set
+        {
+            _borderColour = value;
+
+            _pen.Dispose();
+
+            _pen = new Pen(value);
+
+            Invalidate();
+        }
+    }
     #endregion
 
     #region Identity
@@ -115,9 +137,25 @@ public class KryptonPanelExtended : KryptonPanel
     {
         base.OnPaint(e);
 
-        ExtendDraw(e);
+        // Bastion fix: with the default CornerRadius of 0 the arc rectangles are empty, which
+        // GDI+ rejects (GraphicsPath.AddArc throws). A radius below 1 now paints as a plain
+        // KryptonPanel instead of throwing.
+        if (CornerRadius > 0)
+        {
+            ExtendDraw(e);
 
-        DrawBorder(e.Graphics);
+            DrawBorder(e.Graphics);
+        }
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _pen.Dispose();
+        }
+
+        base.Dispose(disposing);
     }
     #endregion
 }

@@ -3,7 +3,9 @@
 /*
  * MIT License
  *
- * Copyright (c) 2017 - 2024 Krypton Suite
+ * © Bastion Software Solutions Ltd. New file for the Bastion Krypton Suite,
+ * a derived work from the MIT-licensed Krypton Toolkit Suite Extended
+ * (Copyright (c) 2017 - 2024 Krypton Suite).
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,30 +28,36 @@
  */
 
 #endregion
+using Krypton.Toolkit.Suite.Extended.Effects;
+
 namespace Examples
 {
-    internal static class Program
+    /// <summary>Demonstrates the Effects module: FadeManager and the FadeController helpers.</summary>
+    public partial class EffectsExample : KryptonForm
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
+        public EffectsExample()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            //6ApplicationConfiguration.Initialize();
+            InitializeComponent();
+        }
 
-            // Bastion: hidden regression hook — "Examples.exe --smoke" instantiates, shows and
-            // disposes every form registered with the main menu, then exits (non-zero on failure).
-            if (args.Length > 0 && string.Equals(args[0], "--smoke", StringComparison.OrdinalIgnoreCase))
-            {
-                Environment.ExitCode = SmokeTest.Run();
+        private void EffectsExample_Load(object sender, EventArgs e)
+        {
+            // The FadeManager must be told which window to fade before any fade call is made.
+            fadeManager.WindowToFade = this;
 
-                return;
-            }
+            fadeManager.FadeSpeed = Krypton.Toolkit.Suite.Extended.Effects.FadeSpeed.Fast;
+        }
 
-            Application.Run(new MainWindow());
+        private void kbtnFadeOutAndIn_Click(object sender, EventArgs e)
+        {
+            fadeManager.FadeOut();
+
+            fadeManager.FadeIn();
+        }
+
+        private void kbtnFadeOutAndClose_Click(object sender, EventArgs e)
+        {
+            fadeManager.FadeOutAndClose();
         }
     }
 }
