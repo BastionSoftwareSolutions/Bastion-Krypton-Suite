@@ -1,0 +1,116 @@
+# Bastion Krypton Suite — Extended-Toolkit CI build.
+#
+# NAMING: intentionally `bastion-build.yml`, NOT `build.yml`, so it does not clobber the
+# inherited upstream workflows (build.yml, release.yml, codeql.yml). Chris should DISABLE
+# the inherited upstream workflows on the fork and rely on this one. See RELEASE-CHECKLIST.md.
+#
+# SIBLING-REPO REQUIREMENT (important): Extended modules reference the core suite by RELATIVE
+# ProjectReference (`..\..\..\..\Standard-Toolkit\...`). CI therefore checks out BOTH repos
+# into a sibling layout under GITHUB_WORKSPACE:
+#     <workspace>/Standard-Toolkit   (core)
+#     <workspace>/Extended-Toolkit   (this repo)
+# Set the repo variable CORE_REPO to the core fork's `owner/name` (default below is a
+# placeholder Chris confirms), and CORE_REF to its branch (default bastion/multitarget).
+#
+# WHAT CI CANNOT DO (documented, matches spec §9): no CHM (hhc/SHFB), no PDF (wkhtmltopdf),
+# no Inno installer — Windows-tool-dependent MANUAL / self-hosted steps. CI = build + pack.
+#
+# UNTESTED ON ACTUAL CI: correct-by-construction; first real run is on Chris's push.
+
+name: Bastion Build (Extended)
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [bastion/multitarget]
+    paths-ignore: ['**/*.md', '.gitignore', '.editorconfig']
+  pull_request:
+    branches: [bastion/multitarget]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest   # windows-2022 + VS2022 Enterprise (desktop MSBuild for net46)
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout Extended (this repo) into sibling layout
+        uses: actions/checkout@v4
+        with:
+          path: Extended-Toolkit
+          fetch-depth: 0
+
+      - name: Checkout core (Standard-Toolkit) as sibling
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.CORE_REPO != '' && vars.CORE_REPO || 'Bastion-Software/bastion-krypton-standard-toolkit' }}
+          ref: ${{ vars.CORE_REF != '' && vars.CORE_REF || 'bastion/multitarget' }}
+          path: Standard-Toolkit
+          fetch-depth: 1
+
+      - name: Setup .NET SDKs (8, 9, 10)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
+
+      - name: Add desktop MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      # Plain solution: builds every module against the sibling core by ProjectReference.
+      # `Themes` is deliberately unscheduled pending the CPOL go/no-go (BUILD-LOG / licence
+      # audit); Data.Visualisation is net46-less by design (ScottPlot/SkiaSharp).
+      - name: Restore Extended (desktop MSBuild)
+        shell: pwsh
+        working-directory: Extended-Toolkit
+        run: |
+          $sln = "Source/Krypton Toolkit/Krypton Toolkit Suite Extended 2022 - VS2022.sln"
+          msbuild $sln -t:Restore -p:Configuration=Release -m -v:m
+          if ($LASTEXITCODE -ne 0) { throw "Restore failed" }
+
+      - name: Build Extended (Release, all TFMs)
+        shell: pwsh
+        working-directory: Extended-Toolkit
+        run: |
+          $sln = "Source/Krypton Toolkit/Krypton Toolkit Suite Extended 2022 - VS2022.sln"
+          msbuild $sln -t:Build -p:Configuration=Release -m -v:m -clp:Summary
+          if ($LASTEXITCODE -ne 0) { throw "Build failed" }
+
+      # Pack the shippable Extended modules (mirrors the umbrella pack.ps1 Extended loop and
+      # its exclude list: go/no-go-pending + incomplete-upstream + the .Lite meta). Modules
+      # carry GeneratePackageOnBuild; -t:Pack emits each nupkg. A module that fails to pack
+      # is warned, not fatal, so one bad module does not sink the whole run.
+      - name: Pack Extended NuGet packages
+        shell: pwsh
+        working-directory: Extended-Toolkit
+        run: |
+          $ver = if ($env:BASTION_VERSION) { $env:BASTION_VERSION } else { '1.0.0' }
+          $out = Join-Path $PWD 'artifacts/nuget'
+          New-Item -ItemType Directory -Force -Path $out | Out-Null
+          $extDir  = "Source/Krypton Toolkit"
+          $exclude = @('Themes','Toggle.Switch','Gages','TaskDialogs','Palette.Selectors',
+                       'File.Explorer','Software.Updater','Scintilla.NET','PDF','Ultimate.Lite')
+          Get-ChildItem $extDir -Directory | Where-Object { $_.Name -like 'Krypton.Toolkit.Suite.Extended.*' } | ForEach-Object {
+            $short = $_.Name -replace '^Krypton\.Toolkit\.Suite\.Extended\.',''
+            if ($exclude -contains $short) { Write-Host "(skip) $short"; return }
+            $csproj = Get-ChildItem $_.FullName -Filter '*.csproj' | Select-Object -First 1
+            if (-not $csproj) { return }
+            msbuild $csproj.FullName -t:Restore -p:Configuration=Release -p:BastionPack=true -p:TFMs=all `
+              -p:Version=$ver -p:PackageVersion=$ver -v:m
+            if ($LASTEXITCODE -ne 0) { Write-Warning "restore failed: $short"; return }
+            msbuild $csproj.FullName -t:Pack -p:Configuration=Release -p:BastionPack=true -p:TFMs=all `
+              -p:Version=$ver -p:PackageVersion=$ver -p:TreatWarningsAsErrors=false `
+              -p:PackageOutputPath=$out -v:m
+            if ($LASTEXITCODE -ne 0) { Write-Warning "pack failed: $short" }
+          }
+
+      - name: Upload NuGet packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: bastion-extended-nupkg
+          path: Extended-Toolkit/artifacts/nuget/*.*nupkg
+          if-no-files-found: warn
