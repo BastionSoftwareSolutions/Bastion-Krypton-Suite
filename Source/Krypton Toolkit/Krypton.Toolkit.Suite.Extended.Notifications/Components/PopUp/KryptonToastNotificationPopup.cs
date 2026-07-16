@@ -641,24 +641,36 @@ public class KryptonToastNotificationPopup : Component
     {
         if (!_disposed)
         {
-            if (_isAppearing)
-            {
-                _markedForDisposed = true;
-                return;
-            }
-
+            // Bastion Phase 5c adversarial finding: Dispose used to silently defer while
+            // the appear animation was running (`_markedForDisposed = true; return;` —
+            // without even calling base.Dispose). If the message loop never delivered the
+            // next animation tick (application shutting down, owning thread ending), the
+            // popup window was never disposed: it stayed subscribed to the global palette
+            // events and the next theme change crashed painting a dead window. Dispose must
+            // dispose: stop the animation and tear down synchronously.
             if (disposing)
             {
+                _isAppearing = false;
+                _markedForDisposed = false;
+
+                if (_tmrAnimation != null)
+                {
+                    _tmrAnimation.Stop();
+                    _tmrAnimation.Tick -= tmAnimation_Tick;
+                    _tmrAnimation.Dispose();
+                }
+
+                if (_tmrWait != null)
+                {
+                    _tmrWait.Stop();
+                    _tmrWait.Tick -= tmWait_Tick;
+                    _tmrWait.Dispose();
+                }
+
                 if (_frmPopup != null)
                 {
                     _frmPopup.Dispose();
                 }
-
-                _tmrAnimation.Tick -= tmAnimation_Tick;
-                _tmrWait.Tick -= tmWait_Tick;
-                _tmrAnimation.Dispose();
-                _tmrWait.Dispose();
-
             }
             _disposed = true;
         }

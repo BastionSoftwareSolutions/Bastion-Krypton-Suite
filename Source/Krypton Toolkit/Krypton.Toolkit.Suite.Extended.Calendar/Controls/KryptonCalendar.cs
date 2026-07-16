@@ -1357,18 +1357,25 @@ public class KryptonCalendar : ScrollableControl
     /// </summary>
     private void UpdateDaysAndWeeks()
     {
+        // Validate and build into locals first, commit at the end: a rejected or impossible
+        // view range must leave the previous days/weeks/mode state fully intact, otherwise
+        // the next paint runs against a half-updated calendar (Short mode with a null-filled
+        // days array) and crashes inside the renderer. (Bastion Phase 5c adversarial
+        // finding: SetViewRange near DateTime.MinValue/MaxValue corrupted the control.)
         TimeSpan span = new DateTime(ViewEnd.Year, ViewEnd.Month, ViewEnd.Day, 23, 59, 59).Subtract(ViewStart.Date);
         int preDays = 0;
         span = span.Add(new TimeSpan(0, 0, 0, 1, 0));
 
         if (span.Days < 1 || span.Days > MaximumViewDays)
         {
-            throw new Exception("Days between ViewStart and ViewEnd should be between 1 and MaximumViewDays");
+            throw new ArgumentOutOfRangeException(nameof(ViewEnd),
+                "Days between ViewStart and ViewEnd should be between 1 and MaximumViewDays");
         }
 
+        CalendarDaysMode newMode;
         if (span.Days > MaximumFullDays)
         {
-            SetDaysMode(CalendarDaysMode.Short);
+            newMode = CalendarDaysMode.Short;
             preDays = new[] { 0, 1, 2, 3, 4, 5, 6 }[(int)ViewStart.DayOfWeek] - (int)FirstDayOfWeek;
             span = span.Add(new TimeSpan(preDays, 0, 0, 0));
 
@@ -1377,34 +1384,50 @@ public class KryptonCalendar : ScrollableControl
         }
         else
         {
-            SetDaysMode(CalendarDaysMode.Expanded);
+            newMode = CalendarDaysMode.Expanded;
         }
 
-        _days = new CalendarDay?[span.Days];
+        // The generated day grid may reach before ViewStart (week alignment) and beyond
+        // ViewEnd (rounding to whole weeks): reject ranges whose grid cannot be represented
+        // by DateTime before any state is touched.
+        if (ViewStart.Date.Ticks - TimeSpan.FromDays(preDays).Ticks < DateTime.MinValue.Ticks ||
+            ViewStart.Date.Ticks + TimeSpan.FromDays(span.Days).Ticks > DateTime.MaxValue.Ticks)
+        {
+            throw new ArgumentOutOfRangeException(nameof(ViewStart),
+                "The view range is too close to DateTime.MinValue/MaxValue to lay out whole weeks.");
+        }
 
-        for (int i = 0; i < Days.Length; i++)
-            Days[i] = new CalendarDay(this, ViewStart.AddDays(-preDays + i), i);
+        var newDays = new CalendarDay?[span.Days];
+
+        for (int i = 0; i < newDays.Length; i++)
+            newDays[i] = new CalendarDay(this, ViewStart.AddDays(-preDays + i), i);
 
 
         //Weeks
-        if (DaysMode == CalendarDaysMode.Short)
+        CalendarWeek[] newWeeks;
+        if (newMode == CalendarDaysMode.Short)
         {
             List<CalendarWeek> weeks = [];
 
-            for (int i = 0; i < Days.Length; i++)
+            for (int i = 0; i < newDays.Length; i++)
             {
-                if (Days[i]!.Date.DayOfWeek == FirstDayOfWeek)
+                if (newDays[i]!.Date.DayOfWeek == FirstDayOfWeek)
                 {
-                    weeks.Add(new CalendarWeek(this, Days[i]!.Date));
+                    weeks.Add(new CalendarWeek(this, newDays[i]!.Date));
                 }
             }
 
-            _weeks = weeks.ToArray();
+            newWeeks = weeks.ToArray();
         }
         else
         {
-            _weeks = [];
+            newWeeks = [];
         }
+
+        // Commit — everything above validated without touching state.
+        SetDaysMode(newMode);
+        _days = newDays;
+        _weeks = newWeeks;
 
         UpdateHighlights();
 

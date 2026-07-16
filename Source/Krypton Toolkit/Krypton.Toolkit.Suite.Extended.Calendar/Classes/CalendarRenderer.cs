@@ -178,7 +178,9 @@ public class CalendarRenderer
     private int _dayTopHeight;
     private int _dayTopMinHeight;
     private KryptonCalendar _calendar;
-    private Rectangle[] _dayNameHeaderColumns;
+    // Never null: a paint can arrive before the first short-days layout pass has populated
+    // the real bounds (Bastion Phase 5c adversarial finding — NRE in OnDrawDayNameHeaders).
+    private Rectangle[] _dayNameHeaderColumns = new Rectangle[7];
     private int _dayHeaderHeight;
     private int _dayNameHeadersHeight;
     private int _itemInvalidateMargin;
