@@ -146,7 +146,7 @@ public class RibbonFileAppButton : Storage
     [Category(@"Values")]
     [Description(@"Recent document entries for the application buttton.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    [Editor(@"Krypton.Ribbon.KryptonRibbonRecentDocCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonRibbonRecentDocCollectionEditor), typeof(UITypeEditor))]
     public virtual KryptonRibbonRecentDocCollection AppButtonRecentDocs { get; }
 
     #endregion

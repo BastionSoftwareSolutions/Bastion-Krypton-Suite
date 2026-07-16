@@ -40,4 +40,4 @@ using System.Runtime.CompilerServices;
 [assembly: Dependency("System", LoadHint.Always)]
 [assembly: Dependency("System.Drawing", LoadHint.Always)]
 [assembly: Dependency("System.Windows.Forms", LoadHint.Always)]
-[assembly: Dependency("Krypton.Toolkit", LoadHint.Always)]
+[assembly: Dependency("Bastion.Krypton.Toolkit", LoadHint.Always)]

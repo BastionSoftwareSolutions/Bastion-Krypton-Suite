@@ -123,7 +123,7 @@ public class KryptonWorkspaceSequence : Component,
     [Category(@"Workspace")]
     [Description(@"Collection of child workspace items.")]
     [MergableProperty(false)]
-    [Editor(@"Krypton.Workspace.KryptonWorkspaceCollectionEditor, Krypton.Workspace", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonWorkspaceCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonWorkspaceCollection? Children { get; }
 

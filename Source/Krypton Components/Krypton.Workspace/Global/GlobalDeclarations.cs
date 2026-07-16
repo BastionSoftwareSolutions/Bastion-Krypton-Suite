@@ -37,5 +37,5 @@ using System.Runtime.CompilerServices;
 [assembly: Dependency(nameof(System), LoadHint.Always)]
 [assembly: Dependency("System.Drawing", LoadHint.Always)]
 [assembly: Dependency("System.Windows.Forms", LoadHint.Always)]
-[assembly: Dependency("Krypton.Toolkit", LoadHint.Always)]
-[assembly: Dependency("Krypton.Navigator", LoadHint.Always)]
+[assembly: Dependency("Bastion.Krypton.Toolkit", LoadHint.Always)]
+[assembly: Dependency("Bastion.Krypton.Navigator", LoadHint.Always)]

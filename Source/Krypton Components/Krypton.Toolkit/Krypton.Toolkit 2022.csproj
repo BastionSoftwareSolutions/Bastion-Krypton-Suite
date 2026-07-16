@@ -24,7 +24,7 @@
   <PropertyGroup>
 	<OutputType>Library</OutputType>
 	<RootNamespace>Krypton.Toolkit</RootNamespace>
-	<AssemblyName>Krypton.Toolkit</AssemblyName>
+	<AssemblyName>Bastion.Krypton.Toolkit</AssemblyName>
 	<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
 	<CheckEolTargetFramework>false</CheckEolTargetFramework>
 	<SignAssembly>True</SignAssembly>
@@ -72,7 +72,7 @@
 	</ItemGroup>
 
 	<PropertyGroup>
-	<PackageId>Krypton.Toolkit</PackageId>
+	<PackageId>Bastion.Krypton.Toolkit</PackageId>
 	<Description>This is the core toolkit module.</Description>
   </PropertyGroup>
 
