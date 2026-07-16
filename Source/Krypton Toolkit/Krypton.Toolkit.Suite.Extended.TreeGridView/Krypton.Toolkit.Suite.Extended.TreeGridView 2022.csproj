@@ -20,7 +20,7 @@
 		<OutputType>library</OutputType>
 		<UseWindowsForms>true</UseWindowsForms>
 		<RootNamespace>Krypton.Toolkit.Suite.Extended.TreeGridView</RootNamespace>
-		<AssemblyName>Krypton.Toolkit.Suite.Extended.TreeGridView</AssemblyName>
+		<AssemblyName>Bastion.Krypton.Extended.TreeGridView</AssemblyName>
 		<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<SignAssembly>True</SignAssembly>
@@ -38,24 +38,24 @@
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.TreeGridView.Canary</PackageId>
+				<PackageId>Bastion.Krypton.Extended.TreeGridView.Canary</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.TreeGridView.Nightly</PackageId>
+				<PackageId>Bastion.Krypton.Extended.TreeGridView.Nightly</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Release'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.TreeGridView</PackageId>
+				<PackageId>Bastion.Krypton.Extended.TreeGridView</PackageId>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.TreeGridView</PackageId>
+				<PackageId>Bastion.Krypton.Extended.TreeGridView</PackageId>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

@@ -19,7 +19,7 @@
 	<PropertyGroup>
 		<OutputType>library</OutputType>
 		<RootNamespace>Krypton.Toolkit.Suite.Extended.Buttons</RootNamespace>
-		<AssemblyName>Krypton.Toolkit.Suite.Extended.Buttons</AssemblyName>
+		<AssemblyName>Bastion.Krypton.Extended.Buttons</AssemblyName>
 		<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
@@ -33,24 +33,24 @@
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Buttons.Canary</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Buttons.Canary</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Buttons.Nightly</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Buttons.Nightly</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Release'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Buttons</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Buttons</PackageId>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Buttons</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Buttons</PackageId>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

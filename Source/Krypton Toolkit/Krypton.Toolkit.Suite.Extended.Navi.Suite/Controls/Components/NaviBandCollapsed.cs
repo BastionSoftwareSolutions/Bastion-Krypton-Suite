@@ -36,7 +36,7 @@ namespace Krypton.Toolkit.Suite.Extended.Navi.Suite;
 /// to collapsed mode. 
 /// </remarks>
 [
-    Designer("Krypton.Toolkit.Suite.Extended.Navi.Suite.NaviBandDesigner, Krypton.Toolkit.Suite.Extended.Navi.Suite, Version=2.0.0.0, Culture=neutral, PublicKeyToken=86dab5aa2dd98116"),
+    Designer("Krypton.Toolkit.Suite.Extended.Navi.Suite.NaviBandDesigner, Bastion.Krypton.Extended.Navi.Suite"),
     ToolboxItem(false)
 ]
 public partial class NaviBandCollapsed : NaviControl

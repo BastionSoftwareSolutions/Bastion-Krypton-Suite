@@ -33,7 +33,7 @@ namespace Krypton.Toolkit.Suite.Extended.DataGridView;
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(MasterSingleDetailView), "Designers.MasterSingleDetailView.bmp")]
 [DesignerCategory("code")]
-[Designer("Krypton.Toolkit.Suite.Extended.DataGridView.MasterSingleDetailViewDesigner, Krypton.Toolkit.Suite.Extended.DataGridView")]
+[Designer("Krypton.Toolkit.Suite.Extended.DataGridView.MasterSingleDetailViewDesigner, Bastion.Krypton.Extended.DataGridView")]
 [Description("This is a MasterDetail DataGridView that allows a single detail block to be displayed under each master row.")]
 public class MasterSingleDetailView : MasterDetailGridView<KryptonDataGridView>
 {

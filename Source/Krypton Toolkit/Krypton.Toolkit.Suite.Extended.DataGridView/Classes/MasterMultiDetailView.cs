@@ -33,7 +33,7 @@ namespace Krypton.Toolkit.Suite.Extended.DataGridView;
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(MasterMultiDetailView), "Designers.MasterMultiDetailView.bmp")]
 [DesignerCategory("code")]
-[Designer("Krypton.Toolkit.Suite.Extended.DataGridView.MasterMultiDetailViewDesigner, Krypton.Toolkit.Suite.Extended.DataGridView")]
+[Designer("Krypton.Toolkit.Suite.Extended.DataGridView.MasterMultiDetailViewDesigner, Bastion.Krypton.Extended.DataGridView")]
 [Description("This is a MasterDetail DataGridView that allows a multiple detail block to be displayed under each master row")]
 // TODO: Replace the TabControl with the Krypton Equivalent
 public class MasterMultiDetailView : MasterDetailGridView<TabControl>

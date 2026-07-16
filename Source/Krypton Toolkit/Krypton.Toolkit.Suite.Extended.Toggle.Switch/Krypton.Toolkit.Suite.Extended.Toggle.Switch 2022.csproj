@@ -19,7 +19,7 @@
 	<PropertyGroup>
 		<OutputType>library</OutputType>
 		<RootNamespace>Krypton.Toolkit.Suite.Extended.Toggle.Switch</RootNamespace>
-		<AssemblyName>Krypton.Toolkit.Suite.Extended.Toggle.Switch</AssemblyName>
+		<AssemblyName>Bastion.Krypton.Extended.Toggle.Switch</AssemblyName>
 		<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<SignAssembly>True</SignAssembly>
@@ -35,24 +35,24 @@
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Toggle.Switch.Canary</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Toggle.Switch.Canary</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Toggle.Switch.Nightly</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Toggle.Switch.Nightly</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Release'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Toggle.Switch</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Toggle.Switch</PackageId>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Toggle.Switch</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Toggle.Switch</PackageId>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

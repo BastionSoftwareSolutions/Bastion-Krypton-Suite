@@ -34,7 +34,7 @@ namespace Krypton.Toolkit.Suite.Extended.VirtualTreeColumnView;
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonTreeView), "ToolboxBitmaps.KryptonTreeView.bmp")]
-[Designer("Krypton.Toolkit.KryptonTreeViewDesigner, Krypton.Toolkit")]
+[Designer("Krypton.Toolkit.KryptonTreeViewDesigner, Bastion.Krypton.Toolkit")]
 [DesignerCategory("code")]
 [Description("Displays a hierarchical collection of labeled items, each represented by a VirtualTreeNode")]
 public class KryptonVirtualTreeColumnView : VisualSimpleBase
@@ -485,7 +485,7 @@ public class KryptonVirtualTreeColumnView : VisualSimpleBase
     [Category("Behavior")]
     [Description("The default image index for nodes.")]
     [Localizable(true)]
-    [TypeConverter("Krypton.Toolkit.NoneExcludedImageIndexConverter, Krypton.Toolkit")]
+    [TypeConverter("Krypton.Toolkit.NoneExcludedImageIndexConverter, Bastion.Krypton.Toolkit")]
     [Editor("System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
     [RefreshProperties(RefreshProperties.Repaint)]
     [RelatedImageList("ImageList")]
@@ -544,7 +544,7 @@ public class KryptonVirtualTreeColumnView : VisualSimpleBase
     [Category("Behavior")]
     [Description("The default image index for selected nodes.")]
     [Localizable(true)]
-    [TypeConverter("Krypton.Toolkit.NoneExcludedImageIndexConverter, Krypton.Toolkit")]
+    [TypeConverter("Krypton.Toolkit.NoneExcludedImageIndexConverter, Bastion.Krypton.Toolkit")]
     [Editor("System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
     [RelatedImageList("ImageList")]
     [DefaultValue(-1)]

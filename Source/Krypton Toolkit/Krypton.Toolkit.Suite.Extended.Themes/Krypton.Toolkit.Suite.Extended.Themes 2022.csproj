@@ -19,7 +19,7 @@
 	<PropertyGroup>
 		<OutputType>library</OutputType>
 		<RootNamespace>Krypton.Toolkit.Suite.Extended.Themes</RootNamespace>
-		<AssemblyName>Krypton.Toolkit.Suite.Extended.Themes</AssemblyName>
+		<AssemblyName>Bastion.Krypton.Extended.Themes</AssemblyName>
 		<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<SignAssembly>True</SignAssembly>
@@ -32,24 +32,24 @@
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Themes.Canary</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Themes.Canary</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Themes.Nightly</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Themes.Nightly</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Release'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Themes</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Themes</PackageId>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Themes</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Themes</PackageId>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

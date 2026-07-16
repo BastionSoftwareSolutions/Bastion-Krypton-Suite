@@ -19,7 +19,7 @@
 	<PropertyGroup>
 		<OutputType>library</OutputType>
 		<RootNamespace>Krypton.Toolkit.Suite.Extended.Compression</RootNamespace>
-		<AssemblyName>Krypton.Toolkit.Suite.Extended.Compression</AssemblyName>
+		<AssemblyName>Bastion.Krypton.Extended.Compression</AssemblyName>
 		<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<SignAssembly>True</SignAssembly>
@@ -35,24 +35,24 @@
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Compression.Canary</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Compression.Canary</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Compression.Nightly</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Compression.Nightly</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Release'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Compression</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Compression</PackageId>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Compression</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Compression</PackageId>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

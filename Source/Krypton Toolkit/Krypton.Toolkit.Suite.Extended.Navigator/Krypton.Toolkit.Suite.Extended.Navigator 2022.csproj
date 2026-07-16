@@ -19,7 +19,7 @@
 	<PropertyGroup>
 		<OutputType>library</OutputType>
 		<RootNamespace>Krypton.Toolkit.Suite.Extended.Navigator</RootNamespace>
-		<AssemblyName>Krypton.Toolkit.Suite.Extended.Navigator</AssemblyName>
+		<AssemblyName>Bastion.Krypton.Extended.Navigator</AssemblyName>
 		<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<SignAssembly>True</SignAssembly>
@@ -35,24 +35,24 @@
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Navigator.Canary</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Navigator.Canary</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Navigator.Nightly</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Navigator.Nightly</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Release'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Navigator</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Navigator</PackageId>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Navigator</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Navigator</PackageId>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

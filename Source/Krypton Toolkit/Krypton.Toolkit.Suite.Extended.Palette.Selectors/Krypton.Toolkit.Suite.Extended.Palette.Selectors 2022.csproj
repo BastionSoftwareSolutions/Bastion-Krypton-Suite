@@ -19,7 +19,7 @@
 	<PropertyGroup>
 		<OutputType>library</OutputType>
 		<RootNamespace>Krypton.Toolkit.Suite.Extended.Palette.Selectors</RootNamespace>
-		<AssemblyName>Krypton.Toolkit.Suite.Extended.Palette.Selectors</AssemblyName>
+		<AssemblyName>Bastion.Krypton.Extended.Palette.Selectors</AssemblyName>
 		<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<SignAssembly>True</SignAssembly>
@@ -33,24 +33,24 @@
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Palette.Selectors.Canary</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Palette.Selectors.Canary</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Palette.Selectors.Nightly</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Palette.Selectors.Nightly</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Release'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Palette.Selectors</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Palette.Selectors</PackageId>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Palette.Selectors</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Palette.Selectors</PackageId>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

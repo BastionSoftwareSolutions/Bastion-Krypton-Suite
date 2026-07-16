@@ -20,7 +20,7 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<OutputType>library</OutputType>
 		<RootNamespace>Krypton.Toolkit.Suite.Extended.File.Copier</RootNamespace>
-		<AssemblyName>Krypton.Toolkit.Suite.Extended.File.Copier</AssemblyName>
+		<AssemblyName>Bastion.Krypton.Extended.File.Copier</AssemblyName>
 		<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<SignAssembly>True</SignAssembly>
@@ -35,24 +35,24 @@
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.File.Copier.Canary</PackageId>
+				<PackageId>Bastion.Krypton.Extended.File.Copier.Canary</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.File.Copier.Nightly</PackageId>
+				<PackageId>Bastion.Krypton.Extended.File.Copier.Nightly</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Release'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.File.Copier</PackageId>
+				<PackageId>Bastion.Krypton.Extended.File.Copier</PackageId>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.File.Copier</PackageId>
+				<PackageId>Bastion.Krypton.Extended.File.Copier</PackageId>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

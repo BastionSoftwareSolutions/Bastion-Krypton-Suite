@@ -7,7 +7,7 @@
 		<TargetFrameworks>$(ActiveExtendedToolkitTFMs)</TargetFrameworks>
 		<OutputType>library</OutputType>
 		<RootNamespace>Krypton.Toolkit.Suite.Extended.Ultimate</RootNamespace>
-		<AssemblyName>Krypton.Toolkit.Suite.Extended.Ultimate</AssemblyName>
+		<AssemblyName>Bastion.Krypton.Extended.Ultimate</AssemblyName>
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>..\_shared-assets\StrongKrypton.snk</AssemblyOriginatorKeyFile>
@@ -36,24 +36,24 @@
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Ultimate.Canary</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Ultimate.Canary</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Ultimate.Nightly</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Ultimate.Nightly</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Release'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Ultimate</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Ultimate</PackageId>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Ultimate</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Ultimate</PackageId>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
@@ -162,7 +162,8 @@
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Controls\Krypton.Toolkit.Suite.Extended.Controls 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Buttons\Krypton.Toolkit.Suite.Extended.Buttons 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.ComboBox\Krypton.Toolkit.Suite.Extended.ComboBox 2022.csproj" />
-		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Toggle.Switch\Krypton.Toolkit.Suite.Extended.Toggle.Switch 2022.csproj" />
+		<!-- Bastion Phase 7: Toggle.Switch is go/no-go pending (CPOL lineage, THIRD-PARTY-LICENCES.md 3.1 Item B) - excluded from the Ultimate metapackage and the shippable set. -->
+		<!-- <ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Toggle.Switch\Krypton.Toolkit.Suite.Extended.Toggle.Switch 2022.csproj" /> -->
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Circular.ProgressBar\Krypton.Toolkit.Suite.Extended.Circular.ProgressBar 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Panels\Krypton.Toolkit.Suite.Extended.Panels 2022.csproj" />
 		
@@ -253,8 +254,13 @@
 		<SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
 		
 		<!-- Custom targets to include all dependencies -->
-		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeAllDependenciesInPackage</TargetsForTfmSpecificBuildOutput>
-		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludeAllDependenciesInPackage</TargetsForTfmSpecificContentInPackage>
+		<!-- Bastion Phase 7 (spec 8.1): the Ultimate metapackage is dependency-only -
+		     it depends on the shippable Bastion.Krypton.Extended.* module packages (and,
+		     transitively, the Bastion.Krypton.* core packages) rather than bundling their
+		     DLLs. The IncludeAllDependenciesInPackage bundling target below is therefore
+		     no longer wired into the pack. ProjectReferences emit package dependencies. -->
+		<!--<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeAllDependenciesInPackage</TargetsForTfmSpecificBuildOutput>-->
+		<!--<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludeAllDependenciesInPackage</TargetsForTfmSpecificContentInPackage>-->
 	</PropertyGroup>
 
 	<!-- Custom target to include ALL dependencies in the package -->

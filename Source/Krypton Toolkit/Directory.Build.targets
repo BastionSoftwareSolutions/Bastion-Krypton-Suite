@@ -244,4 +244,18 @@
 		</Otherwise>
 	</Choose>
 
+	<!-- ============================================================
+	     Bastion Phase 7 (spec Sec 8.1): force the SPDX licence EXPRESSION for
+	     packing. The nested props sets PackageLicenseFile=License.md, which
+	     suppresses the expression (NU5033 forbids both). This targets file is
+	     imported last, so here (under -p:BastionPack=true) we clear the file
+	     designation and declare the SPDX expression: MIT for most modules, or
+	     the per-module 'MIT AND MS-PL' already set by the Ms-PL csprojs
+	     (Outlook.Grid, AdvancedDataGridView, Ultimate). See THIRD-PARTY-LICENCES.md.
+	     ============================================================ -->
+	<PropertyGroup Condition="'$(BastionPack)' == 'true'">
+		<PackageLicenseFile></PackageLicenseFile>
+		<PackageLicenseExpression Condition="'$(PackageLicenseExpression)' == ''">MIT</PackageLicenseExpression>
+	</PropertyGroup>
+
 </Project>

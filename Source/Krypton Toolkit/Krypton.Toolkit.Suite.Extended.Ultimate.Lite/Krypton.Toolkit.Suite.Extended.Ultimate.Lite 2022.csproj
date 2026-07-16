@@ -6,7 +6,7 @@
 		<TargetFrameworks>$(ActiveExtendedToolkitTFMs)</TargetFrameworks>
 		<OutputType>library</OutputType>
 		<RootNamespace>Krypton.Toolkit.Suite.Extended.Ultimate.Lite</RootNamespace>
-		<AssemblyName>Krypton.Toolkit.Suite.Extended.Ultimate.Lite</AssemblyName>
+		<AssemblyName>Bastion.Krypton.Extended.Ultimate.Lite</AssemblyName>
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>..\_shared-assets\StrongKrypton.snk</AssemblyOriginatorKeyFile>
@@ -35,24 +35,24 @@
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Ultimate.Lite.Canary</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Ultimate.Lite.Canary</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Ultimate.Lite.Nightly</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Ultimate.Lite.Nightly</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Release'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Ultimate.Lite</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Ultimate.Lite</PackageId>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.Ultimate.Lite</PackageId>
+				<PackageId>Bastion.Krypton.Extended.Ultimate.Lite</PackageId>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

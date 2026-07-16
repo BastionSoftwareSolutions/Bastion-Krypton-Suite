@@ -19,7 +19,7 @@
 	<PropertyGroup>
 		<OutputType>library</OutputType>
 		<RootNamespace>Krypton.Toolkit.Suite.Extended.DataGridView</RootNamespace>
-		<AssemblyName>Krypton.Toolkit.Suite.Extended.DataGridView</AssemblyName>
+		<AssemblyName>Bastion.Krypton.Extended.DataGridView</AssemblyName>
 		<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<SignAssembly>True</SignAssembly>
@@ -35,24 +35,24 @@
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.DataGridView.Canary</PackageId>
+				<PackageId>Bastion.Krypton.Extended.DataGridView.Canary</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.DataGridView.Nightly</PackageId>
+				<PackageId>Bastion.Krypton.Extended.DataGridView.Nightly</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Release'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.DataGridView</PackageId>
+				<PackageId>Bastion.Krypton.Extended.DataGridView</PackageId>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.DataGridView</PackageId>
+				<PackageId>Bastion.Krypton.Extended.DataGridView</PackageId>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

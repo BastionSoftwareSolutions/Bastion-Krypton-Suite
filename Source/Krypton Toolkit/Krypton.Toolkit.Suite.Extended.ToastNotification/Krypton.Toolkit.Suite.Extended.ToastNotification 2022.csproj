@@ -19,7 +19,7 @@
 	<PropertyGroup>
 		<OutputType>library</OutputType>
 		<RootNamespace>Krypton.Toolkit.Suite.Extended.ToastNotification</RootNamespace>
-		<AssemblyName>Krypton.Toolkit.Suite.Extended.ToastNotification</AssemblyName>
+		<AssemblyName>Bastion.Krypton.Extended.ToastNotification</AssemblyName>
 		<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
@@ -33,24 +33,24 @@
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.ToastNotification.Canary</PackageId>
+				<PackageId>Bastion.Krypton.Extended.ToastNotification.Canary</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.ToastNotification.Nightly</PackageId>
+				<PackageId>Bastion.Krypton.Extended.ToastNotification.Nightly</PackageId>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(Configuration)' == 'Release'">
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.ToastNotification</PackageId>
+				<PackageId>Bastion.Krypton.Extended.ToastNotification</PackageId>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<PackageId>Krypton.Toolkit.Suite.Extended.ToastNotification</PackageId>
+				<PackageId>Bastion.Krypton.Extended.ToastNotification</PackageId>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

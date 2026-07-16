@@ -196,4 +196,33 @@
 			</PropertyGroup>
 		</Otherwise>
 	 </Choose>
+
+	<!-- ============================================================
+	     Bastion Phase 7 (spec Sec 8.1) packaging metadata.
+	     Activated by -p:BastionPack=true (set by pack.ps1). Version/authors are
+	     forced on the command line by pack.ps1 (they win over the targets that
+	     otherwise stamp 105.x / Krypton Suite). Here we add the deterministic +
+	     SourceLink + repository provenance. Licence stays MIT (or 'MIT AND MS-PL'
+	     for the Ms-PL modules + Ultimate meta) as set in Directory.Build.targets
+	     and the per-module csprojs. Namespaces/types unchanged (ground rule 3).
+	     ============================================================ -->
+	<PropertyGroup>
+		<BastionPackageVersion Condition="'$(BastionPackageVersion)' == ''">1.0.0</BastionPackageVersion>
+		<RepositoryUrl Condition="'$(RepositoryUrl)' == ''">https://github.com/Bastion-Software-Solutions/Krypton-Ultimate</RepositoryUrl>
+		<RepositoryType Condition="'$(RepositoryType)' == ''">git</RepositoryType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(BastionPack)' == 'true'">
+		<Deterministic>true</Deterministic>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PublishRepositoryUrl>false</PublishRepositoryUrl>
+		<ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+		<PackageReleaseNotes>Bastion Krypton Suite Extended $(BastionPackageVersion). A redistribution of the Krypton Toolkit Suite Extended modules (upstream baseline 105.x). Package IDs are prefixed 'Bastion.Krypton.Extended.'; namespaces and public types are unchanged. Depends on the Bastion.Krypton.* core packages. See THIRD-PARTY-NOTICES.md for vendored third-party attributions.</PackageReleaseNotes>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(BastionPack)' == 'true'">
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="all" />
+	</ItemGroup>
 </Project>
