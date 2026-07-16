@@ -838,36 +838,21 @@ public class KryptonToggleSwitch : Control, IContentValues
     /// <summary>Gets the content image.</summary>
     /// <param name="state">The state for which the image is needed.</param>
     /// <returns>Image value.</returns>
-    /// <exception cref="System.NotImplementedException"></exception>
-    public Image? GetImage(PaletteState state)
-    {
-        throw new NotImplementedException();
-    }
+    /// <remarks>The toggle switch paints its own glyphs; there is no content image.</remarks>
+    public Image? GetImage(PaletteState state) => null;
 
     /// <summary>Gets the image color that should be transparent.</summary>
     /// <param name="state">The state for which the image is needed.</param>
     /// <returns>Color value.</returns>
-    /// <exception cref="System.NotImplementedException"></exception>
-    public Color GetImageTransparentColor(PaletteState state)
-    {
-        throw new NotImplementedException();
-    }
+    public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
     /// <summary>Gets the content short text.</summary>
     /// <returns>String value.</returns>
-    /// <exception cref="System.NotImplementedException"></exception>
-    public string GetShortText()
-    {
-        throw new NotImplementedException();
-    }
+    public string GetShortText() => Text ?? string.Empty;
 
     /// <summary>Gets the content long text.</summary>
     /// <returns>String value.</returns>
-    /// <exception cref="System.NotImplementedException"></exception>
-    public string GetLongText()
-    {
-        throw new NotImplementedException();
-    }
+    public string GetLongText() => string.Empty;
 
     #endregion
 }
