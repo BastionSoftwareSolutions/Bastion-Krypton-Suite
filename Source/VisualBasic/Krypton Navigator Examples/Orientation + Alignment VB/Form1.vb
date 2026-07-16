@@ -18,13 +18,22 @@ Imports Krypton.Toolkit
 
 Public Class Form1
 
+    ' NOTE (Bastion 4c): VB Handles binds at field assignment, so the handlers below can fire during
+    ' InitializeComponent before dependent controls are fully configured (e.g. a NumericUpDown Minimum
+    ' set fires ValueChanged while its partner still holds default values); the C# twin wires events
+    ' afterwards. All handlers early-return until Form1_Load marks the form as initialised.
+    Private _initialised As Boolean
+
     Private _updating As Boolean
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        _initialised = True
         UpdateControlsFromNavigator()
     End Sub
 
     Private Sub UpdateControlsFromNavigator()
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
+
         _updating = True
 
         ' Update Mode
@@ -80,6 +89,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioModeTabs_CheckedChanged(sender As Object, e As EventArgs) Handles radioModeTabs.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioModeTabs.Checked Then
             kryptonNavigator1.NavigatorMode = NavigatorMode.BarTabGroup
             UpdateControlsFromNavigator()
@@ -87,6 +97,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioModeRibbonTabs_CheckedChanged(sender As Object, e As EventArgs) Handles radioModeRibbonTabs.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioModeRibbonTabs.Checked Then
             kryptonNavigator1.NavigatorMode = NavigatorMode.BarRibbonTabGroup
             UpdateControlsFromNavigator()
@@ -94,6 +105,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioModesCheckButton_CheckedChanged(sender As Object, e As EventArgs) Handles radioModesCheckButton.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioModesCheckButton.Checked Then
             kryptonNavigator1.NavigatorMode = NavigatorMode.BarCheckButtonGroupOutside
             UpdateControlsFromNavigator()
@@ -101,6 +113,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioOrientationTop_CheckedChanged(sender As Object, e As EventArgs) Handles radioOrientationTop.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioOrientationTop.Checked Then
             kryptonNavigator1.Bar.BarOrientation = VisualOrientation.Top
             UpdateControlsFromNavigator()
@@ -108,6 +121,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioOrientationBottom_CheckedChanged(sender As Object, e As EventArgs) Handles radioOrientationBottom.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioOrientationBottom.Checked Then
             kryptonNavigator1.Bar.BarOrientation = VisualOrientation.Bottom
             UpdateControlsFromNavigator()
@@ -115,6 +129,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioOrientationLeft_CheckedChanged(sender As Object, e As EventArgs) Handles radioOrientationLeft.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioOrientationLeft.Checked Then
             kryptonNavigator1.Bar.BarOrientation = VisualOrientation.Left
             UpdateControlsFromNavigator()
@@ -122,6 +137,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioOrientationRight_CheckedChanged(sender As Object, e As EventArgs) Handles radioOrientationRight.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioOrientationRight.Checked Then
             kryptonNavigator1.Bar.BarOrientation = VisualOrientation.Right
             UpdateControlsFromNavigator()
@@ -129,6 +145,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioItemAuto_CheckedChanged(sender As Object, e As EventArgs) Handles radioItemAuto.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioItemAuto.Checked Then
             kryptonNavigator1.Bar.ItemOrientation = ButtonOrientation.Auto
             UpdateControlsFromNavigator()
@@ -136,6 +153,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioItemFixedTop_CheckedChanged(sender As Object, e As EventArgs) Handles radioItemFixedTop.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioItemFixedTop.Checked Then
             kryptonNavigator1.Bar.ItemOrientation = ButtonOrientation.FixedTop
             UpdateControlsFromNavigator()
@@ -143,6 +161,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioItemFixedBottom_CheckedChanged(sender As Object, e As EventArgs) Handles radioItemFixedBottom.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioItemFixedBottom.Checked Then
             kryptonNavigator1.Bar.ItemOrientation = ButtonOrientation.FixedBottom
             UpdateControlsFromNavigator()
@@ -150,6 +169,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioItemFixedLeft_CheckedChanged(sender As Object, e As EventArgs) Handles radioItemFixedLeft.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioItemFixedLeft.Checked Then
             kryptonNavigator1.Bar.ItemOrientation = ButtonOrientation.FixedLeft
             UpdateControlsFromNavigator()
@@ -157,6 +177,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioItemFixedRight_CheckedChanged(sender As Object, e As EventArgs) Handles radioItemFixedRight.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioItemFixedRight.Checked Then
             kryptonNavigator1.Bar.ItemOrientation = ButtonOrientation.FixedRight
             UpdateControlsFromNavigator()
@@ -164,6 +185,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioItemNear_CheckedChanged(sender As Object, e As EventArgs) Handles radioItemNear.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioItemNear.Checked Then
             kryptonNavigator1.Bar.ItemAlignment = RelativePositionAlign.Near
             UpdateControlsFromNavigator()
@@ -171,6 +193,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioItemCenter_CheckedChanged(sender As Object, e As EventArgs) Handles radioItemCenter.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioItemCenter.Checked Then
             kryptonNavigator1.Bar.ItemAlignment = RelativePositionAlign.Center
             UpdateControlsFromNavigator()
@@ -178,6 +201,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioItemFar_CheckedChanged(sender As Object, e As EventArgs) Handles radioItemFar.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioItemFar.Checked Then
             kryptonNavigator1.Bar.ItemAlignment = RelativePositionAlign.Far
             UpdateControlsFromNavigator()
@@ -185,6 +209,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioSizingIndividual_CheckedChanged(sender As Object, e As EventArgs) Handles radioSizingIndividual.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioSizingIndividual.Checked Then
             kryptonNavigator1.Bar.ItemSizing = BarItemSizing.Individual
             UpdateControlsFromNavigator()
@@ -192,6 +217,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioSizingSameHeight_CheckedChanged(sender As Object, e As EventArgs) Handles radioSizingSameHeight.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioSizingSameHeight.Checked Then
             kryptonNavigator1.Bar.ItemSizing = BarItemSizing.SameHeight
             UpdateControlsFromNavigator()
@@ -199,6 +225,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioSizingSameWidth_CheckedChanged(sender As Object, e As EventArgs) Handles radioSizingSameWidth.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioSizingSameWidth.Checked Then
             kryptonNavigator1.Bar.ItemSizing = BarItemSizing.SameWidth
             UpdateControlsFromNavigator()
@@ -206,6 +233,7 @@ Public Class Form1
     End Sub
 
     Private Sub radioSizingSameWidthHeight_CheckedChanged(sender As Object, e As EventArgs) Handles radioSizingSameWidthHeight.CheckedChanged
+        If Not _initialised Then Return ' NOTE (Bastion 4c): see _initialised declaration.
         If radioSizingSameWidthHeight.Checked Then
             kryptonNavigator1.Bar.ItemSizing = BarItemSizing.SameWidthAndHeight
             UpdateControlsFromNavigator()
@@ -213,7 +241,7 @@ Public Class Form1
     End Sub
 
     Private Sub numericUpDownBarMinHeight_ValueChanged(sender As Object, e As EventArgs) Handles numericUpDownBarMinHeight.ValueChanged
-        If Not _updating Then
+        If _initialised AndAlso Not _updating Then ' NOTE (Bastion 4c): see _initialised declaration.
             kryptonNavigator1.Bar.BarMinimumHeight = Convert.ToInt32(numericUpDownBarMinHeight.Value)
         End If
     End Sub
@@ -221,7 +249,7 @@ Public Class Form1
     Private Sub numericUpDownMinItemSize(sender As Object, e As EventArgs) Handles _
         numericUpDownMinItemSizeY.ValueChanged, numericUpDownMinItemSizeX.ValueChanged
 
-        If Not _updating Then
+        If _initialised AndAlso Not _updating Then ' NOTE (Bastion 4c): see _initialised declaration.
             kryptonNavigator1.Bar.ItemMinimumSize = New Size(Convert.ToInt32(numericUpDownMinItemSizeX.Value),
                                                              Convert.ToInt32(numericUpDownMinItemSizeY.Value))
         End If
@@ -230,14 +258,14 @@ Public Class Form1
     Private Sub numericUpDownMaxItemSize(sender As Object, e As EventArgs) Handles _
         numericUpDownMaxItemSizeY.ValueChanged, numericUpDownMaxItemSizeX.ValueChanged
 
-        If Not _updating Then
+        If _initialised AndAlso Not _updating Then ' NOTE (Bastion 4c): see _initialised declaration.
             kryptonNavigator1.Bar.ItemMaximumSize = New Size(Convert.ToInt32(numericUpDownMaxItemSizeX.Value),
                                                              Convert.ToInt32(numericUpDownMaxItemSizeY.Value))
         End If
     End Sub
 
     Private Sub numericUpDownBarFirstItemInset_ValueChanged(sender As Object, e As EventArgs) Handles numericUpDownBarFirstItemInset.ValueChanged
-        If Not _updating Then
+        If _initialised AndAlso Not _updating Then ' NOTE (Bastion 4c): see _initialised declaration.
             kryptonNavigator1.Bar.BarFirstItemInset = Convert.ToInt32(numericUpDownBarFirstItemInset.Value)
         End If
     End Sub

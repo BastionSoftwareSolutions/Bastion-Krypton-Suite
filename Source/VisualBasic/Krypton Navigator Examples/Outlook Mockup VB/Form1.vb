@@ -108,6 +108,13 @@ Public Class Form1
     End Sub
 
     Private Sub kryptonNavigatorMain_SelectedPageChanged(sender As Object, e As EventArgs) Handles kryptonNavigatorMain.SelectedPageChanged
+        ' NOTE (Bastion 4c): VB Handles binds at field assignment, so this handler can fire during
+        ' InitializeComponent while the main navigator pages are added but before the details
+        ' navigator has any pages; the C# twin wires events afterwards.
+        If kryptonNavigatorDetails Is Nothing OrElse
+           kryptonNavigatorMain.SelectedIndex < 0 OrElse
+           kryptonNavigatorMain.SelectedIndex >= kryptonNavigatorDetails.Pages.Count Then Return
+
         ' Update the details page to match the main pages
         kryptonNavigatorDetails.SelectedIndex = kryptonNavigatorMain.SelectedIndex
     End Sub

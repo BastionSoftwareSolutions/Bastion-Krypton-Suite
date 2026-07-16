@@ -62,18 +62,27 @@ Public Class Form1
     End Sub
 
     Private Sub radioBlock_CheckedChanged(sender As Object, e As EventArgs) Handles radioBlock.CheckedChanged
+        ' NOTE (Bastion 4c): VB Handles binds at field assignment, so this handler can fire during
+        ' InitializeComponent before _dm is created in Form1_Load; the C# twin wires events afterwards.
+        If _dm Is Nothing Then Return
         If radioBlock.Checked Then
             _dm.StateCommon.Feedback = PaletteDragFeedback.Block
         End If
     End Sub
 
     Private Sub radioSquares_CheckedChanged(sender As Object, e As EventArgs) Handles radioSquares.CheckedChanged
+        ' NOTE (Bastion 4c): VB Handles binds at field assignment, so this handler can fire during
+        ' InitializeComponent before _dm is created in Form1_Load; the C# twin wires events afterwards.
+        If _dm Is Nothing Then Return
         If radioSquares.Checked Then
             _dm.StateCommon.Feedback = PaletteDragFeedback.Square
         End If
     End Sub
 
     Private Sub radioRounded_CheckedChanged(sender As Object, e As EventArgs) Handles radioRounded.CheckedChanged
+        ' NOTE (Bastion 4c): VB Handles binds at field assignment, so this handler can fire during
+        ' InitializeComponent before _dm is created in Form1_Load; the C# twin wires events afterwards.
+        If _dm Is Nothing Then Return
         If radioRounded.Checked Then
             _dm.StateCommon.Feedback = PaletteDragFeedback.Rounded
         End If

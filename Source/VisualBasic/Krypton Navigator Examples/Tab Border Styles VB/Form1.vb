@@ -28,6 +28,11 @@ Public Class Form1
         ' Cast to correct type
         Dim rb = DirectCast(sender, RadioButton)
 
+        ' NOTE (Bastion 4c): VB Handles binds at field assignment, so this handler can fire during
+        ' InitializeComponent before dependent controls/state exist (the designer sets Checked before
+        ' Tag); the C# twin wires events afterwards.
+        If kryptonNavigator Is Nothing OrElse rb.Tag Is Nothing Then Return
+
         If rb.Checked Then
             Dim enumVal = CType([Enum].Parse(GetType(TabBorderStyle), rb.Tag.ToString()), TabBorderStyle)
             kryptonNavigator.Bar.TabBorderStyle = enumVal
@@ -39,6 +44,11 @@ Public Class Form1
 
         ' Cast to correct type
         Dim rb = DirectCast(sender, RadioButton)
+
+        ' NOTE (Bastion 4c): VB Handles binds at field assignment, so this handler can fire during
+        ' InitializeComponent before dependent controls/state exist (the designer sets Checked before
+        ' Tag); the C# twin wires events afterwards.
+        If kryptonNavigator Is Nothing OrElse rb.Tag Is Nothing Then Return
 
         If rb.Checked Then
             Dim enumVal = CType([Enum].Parse(GetType(TabStyle), rb.Tag.ToString()), TabStyle)
