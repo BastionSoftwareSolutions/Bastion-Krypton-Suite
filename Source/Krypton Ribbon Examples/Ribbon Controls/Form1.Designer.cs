@@ -190,6 +190,8 @@ namespace RibbonControls
             // 
             // textBox3
             // 
+            this.textBox3.ButtonSpecs.AddRange(new Krypton.Toolkit.ButtonSpecAny[] {
+            this.buttonSpecAny1});
             this.textBox3.KeyTip = "T3";
             this.textBox3.Text = "Plus ButtonSpec";
             // 
@@ -226,7 +228,9 @@ namespace RibbonControls
             this.maskedTextBox2.Text = "(   )-    -";
             // 
             // maskedTextBox3
-            // 
+            //
+            this.maskedTextBox3.ButtonSpecs.AddRange(new Krypton.Toolkit.ButtonSpecAny[] {
+            this.buttonSpecAny3});
             this.maskedTextBox3.Mask = "00/00/0000";
             this.maskedTextBox3.PromptChar = '-';
             this.maskedTextBox3.Text = "  -  -";
@@ -262,7 +266,9 @@ namespace RibbonControls
             this.dateTimePicker2.ShowUpDown = true;
             // 
             // dateTimePicker3
-            // 
+            //
+            this.dateTimePicker3.ButtonSpecs.AddRange(new Krypton.Toolkit.ButtonSpecAny[] {
+            this.buttonSpecAny5});
             this.dateTimePicker3.CustomFormat = "ss.fff";
             this.dateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePicker3.MaximumSize = new System.Drawing.Size(110, 0);
@@ -330,6 +336,8 @@ namespace RibbonControls
             "Windows 2003",
             "Windows XP",
             "Windows Vista"});
+            this.comboBox3.ButtonSpecs.AddRange(new Krypton.Toolkit.ButtonSpecAny[] {
+            this.buttonSpecAny2});
             this.comboBox3.KeyTip = "C3";
             this.comboBox3.Text = "Windows 95";
             // 
@@ -377,6 +385,8 @@ namespace RibbonControls
             0,
             0,
             131072});
+            this.numericUpDown2.ButtonSpecs.AddRange(new Krypton.Toolkit.ButtonSpecAny[] {
+            this.buttonSpecAny4});
             this.numericUpDown2.MaximumSize = new System.Drawing.Size(80, 0);
             this.numericUpDown2.MinimumSize = new System.Drawing.Size(80, 0);
             this.numericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;

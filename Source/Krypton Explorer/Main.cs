@@ -346,6 +346,9 @@ namespace KryptonExplorer
                 @"net90";
 #elif NET10_0
                 @"net100";
+#else
+                // Bastion: no Palette Designer build ships for this TFM; probe the net48 build.
+                @"net48";
 #endif
                 if (File.Exists(pathModifier + @"\Palette Designer.exe"))
                 {
@@ -385,6 +388,9 @@ namespace KryptonExplorer
                 @"net90";
 #elif NET10_0
                 @"net100";
+#else
+                // Bastion: no Palette Upgrade Tool build ships for this TFM; probe the net48 build.
+                @"net48";
 #endif
                 if (File.Exists(pathModifier + @"\Palette Upgrade Tool.exe"))
                 {

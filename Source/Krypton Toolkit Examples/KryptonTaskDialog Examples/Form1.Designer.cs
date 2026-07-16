@@ -37,13 +37,6 @@
             this.textBoxMainInstructions = new System.Windows.Forms.TextBox();
             this.textBoxContent = new System.Windows.Forms.TextBox();
             this.buttonShowTaskDialog = new System.Windows.Forms.Button();
-            this.kryptonTaskDialog = new Krypton.Toolkit.KryptonTaskDialog();
-            this.kryptonTaskDialogCommand4 = new Krypton.Toolkit.KryptonTaskDialogCommand();
-            this.kryptonTaskDialogCommand5 = new Krypton.Toolkit.KryptonTaskDialogCommand();
-            this.kryptonTaskDialogCommand6 = new Krypton.Toolkit.KryptonTaskDialogCommand();
-            this.kryptonTaskDialogCommand1 = new Krypton.Toolkit.KryptonTaskDialogCommand();
-            this.kryptonTaskDialogCommand2 = new Krypton.Toolkit.KryptonTaskDialogCommand();
-            this.kryptonTaskDialogCommand3 = new Krypton.Toolkit.KryptonTaskDialogCommand();
             this.kryptonManager = new Krypton.Toolkit.KryptonManager(this.components);
             this.checkBoxOK = new System.Windows.Forms.CheckBox();
             this.checkBoxYes = new System.Windows.Forms.CheckBox();
@@ -144,63 +137,7 @@
             this.buttonShowTaskDialog.Text = "Show TaskDialog";
             this.buttonShowTaskDialog.UseVisualStyleBackColor = true;
             this.buttonShowTaskDialog.Click += new System.EventHandler(this.buttonShowTaskDialog_Click);
-            // 
-            // kryptonTaskDialog
-            // 
-            this.kryptonTaskDialog.CheckboxText = null;
-            this.kryptonTaskDialog.CommandButtons.AddRange(new Krypton.Toolkit.KryptonTaskDialogCommand[] {
-            this.kryptonTaskDialogCommand4,
-            this.kryptonTaskDialogCommand5,
-            this.kryptonTaskDialogCommand6});
-            this.kryptonTaskDialog.CommonButtons = Krypton.Toolkit.TaskDialogButtons.OK;
-            this.kryptonTaskDialog.Content = null;
-            this.kryptonTaskDialog.DefaultButton = Krypton.Toolkit.TaskDialogButtons.None;
-            this.kryptonTaskDialog.DefaultRadioButton = null;
-            this.kryptonTaskDialog.FooterHyperlink = null;
-            this.kryptonTaskDialog.FooterIcon = Krypton.Toolkit.KryptonMessageBoxIcon.None;
-            this.kryptonTaskDialog.FooterText = null;
-            this.kryptonTaskDialog.Icon = Krypton.Toolkit.KryptonMessageBoxIcon.None;
-            this.kryptonTaskDialog.MainInstruction = null;
-            this.kryptonTaskDialog.RadioButtons.AddRange(new Krypton.Toolkit.KryptonTaskDialogCommand[] {
-            this.kryptonTaskDialogCommand1,
-            this.kryptonTaskDialogCommand2,
-            this.kryptonTaskDialogCommand3});
-            this.kryptonTaskDialog.TextExtra = "Ctrl+C to copy";
-            this.kryptonTaskDialog.WindowTitle = null;
-            // 
-            // kryptonTaskDialogCommand4
-            // 
-            this.kryptonTaskDialogCommand4.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.kryptonTaskDialogCommand4.Image = global::KryptonTaskDialogExamples.Properties.Resources.arrow_right_green;
-            this.kryptonTaskDialogCommand4.Text = "Command One";
-            // 
-            // kryptonTaskDialogCommand5
-            // 
-            this.kryptonTaskDialogCommand5.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.kryptonTaskDialogCommand5.Image = global::KryptonTaskDialogExamples.Properties.Resources.arrow_right_green;
-            this.kryptonTaskDialogCommand5.Text = "Command Two";
-            // 
-            // kryptonTaskDialogCommand6
-            // 
-            this.kryptonTaskDialogCommand6.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.kryptonTaskDialogCommand6.Image = global::KryptonTaskDialogExamples.Properties.Resources.arrow_right_green;
-            this.kryptonTaskDialogCommand6.Text = "Command Three";
-            // 
-            // kryptonTaskDialogCommand1
-            // 
-            this.kryptonTaskDialogCommand1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.kryptonTaskDialogCommand1.Text = "First button";
-            // 
-            // kryptonTaskDialogCommand2
-            // 
-            this.kryptonTaskDialogCommand2.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.kryptonTaskDialogCommand2.Text = "Second option";
-            // 
-            // kryptonTaskDialogCommand3
-            // 
-            this.kryptonTaskDialogCommand3.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.kryptonTaskDialogCommand3.Text = "Third option";
-            // 
+            //
             // kryptonManager
             // 
             this.kryptonManager.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2010Blue;
@@ -598,7 +535,6 @@
         private System.Windows.Forms.TextBox textBoxMainInstructions;
         private System.Windows.Forms.TextBox textBoxContent;
         private System.Windows.Forms.Button buttonShowTaskDialog;
-        private Krypton.Toolkit.KryptonTaskDialog kryptonTaskDialog;
         private Krypton.Toolkit.KryptonManager kryptonManager;
         private System.Windows.Forms.CheckBox checkBoxOK;
         private System.Windows.Forms.CheckBox checkBoxYes;
@@ -623,12 +559,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox checkBoxCommandButtons;
         private System.Windows.Forms.CheckBox checkBoxRadioButtons;
-        private Krypton.Toolkit.KryptonTaskDialogCommand kryptonTaskDialogCommand1;
-        private Krypton.Toolkit.KryptonTaskDialogCommand kryptonTaskDialogCommand2;
-        private Krypton.Toolkit.KryptonTaskDialogCommand kryptonTaskDialogCommand3;
-        private Krypton.Toolkit.KryptonTaskDialogCommand kryptonTaskDialogCommand4;
-        private Krypton.Toolkit.KryptonTaskDialogCommand kryptonTaskDialogCommand5;
-        private Krypton.Toolkit.KryptonTaskDialogCommand kryptonTaskDialogCommand6;
         private System.Windows.Forms.GroupBox groupBoxPalette;
         private System.Windows.Forms.RadioButton paletteSparkleOrange;
         private System.Windows.Forms.RadioButton palette2010Black;

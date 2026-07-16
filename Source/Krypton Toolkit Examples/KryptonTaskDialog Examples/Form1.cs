@@ -42,61 +42,111 @@ namespace KryptonTaskDialogExamples
 
         private void buttonShowTaskDialog_Click(object sender, EventArgs e)
         {
-            TaskDialogButtons commonButtons = TaskDialogButtons.None;
+            // Bastion: ported from the pre-v105 component-based KryptonTaskDialog API
+            // (KryptonTaskDialogCommand, TaskDialogButtons) to the element-based
+            // KryptonTaskDialog shipped by the current core toolkit.
+            var commonButtons = KryptonTaskDialogCommonButtonTypes.None;
             if (checkBoxOK.Checked)
             {
-                commonButtons |= TaskDialogButtons.OK;
+                commonButtons |= KryptonTaskDialogCommonButtonTypes.OK;
             }
 
             if (checkBoxYes.Checked)
             {
-                commonButtons |= TaskDialogButtons.Yes;
+                commonButtons |= KryptonTaskDialogCommonButtonTypes.Yes;
             }
 
             if (checkBoxNo.Checked)
             {
-                commonButtons |= TaskDialogButtons.No;
+                commonButtons |= KryptonTaskDialogCommonButtonTypes.No;
             }
 
             if (checkBoxCancel.Checked)
             {
-                commonButtons |= TaskDialogButtons.Cancel;
+                commonButtons |= KryptonTaskDialogCommonButtonTypes.Cancel;
             }
 
             if (checkBoxClose.Checked)
             {
-                commonButtons |= TaskDialogButtons.Close;
+                // The element-based dialog has no separate Close button; Cancel is the nearest equivalent.
+                commonButtons |= KryptonTaskDialogCommonButtonTypes.Cancel;
             }
 
             if (checkBoxRetry.Checked)
             {
-                commonButtons |= TaskDialogButtons.Retry;
+                commonButtons |= KryptonTaskDialogCommonButtonTypes.Retry;
             }
 
-            kryptonTaskDialog.RadioButtons.Clear();
-            if (checkBoxRadioButtons.Checked)
+            using (var taskDialog = new KryptonTaskDialog())
             {
-                kryptonTaskDialog.RadioButtons.AddRange(new KryptonTaskDialogCommand[] { kryptonTaskDialogCommand1, kryptonTaskDialogCommand2, kryptonTaskDialogCommand3 });
-            }
+                taskDialog.HideAllElements();
 
-            kryptonTaskDialog.CommandButtons.Clear();
-            if (checkBoxCommandButtons.Checked)
-            {
-                kryptonTaskDialog.CommandButtons.AddRange(new KryptonTaskDialogCommand[] { kryptonTaskDialogCommand4, kryptonTaskDialogCommand5, kryptonTaskDialogCommand6 });
-            }
+                taskDialog.Dialog.Form.Text = textBoxCaption.Text;
 
-            kryptonTaskDialog.WindowTitle = textBoxCaption.Text;
-            kryptonTaskDialog.MainInstruction = textBoxMainInstructions.Text;
-            kryptonTaskDialog.Content = textBoxContent.Text;
-            kryptonTaskDialog.Icon = (KryptonMessageBoxIcon)Enum.Parse(typeof(KryptonMessageBoxIcon), comboBoxIcon.Text);
-            kryptonTaskDialog.CommonButtons = commonButtons;
-            kryptonTaskDialog.CheckboxText = textBoxCheckBoxText.Text;
-            kryptonTaskDialog.CheckboxState = checkBoxInitialState.Checked;
-            kryptonTaskDialog.FooterText = textBoxFooterText.Text;
-            kryptonTaskDialog.FooterHyperlink = textBoxFooterHyperlink.Text;
-            kryptonTaskDialog.FooterIcon = (KryptonMessageBoxIcon)Enum.Parse(typeof(KryptonMessageBoxIcon), comboBoxFooterIcon.Text);
-            kryptonTaskDialog.ShowDialog(this);
+                taskDialog.Heading.Text = textBoxMainInstructions.Text;
+                taskDialog.Heading.IconType = MapIcon(comboBoxIcon.Text);
+                taskDialog.Heading.Visible = true;
+
+                taskDialog.Content.Text = textBoxContent.Text;
+                taskDialog.Content.Visible = textBoxContent.Text.Length > 0;
+
+                if (checkBoxRadioButtons.Checked)
+                {
+                    // The radio button group of the old API is presented as a combo box selection.
+                    taskDialog.ComboBox.Items.Clear();
+                    taskDialog.ComboBox.Items.AddRange(new object[] { "First button", "Second option", "Third option" });
+                    taskDialog.ComboBox.Visible = true;
+                }
+
+                if (checkBoxCommandButtons.Checked)
+                {
+                    taskDialog.CommandLinkButtons.Buttons.Clear();
+                    foreach (var commandText in new[] { "Command One", "Command Two", "Command Three" })
+                    {
+                        var commandButton = new KryptonCommandLinkButton
+                        {
+                            Text = commandText,
+                            DialogResult = DialogResult.OK
+                        };
+                        taskDialog.CommandLinkButtons.Buttons.Add(commandButton);
+                    }
+
+                    taskDialog.CommandLinkButtons.Visible = true;
+                }
+
+                if (!string.IsNullOrEmpty(textBoxCheckBoxText.Text))
+                {
+                    taskDialog.CheckBox.Text = textBoxCheckBoxText.Text;
+                    taskDialog.CheckBox.Checked = checkBoxInitialState.Checked;
+                    taskDialog.CheckBox.Visible = true;
+                }
+
+                if (!string.IsNullOrEmpty(textBoxFooterHyperlink.Text))
+                {
+                    taskDialog.HyperLink.Url = textBoxFooterHyperlink.Text;
+                    taskDialog.HyperLink.Visible = true;
+                }
+
+                taskDialog.FooterBar.CommonButtons.Buttons = commonButtons;
+                taskDialog.FooterBar.Footer.FootNoteText = textBoxFooterText.Text;
+                taskDialog.FooterBar.Footer.IconType = MapIcon(comboBoxFooterIcon.Text);
+                taskDialog.FooterBar.Visible = true;
+
+                taskDialog.ShowDialog(this);
+            }
         }
+
+        /// <summary>Maps the old KryptonMessageBoxIcon names shown in the UI onto the new icon set.</summary>
+        private static KryptonTaskDialogIconType MapIcon(string iconName) => iconName switch
+        {
+            "Information" => KryptonTaskDialogIconType.ShieldInformation,
+            "Warning" => KryptonTaskDialogIconType.ShieldWarning,
+            "Error" or "Stop" or "Hand" => KryptonTaskDialogIconType.ShieldError,
+            "Question" => KryptonTaskDialogIconType.ShieldHelp,
+            "Shield" => KryptonTaskDialogIconType.ShieldUac,
+            "None" => KryptonTaskDialogIconType.None,
+            _ => KryptonTaskDialogIconType.ShieldKrypton
+        };
 
         private void buttonFill_Click(object sender, EventArgs e)
         {

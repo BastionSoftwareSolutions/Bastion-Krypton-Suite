@@ -156,8 +156,21 @@ namespace TestMessageBoxClipping
             {
                 MessageBox.Show(this, ex.StackTrace, ex.Message);
                 KryptonMessageBox.Show(this, ex.StackTrace, ex.Message);
-                KryptonTaskDialog.Show(ex.Message, "MinInstruction", ex.StackTrace!, KryptonMessageBoxIcon.Stop,
-                    TaskDialogButtons.Close, true);
+                // Bastion: ported to the element-based KryptonTaskDialog API of the current core toolkit
+                // (the static KryptonTaskDialog.Show overload no longer exists).
+                using (var taskDialog = new KryptonTaskDialog())
+                {
+                    taskDialog.Dialog.Form.Text = ex.Message;
+                    taskDialog.Heading.Text = "MinInstruction";
+                    taskDialog.Heading.IconType = KryptonTaskDialogIconType.ShieldError;
+                    taskDialog.Heading.Visible = true;
+                    taskDialog.Content.Text = ex.StackTrace!;
+                    taskDialog.Content.Visible = true;
+                    taskDialog.FooterBar.CommonButtons.Buttons = KryptonTaskDialogCommonButtonTypes.Cancel;
+                    taskDialog.FooterBar.CommonButtons.CancelButton = KryptonTaskDialogCommonButtonTypes.Cancel;
+                    taskDialog.FooterBar.Visible = true;
+                    taskDialog.ShowDialog(this);
+                }
             }
         }
 
