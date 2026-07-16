@@ -117,10 +117,11 @@ function Invoke-TestRun([string]$projectKey, [string]$tfm) {
     $total = ''; $passed = ''; $failed = ''
 
     try {
-        if ($tfm -eq 'net46') {
-            # net46 runner mechanism: self-executing NUnitLite exe (dotnet-test floor is net462).
-            $exe = Join-Path $testsRoot "$name\bin\Release\net46\$name.exe"
-            if (-not (Test-Path $exe)) { throw "net46 NUnitLite runner not found: $exe (build first)." }
+        $nunitLiteTfms = @('net46', 'net5.0-windows', 'net6.0-windows', 'net7.0-windows')
+        if ($tfm -in $nunitLiteTfms) {
+            # NUnitLite runner mechanism: net46 (dotnet-test floor is net462) and net5/6/7
+            # (dotnet test's testhost launches via the SYSTEM muxer, which cannot see the
+            # private legacy runtimes — the NUnitLite exe runs on the TRUE runtime instead).
             $resultFile = Join-Path $artefacts 'TestResult.xml'
             # Category selection (spec §6.3): NUnitLite test-selection-language filter.
             $nunitArgs = @('--result', $resultFile, '--work', $artefacts)
@@ -130,7 +131,17 @@ function Invoke-TestRun([string]$projectKey, [string]$tfm) {
             }
             # Route runner stdout through Write-Host so it does not pollute the function's
             # pipeline output (the returned summary object must be the only pipeline item).
-            & $exe @nunitArgs | ForEach-Object { Write-Host $_ }
+            if ($tfm -eq 'net46') {
+                $exe = Join-Path $testsRoot "$name\bin\Release\net46\$name.exe"
+                if (-not (Test-Path $exe)) { throw "net46 NUnitLite runner not found: $exe (build first)." }
+                & $exe @nunitArgs | ForEach-Object { Write-Host $_ }
+            }
+            else {
+                $legacyDotnet = 'D:\Krypton-Ultimate\Tools\dotnet-legacy\dotnet.exe'
+                $dll = Join-Path $testsRoot "$name\bin\Release\$tfm\$name.dll"
+                if (-not (Test-Path $dll)) { throw "$tfm NUnitLite runner not found: $dll (build first)." }
+                & $legacyDotnet exec $dll @nunitArgs | ForEach-Object { Write-Host $_ }
+            }
             $exit = $LASTEXITCODE
             if (Test-Path $resultFile) {
                 $xml = [xml](Get-Content $resultFile)

@@ -356,6 +356,22 @@ rule: under attack a contract exception is graceful; defect-class exceptions
   `AdversarialPolicy.cs` with a FIXME referencing this entry; all other attack stages
   still run against it.
 
+### A9. [UPSTREAM] OPEN — theme-switch storm (net48): working set grows ~4-5 MB per full palette cycle, unreclaimed by full GC
+- **Repro:** `ThemeSwitchStormTests.EveryControlForm_ThemeStorm_25Rounds` on net48 (quiet
+  machine, 12m43s): GC-settled working-set samples climbed 1469 → 1582 MB across the 25
+  post-warmup rounds and were strictly monotonic across the final 10 (+40 MB), failing the
+  fixture's own bounded-working-set assertion. That is ~70 KB retained per global palette
+  switch (62 switches/round, 74 live controls, full `GC.Collect`×2 +
+  `WaitForPendingFinalizers` every round). GDI/USER handles stayed within slack throughout
+  — memory retention, not handle leakage. The identical test **passed on net8.0-windows**
+  (39m34s), so the retention (or its GC visibility) is Framework-side.
+- **Assessment:** attribution needs a memory-profiler/dump-diff session (candidate
+  suspects: per-switch event-subscription accumulation, static palette/renderer caches
+  keyed per switch, retained render surfaces). Not fixable by pattern-matching; deferred.
+- **Disposition:** OPEN. Deliberately **no** FIXME skip: the endurance storm's assertion
+  is the repro and the detector — skipping it would hide the only signal. The default
+  3-round storm is unaffected (its window never fills) and stays green everywhere.
+
 ### Phase 5c triage notes
 - The adversarial acceptance rule (contract exceptions are graceful; defect-class
   exceptions are findings) and its per-entry-justified skip-list live in
@@ -381,6 +397,16 @@ rule: under attack a contract exception is graceful; defect-class exceptions
   (`XmlException` et al.) — no fixes required; outcomes are printed per run.
 - The theme-switch storm excludes `PaletteMode.Global`/`Custom` from the cycle by design
   (indirection / requires a palette instance); every other palette mode is cycled.
+- **Endurance runs under machine contention: VSTest "test host process crashed" aborts —
+  environment, not product.** Two net8 endurance attempts and one net48 attempt aborted
+  with VSTest's host-crash report while this machine concurrently ran two other full
+  suites (plus an orphaned 5 GB diagnostic run). Every implicated test — including the
+  25-round theme storm and the 2,500-cycle Docking scenario that were in flight during
+  the aborts — subsequently **passed in full** when re-run without contention, with flat
+  GDI/USER handle counts (externally sampled at ~560/~206 throughout a 21-minute storm)
+  and no WER/event-log crash record ever produced. Long-running endurance passes should
+  be executed without concurrent suite runs; recorded here so a future abort is compared
+  against this signature before being triaged as a product defect.
 
 ## Consumer-packaging findings (not bugs; for CHANGES.md and package metadata)
 

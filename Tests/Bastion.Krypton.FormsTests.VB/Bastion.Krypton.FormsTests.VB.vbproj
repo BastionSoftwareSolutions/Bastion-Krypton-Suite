@@ -1,4 +1,4 @@
-<!--
+﻿<!--
   © Bastion Software Solutions Ltd 2026. Bastion Krypton Suite test suite (spec §6.1).
   VB.NET forms tests: the VB variant of the generated designer-style family forms
   (compiling the VB designer path matters — spec §6.1). Generated\*.vb is emitted by
@@ -15,11 +15,11 @@
     <BastionReferenceKrypton>true</BastionReferenceKrypton>
     <BastionNUnitProject>true</BastionNUnitProject>
     <!-- net46 runner mechanism: self-executing NUnitLite console exe (see Tests\README.md). -->
-    <OutputType Condition="'$(TargetFramework)' == 'net46'">Exe</OutputType>
-    <StartupObject Condition="'$(TargetFramework)' == 'net46'">Bastion.Krypton.FormsTests.VB.NUnitLiteMain</StartupObject>
+    <OutputType Condition="'$(BastionUseNUnitLite)' == 'true'">Exe</OutputType>
+    <StartupObject Condition="'$(BastionUseNUnitLite)' == 'true'">Bastion.Krypton.FormsTests.VB.NUnitLiteMain</StartupObject>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != 'net46'">
+  <ItemGroup Condition="'$(BastionUseNUnitLite)' != 'true'">
     <Compile Remove="NUnitLiteMain.vb" />
   </ItemGroup>
 

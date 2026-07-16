@@ -1,4 +1,4 @@
-<!--
+﻿<!--
   © Bastion Software Solutions Ltd 2026. Bastion Krypton Suite test suite (spec §6.1/§6.3).
   Phase 5c adversarial suite: extreme property values, null/disposal abuse, theme-switch
   storms, threading misuse, RTL/scaling torture, ribbon/docking scale + corrupted-XML
@@ -22,10 +22,10 @@
     <BastionReferenceKrypton>true</BastionReferenceKrypton>
     <BastionNUnitProject>true</BastionNUnitProject>
     <!-- net46 runner mechanism: self-executing NUnitLite console exe (see Tests\README.md). -->
-    <OutputType Condition="'$(TargetFramework)' == 'net46'">Exe</OutputType>
+    <OutputType Condition="'$(BastionUseNUnitLite)' == 'true'">Exe</OutputType>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != 'net46'">
+  <ItemGroup Condition="'$(BastionUseNUnitLite)' != 'true'">
     <Compile Remove="NUnitLiteMain.cs" />
   </ItemGroup>
 

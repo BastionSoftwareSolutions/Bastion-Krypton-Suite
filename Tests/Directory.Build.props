@@ -31,4 +31,12 @@
     <SuppressTfmSupportBuildErrors>true</SuppressTfmSupportBuildErrors>
   </PropertyGroup>
 
+  <!-- TFMs that run as self-executing NUnitLite runners instead of dotnet test:
+       net46 (dotnet-test tooling floor is net462) and net5/6/7 (dotnet test launches its
+       testhost via the SYSTEM dotnet muxer, which cannot see the private legacy runtimes in
+       Tools\dotnet-legacy — NUnitLite exes run on the TRUE runtime via that muxer directly). -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net46' or '$(TargetFramework)' == 'net5.0-windows' or '$(TargetFramework)' == 'net6.0-windows' or '$(TargetFramework)' == 'net7.0-windows'">
+    <BastionUseNUnitLite>true</BastionUseNUnitLite>
+  </PropertyGroup>
+
 </Project>

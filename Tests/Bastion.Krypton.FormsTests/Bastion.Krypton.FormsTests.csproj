@@ -1,4 +1,4 @@
-<!--
+﻿<!--
   © Bastion Software Solutions Ltd 2026. Bastion Krypton Suite test suite (spec §6.1).
   C# forms tests: every instantiable public control of the five core assemblies on real forms
   via designer-style InitializeComponent code (Generated\*.cs — emitted by Tests\Tools\FormsTestGen,
@@ -13,10 +13,10 @@
     <BastionReferenceKrypton>true</BastionReferenceKrypton>
     <BastionNUnitProject>true</BastionNUnitProject>
     <!-- net46 runner mechanism: self-executing NUnitLite console exe (see Tests\README.md). -->
-    <OutputType Condition="'$(TargetFramework)' == 'net46'">Exe</OutputType>
+    <OutputType Condition="'$(BastionUseNUnitLite)' == 'true'">Exe</OutputType>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != 'net46'">
+  <ItemGroup Condition="'$(BastionUseNUnitLite)' != 'true'">
     <Compile Remove="NUnitLiteMain.cs" />
   </ItemGroup>
 

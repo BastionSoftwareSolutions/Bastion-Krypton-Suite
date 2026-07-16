@@ -36,16 +36,18 @@
     <PackageReference Include="NUnit" Version="3.14.0" />
   </ItemGroup>
 
-  <!-- dotnet-test tooling floor is net462, so every TFM except net46 runs via
-       Microsoft.NET.Test.Sdk + the NUnit adapter. -->
-  <ItemGroup Condition="'$(BastionNUnitProject)' == 'true' and '$(TargetFramework)' != 'net46'">
+  <!-- dotnet test (Test.Sdk + adapter) for TFMs the tooling can actually host;
+       self-executing NUnitLite runners otherwise (net46 + net5/6/7 — see Directory.Build.props). -->
+  <ItemGroup Condition="'$(BastionNUnitProject)' == 'true' and '$(BastionUseNUnitLite)' != 'true'">
     <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
   </ItemGroup>
 
-  <!-- net46 fallback: a self-executing NUnitLite console runner (bin\Release\net46\<name>.exe). -->
-  <ItemGroup Condition="'$(BastionNUnitProject)' == 'true' and '$(TargetFramework)' == 'net46'">
+  <ItemGroup Condition="'$(BastionNUnitProject)' == 'true' and '$(BastionUseNUnitLite)' == 'true'">
     <PackageReference Include="NUnitLite" Version="3.14.0" />
   </ItemGroup>
+
+  <!-- OutputType for NUnitLite TFMs is set per-project (csproj/vbproj): it must be known
+       during SDK props evaluation, which is too early for this file. -->
 
 </Project>
