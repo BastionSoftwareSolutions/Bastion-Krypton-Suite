@@ -24,14 +24,23 @@
 
 .PARAMETER All
     Sweep the functional projects (UnitTests, FormsTests, FormsTests.VB, FunctionalTests)
-    across all 11 TFMs and print a summary table. StressTests is excluded (Phase 5c
-    placeholder shell).
+    across all 11 TFMs and print a summary table. StressTests is excluded (run it
+    explicitly: it is the long-running adversarial suite of spec §6.3).
+
+.PARAMETER Category
+    Test-category selection (spec §6.3; matters for StressTests, harmless elsewhere):
+      Default   - everything except [Category("Endurance")] (the default).
+      Endurance - only the extra-long endurance tests (25-round theme storm,
+                  2,500 create/destroy cycles, 100k-row grids).
+      All       - no category filter.
 
 .PARAMETER NoBuild
     Skip the build step (reuse existing Release outputs).
 
 .EXAMPLE
     .\run-tests.ps1 -Project FormsTests -Tfm net48
+.EXAMPLE
+    .\run-tests.ps1 -Project StressTests -Tfm net48 -Category Endurance
 .EXAMPLE
     .\run-tests.ps1 -All
 #>
@@ -46,6 +55,9 @@ param(
     [string]$Tfm = 'net8.0-windows',
 
     [switch]$All,
+
+    [ValidateSet('Default', 'Endurance', 'All')]
+    [string]$Category = 'Default',
 
     [switch]$NoBuild
 )
@@ -100,7 +112,7 @@ function Invoke-TestRun([string]$projectKey, [string]$tfm) {
     New-Item -ItemType Directory -Force -Path $artefacts | Out-Null
     $env:BASTION_TEST_ARTIFACTS = Join-Path $artefacts 'screenshots'
 
-    Write-Host "Running $projectKey on $tfm ..." -ForegroundColor Cyan
+    Write-Host "Running $projectKey on $tfm (category: $Category) ..." -ForegroundColor Cyan
     $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
     $total = ''; $passed = ''; $failed = ''
 
@@ -110,9 +122,15 @@ function Invoke-TestRun([string]$projectKey, [string]$tfm) {
             $exe = Join-Path $testsRoot "$name\bin\Release\net46\$name.exe"
             if (-not (Test-Path $exe)) { throw "net46 NUnitLite runner not found: $exe (build first)." }
             $resultFile = Join-Path $artefacts 'TestResult.xml'
+            # Category selection (spec §6.3): NUnitLite test-selection-language filter.
+            $nunitArgs = @('--result', $resultFile, '--work', $artefacts)
+            switch ($Category) {
+                'Default'   { $nunitArgs += @('--where', 'cat != Endurance') }
+                'Endurance' { $nunitArgs += @('--where', 'cat == Endurance') }
+            }
             # Route runner stdout through Write-Host so it does not pollute the function's
             # pipeline output (the returned summary object must be the only pipeline item).
-            & $exe --result $resultFile --work $artefacts | ForEach-Object { Write-Host $_ }
+            & $exe @nunitArgs | ForEach-Object { Write-Host $_ }
             $exit = $LASTEXITCODE
             if (Test-Path $resultFile) {
                 $xml = [xml](Get-Content $resultFile)
@@ -124,8 +142,14 @@ function Invoke-TestRun([string]$projectKey, [string]$tfm) {
         else {
             $resultFile = Join-Path $artefacts 'results.trx'
             if (Test-Path $resultFile) { Remove-Item $resultFile -Force }
-            dotnet test $projFile -f $tfm -c Release --no-build --logger 'trx;LogFileName=results.trx' --results-directory $artefacts |
-                ForEach-Object { Write-Host $_ }
+            # Category selection (spec §6.3): VSTest TestCategory filter.
+            $dotnetArgs = @('test', $projFile, '-f', $tfm, '-c', 'Release', '--no-build',
+                            '--logger', 'trx;LogFileName=results.trx', '--results-directory', $artefacts)
+            switch ($Category) {
+                'Default'   { $dotnetArgs += @('--filter', 'TestCategory!=Endurance') }
+                'Endurance' { $dotnetArgs += @('--filter', 'TestCategory=Endurance') }
+            }
+            dotnet @dotnetArgs | ForEach-Object { Write-Host $_ }
             $exit = $LASTEXITCODE
             if (Test-Path $resultFile) {
                 $trx = [xml](Get-Content $resultFile)

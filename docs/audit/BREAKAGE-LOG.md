@@ -222,6 +222,166 @@ need data/designer context — now on the justified skip/deny/allow lists in
   `Rtf`/`SelectedRtf` (well-formed RTF), `PromptChar`/`PasswordChar` (distinct canonical
   chars), `StarSize` (`"50,50"`).
 
+## Phase 5c adversarial findings (16 July 2026)
+
+Source: `Tests/Bastion.Krypton.StressTests` (spec §6.3 — extreme values, null/disposal
+abuse, theme-switch storm, threading misuse, RTL/scaling, ribbon/docking scale + corrupted
+XML, Extended-module attacks, persistence round-trips, rapid create/destroy). Acceptance
+rule: under attack a contract exception is graceful; defect-class exceptions
+(NRE/index/arithmetic/cast/AV) or hangs/crashes are findings.
+
+### A1. [UPSTREAM] KryptonCalendar: extreme view range corrupts state; next paint NREs and kills the process
+- **Repro:** `KryptonCalendar.SetViewRange(DateTime.MinValue, DateTime.MinValue.AddDays(20))`
+  (or any range whose week-aligned day grid falls outside DateTime's representable range) on
+  a shown calendar, then paint (`DrawToBitmap`/`WM_PRINTCLIENT`). `UpdateDaysAndWeeks` had
+  already committed `DaysMode = Short` and replaced `_days` with a **null-filled array**
+  before `ViewStart.AddDays(-preDays…)` threw mid-loop; the rejection left the control
+  corrupt, and the next paint crashed with `NullReferenceException` in
+  `CalendarRenderer.OnDrawDayNameHeaders` (`_dayNameHeaderColumns` never populated). On
+  .NET 8 the NRE escaping `WM_PRINTCLIENT` **took down the whole test host** — a real
+  app dies the same way.
+- **Affects:** all TFMs; pre-existing upstream (Extended Toolkit `Calendar` module).
+- **Fix (two layers, Extended `bastion/multitarget`):**
+  1. `KryptonCalendar.UpdateDaysAndWeeks` is now transactional — the range is validated and
+     the day/week arrays are built into locals *before* any state (`_daysMode`, `_days`,
+     `_weeks`) is committed, and a grid that cannot be represented by `DateTime` is rejected
+     up front with `ArgumentOutOfRangeException` (also replacing the bare
+     `throw new Exception(...)` for the existing 1..MaximumViewDays validation — narrower,
+     contract-correct type; still caught by any existing `catch (Exception)`).
+  2. `CalendarRenderer._dayNameHeaderColumns` initialised to `new Rectangle[7]` so a paint
+     arriving before the first short-days layout pass can never dereference null
+     (`KryptonCalendar.cs`, `CalendarRenderer.cs`).
+
+### A2. [UPSTREAM] KryptonMonthCalendar: extreme Size hangs the UI thread (unbounded month layout)
+- **Repro:** `KryptonMonthCalendar.Size = new Size(int.MaxValue, int.MaxValue)` on a shown
+  form — never returns. `AdjustSize` computed months-to-fit straight from the raw pixel
+  width (`~int.MaxValue / singleMonthWidth` ≈ millions), `CalendarDimensions` accepted it,
+  and `ViewLayoutMonths.SyncMonths` set about building millions of month views; the
+  recomputed pixel size also overflowed Int32 unchecked.
+- **Affects:** all TFMs; pre-existing upstream.
+- **Fix:** `AdjustSize` now applies the documented WinForms `MonthCalendar` contract — at
+  most 12 months displayed (per-dimension clamp then product clamp) — before committing
+  `CalendarDimensions` (`KryptonMonthCalendar.cs`, Standard-Toolkit `bastion/multitarget`).
+
+### A3. [UPSTREAM] KryptonTableLayoutPanel: extreme Size crashes the process from WM_WINDOWPOSCHANGED (+ snapshot bitmap leak)
+- **Repro:** set an extreme `Size` on a hosted `KryptonTableLayoutPanel` —
+  `BackGroundPanel_Refreshed` fed the raw size into `new Bitmap(w, h, Format32bppRgb)`,
+  whose `ArgumentException` escaped `OnSizeChanged` inside `WM_WINDOWPOSCHANGED` and took
+  the whole process down (the #774 guard only caught `== 0`, not negative/absurd values).
+  Additionally the snapshot bitmap was re-created on **every** resize/refresh and never
+  disposed — a per-resize GDI/unmanaged-memory leak.
+- **Affects:** all TFMs; pre-existing upstream.
+- **Fix:** guard non-positive sizes, cap the snapshot at the virtual-screen bounds (nothing
+  beyond it can become visible background), and dispose the previous snapshot on
+  replacement (`KryptonTableLayoutPanel.cs`, Standard-Toolkit `bastion/multitarget`).
+
+### A4. [UPSTREAM] KryptonForm leaks its four shadow windows when disposed without closing (4 USER handles per lifecycle)
+- **Repro:** `using (var f = new KryptonForm()) { f.Show(); }` in a loop — USER handle count
+  grows by exactly 4 per iteration (the rapid create/show/dispose attack: +2,000 over 500
+  cycles, all five family scenarios; a long-lived process eventually hits the 10,000
+  USER-object limit and dies). `ShadowManager` creates four `VisualShadowBase` WS_POPUP
+  windows on `Form.Load` but destroys them only in `Form.Closing` — which never fires when
+  a form is disposed without being closed (a fully legal WinForms lifecycle). Verified
+  against a plain WinForms `Form` (delta 0) and a never-shown `KryptonForm` (delta 0).
+- **Affects:** all TFMs; pre-existing upstream.
+- **Fix:** `ShadowManager` also subscribes `Form.Disposed` and tears the shadow windows
+  down there (idempotent with the Closing path) (`ShadowManager.cs`, Standard-Toolkit
+  `bastion/multitarget`).
+
+### A5. [UPSTREAM] KryptonToastNotificationPopup.Dispose silently no-ops during the appear animation (leaks the popup window; later theme change crashes)
+- **Repro:** `popup.PopUp(); popup.Dispose();` while the appear animation is running.
+  `Dispose(bool)` hit `if (_isAppearing) { _markedForDisposed = true; return; }` — it
+  disposed nothing and **did not even call `base.Dispose`**, deferring teardown to a later
+  animation tick that never comes if the message loop stops (application/thread shutdown).
+  The undisposed popup form stayed subscribed to the global palette events; the next
+  `KryptonManager.GlobalCustomPalette`/theme change then reached a window whose owning
+  thread was gone and crashed (see A6). The toast-spam attack (150 popups disposed
+  mid-animation) reproduced this deterministically.
+- **Affects:** Extended Toolkit `Notifications` module, all TFMs; pre-existing upstream.
+- **Fix:** `Dispose` now stops both timers, unhooks their ticks and disposes the popup
+  window synchronously — Dispose must dispose; the deferred-dispose flag path is gone
+  (`KryptonToastNotificationPopup.cs`, Extended-Toolkit `bastion/multitarget`).
+
+### A6. [UPSTREAM] VisualForm.InvalidateNonClient: GDI+ "OutOfMemoryException" on a dead window handle crashes theme changes
+- **Repro:** any leaked `VisualForm`-derived window whose owning thread has ended (A5 was
+  one producer) + a global palette change → `Graphics.FromHwnd(Handle)` throws
+  `OutOfMemoryException` (GDI+ maps a failed `GetDC` — dead HWND or DC-pool exhaustion —
+  to OOM) and the theme-change notification crashes the caller.
+- **Affects:** all TFMs; pre-existing upstream.
+- **Fix:** `InvalidateNonClient` treats the whole acquire-region-redraw block as
+  best-effort: `OutOfMemoryException` is caught and logged alongside the existing
+  `InvalidOperationException` handler, and the `Graphics` is disposed in the same
+  `finally` (`VisualForm.cs`, Standard-Toolkit `bastion/multitarget`).
+
+### A7. [UPSTREAM] VisualPanel: disposing the control from inside its own Paint event crashes the process
+- **Repro:** subscribe `Paint` on any `VisualPanel`-derived control (`KryptonPanel`,
+  `KryptonGroup` panels, …), dispose the control inside the handler, let painting continue —
+  `OnPaint` re-used the view pipeline after `base.OnPaint` without re-checking: disposal
+  released the renderer and `ViewManager.Paint(Renderer!, e)` (note the null-forgiving
+  operator hiding it) threw `ArgumentNullException` out of `WM_PAINT` → process death.
+  `VisualContainerControlBase` re-checks disposal at exactly this point;
+  `VisualPanel` did not.
+- **Affects:** all TFMs; pre-existing upstream.
+- **Fix:** `VisualPanel.OnPaint` re-validates `!IsDisposed && !Disposing`, `ViewManager`
+  and `Renderer` after `base.OnPaint` before entering the view pipeline
+  (`VisualPanel.cs`, Standard-Toolkit `bastion/multitarget`).
+
+### A8. [UPSTREAM] SaveLayoutToArray / SaveConfigToArray / palette Export: MemoryStream.GetBuffer() ships NUL-padded XML
+- **Repro:** `KryptonWorkspace.SaveLayoutToArray`, `KryptonDockingManager.SaveConfigToArray`
+  and `KryptonCustomPaletteBase`'s byte-array `Export` all returned `ms.GetBuffer()` — the
+  **capacity-sized** internal buffer — so the returned "XML" carries trailing `0x00`
+  padding bytes. The toolkit's own loaders stop at the XML document end and mask it, but
+  any strict consumer fails: parsing the array with `XmlReader`/`XmlDocument`, or writing
+  the array to a file that is later parsed strictly, throws `XmlException` ("'.',
+  hexadecimal value 0x00, is an invalid character"). Found by the `RibbonDockingScaleTests`
+  and `SerialisationRoundTripTests` round-trip comparisons, which parse the saved arrays.
+- **Affects:** all TFMs; pre-existing upstream (three copies of the same pattern).
+- **Fix:** `ms.ToArray()` at all three sites (`KryptonWorkspace.cs`,
+  `KryptonDockingManager.cs`, `KryptonCustomPaletteBase.cs`, Standard-Toolkit
+  `bastion/multitarget`).
+
+### A8. [UPSTREAM] OPEN — KryptonToolkitPoweredByControl: extreme sizes lay out pathologically slowly (~90 s)
+- **Repro:** `control.Size = new Size(int.MaxValue, int.MaxValue)` on a shown
+  `KryptonToolkitPoweredByControl` — the dock-filled `TableLayoutPanel` of AutoSize
+  `KryptonWrapLabel`s hands the framework text-measure a ~2-billion-pixel wrap constraint;
+  the layout **completes** but takes ~85–90 s on every TFM (measured net46/net48/net8),
+  crossing the suite's 120 s per-control watchdog on net46's slower GDI path when combined
+  with the 500 pt font attack (~30 s).
+- **Assessment:** bounded slowness, not a hang; the cost is in framework
+  `TextRenderer.MeasureText` under an absurd constraint, reached through Krypton's AutoSize
+  wrap labels. A real fix means clamping the wrap-measure constraint inside
+  `KryptonWrapLabel` (e.g. to the virtual-screen width) — a behavioural, upstream-facing
+  design call not taken unilaterally here.
+- **Disposition:** OPEN — the size stage is skip-listed for this control in
+  `AdversarialPolicy.cs` with a FIXME referencing this entry; all other attack stages
+  still run against it.
+
+### Phase 5c triage notes
+- The adversarial acceptance rule (contract exceptions are graceful; defect-class
+  exceptions are findings) and its per-entry-justified skip-list live in
+  `Tests/Bastion.Krypton.StressTests/AttackHarness.cs` / `AdversarialPolicy.cs`. Only two
+  skips were needed: the 5b F4 framework editing-control `Text` NRE (same justification,
+  kept TFM-uniform) and `KryptonWebBrowser` (native out-of-process ActiveX wrapper —
+  mutations exercise COM interop, not Krypton code).
+- **Workspace layout loaded into a fresh instance loses its pages — by design, not a
+  defect** (first run of
+  `SerialisationRoundTripTests.WorkspaceLayout_RoundTripsIntoFreshInstance`): a
+  `KryptonPage` hosts arbitrary live controls, so the loader cannot resurrect pages from
+  XML — a fresh instance must supply each page through the `RecreateLoadingPage` event
+  (`KryptonWorkspace.ReadPageElement`: no subscriber + no existing page ⇒ the page is
+  skipped and the emptied cells are compacted away). The test now subscribes the event —
+  the documented consumer contract — and the topology round-trip holds exactly.
+- **The KryptonMonthCalendar failure artefact of 16 July 14:20** (screenshot under
+  `Tests\artifacts\StressTests\net8.0-windows\screenshots`) is the watchdog
+  `TimeoutException` presentation of A2's unbounded-layout hang; not reproducible since
+  the A2 fix (verified by repeated isolated and in-suite runs on net8/net48/net46).
+- Corrupted-XML batteries (docking config, workspace layout, palette import): every
+  variant (truncations, wrong root, invalid attribute values, non-XML, 10 seeded byte
+  flips) either loaded tolerantly or failed with a catchable non-defect exception
+  (`XmlException` et al.) — no fixes required; outcomes are printed per run.
+- The theme-switch storm excludes `PaletteMode.Global`/`Custom` from the cycle by design
+  (indirection / requires a palette instance); every other palette mode is cycled.
+
 ## Consumer-packaging findings (not bugs; for CHANGES.md and package metadata)
 
 - On net47â€“net481, Krypton's preserialized resources require **System.Resources.Extensions** at runtime; consumers referencing raw DLLs (not NuGet) must ship it. Package dependency metadata must declare it (upstream already does).

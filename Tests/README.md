@@ -4,8 +4,9 @@
 BSD-3-Clause licensed code (Component Factory Pty Ltd; Krypton-Suite et al.).
 
 Phase 5a scaffolding: the permanent test-suite structure of spec §6.1. Phase 5b adds
-`Bastion.Krypton.FunctionalTests` (per-control functional coverage, spec §6.2). The
-adversarial content (§6.3) lands in Phase 5c; the full-matrix sweep is Phase 5d.
+`Bastion.Krypton.FunctionalTests` (per-control functional coverage, spec §6.2). Phase 5c
+fills `Bastion.Krypton.StressTests` with the adversarial suite (§6.3); the full-matrix
+sweep is Phase 5d.
 
 ## Framework decision
 
@@ -56,7 +57,7 @@ Both mechanisms are wired into `run-tests.ps1`, which picks the right one per TF
 | `Bastion.Krypton.FormsTests` | C# generated family forms — every instantiable public control of the five core assemblies on real forms via designer-style `InitializeComponent` code — shown, pumped, resized, palette-switched, disposed, handle-stability asserted. |
 | `Bastion.Krypton.FormsTests.VB` | The VB.NET variant of the same (the VB designer path must compile and run). |
 | `Bastion.Krypton.FunctionalTests` | Phase 5b per-control functional coverage (spec §6.2): reflection + `TestCaseSource` — one test case per public `Component` type of the five core assemblies. See below. |
-| `Bastion.Krypton.StressTests` | Adversarial suite shell (§6.3) — helpers wired, one harness smoke test. Content lands in Phase 5c. |
+| `Bastion.Krypton.StressTests` | Phase 5c adversarial suite (spec §6.3) — see the dedicated section below. |
 | `Tools\FormsTestGen` | Generator for the `Generated\` form sources (see below). |
 | `run-tests.ps1` | Build + run a project × TFM; `-All` sweeps the functional projects across all 11 TFMs and prints a summary table. |
 | `artifacts\<project>\<tfm>\` | TRX / NUnit3 XML results and failure screenshots (git-ignored). |
@@ -114,6 +115,82 @@ The exact §6.2 recipe, per public `Component` type, discovered by reflection at
 Sweep statistics (types by kind, properties set/skipped, methods invoked/skipped) are
 printed at fixture teardown. Failures carry a structured message: control type + member +
 value + exception. Findings triage: BREAKAGE-LOG.md "Phase 5b functional-sweep findings".
+
+## StressTests (Phase 5c — spec §6.3, the adversarial suite)
+
+One fixture per §6.3 attack category. Shared plumbing in `AttackHarness.cs`: STA body wrapper
+(message pump + `Application.ThreadException` trap + global-palette reset + watchdog), the
+structured `AttackFailure` record, and the **acceptance rule**: under attack a control may
+reject an absurd value with a contract exception (Argument*/Format/NotSupported/
+ObjectDisposed/InvalidOperation — *graceful*), but defect-class exceptions (NRE,
+index-out-of-range, unguarded arithmetic, invalid casts, access violations) always fail.
+Justified per-entry exclusions live in `AdversarialPolicy.cs` (same rule as 5b's
+`SweepPolicy`).
+
+| §6.3 | Fixture | Attack |
+|---|---|---|
+| 1 | `ExtremePropertyValueTests` | Text/size/location/padding/font extremes (`int.MaxValue`/`MinValue`, negatives, zero, 1pt/500pt fonts, empty + 1MB strings, RTL, surrogate pairs, control chars, embedded NUL) against every hosted control (5b catalogue reuse) + zero/negative-size `KryptonForm`. |
+| 2 | `NullAndDisposalAbuseTests` | Null into every Image/Icon/PaletteBase-typed writable property; property sets after `Dispose` (ObjectDisposedException or benign); dispose-mid-paint (from inside the control's own `Paint`); double-dispose over the whole catalogue; members of controls whose parent form was disposed; null global/local custom palettes. |
+| 3 | `ThemeSwitchStormTests` | One form hosting **every** hosted control; all concrete palette modes cycled while resizing; asserts no paint exceptions, stable GDI/USER handles, and a bounded working set (fails when the last 10 GC-settled samples grow strictly monotonically by a material amount). 3 rounds default; **25 rounds `[Category("Endurance")]`** (reduced spec figure — see the endurance decision record below). `Global`/`Custom` are excluded from the cycle by design (indirection / needs a palette instance). |
+| 4 | `ThreadingMisuseTests` | Property sets from a worker thread with `CheckForIllegalCrossThreadCalls=true` — asserts the *documented* behaviour (cross-thread `InvalidOperationException` or benign completion), watchdog against deadlock; plus the correct `Control.Invoke` marshalling pattern. |
+| 5 | `RtlAndDpiTests` | Key controls under `RightToLeft=Yes` + `RightToLeftLayout=true` with RTL text, rendered and resized; the WinForms scaling pipeline (`Form.Scale`) at the 120/144/192-DPI ratios with renders and a scale-back round-trip. **Honest scope note:** process DPI awareness is fixed at CLR start — real 96/120/144/192-DPI runs and PerMonitorV2 manifest variants cannot be varied in-proc and belong to the Phase 5d/CI matrix (per-DPI-context child processes). |
+| 6 | `RibbonDockingScaleTests` | 300 ribbon tabs × groups with selection sweep + minimise toggle; 12-level nested workspace; docking config (4 edges + auto-hidden + floating + workspace fillers) save→load→re-save with page-universe comparison; **corrupted XML battery** (truncations, wrong root, invalid attribute values, not-XML, 10 seeded byte-flip variants, seed 12345) against the docking and workspace loaders — must fail gracefully (catchable), never defect-class/hang. |
+| 7 | Extended fixtures (below) | Outlook/Tree/Data grids at scale, wizard abuse, toast spam, calendar torture. |
+| 8 | `SerialisationRoundTripTests` | Persistence-API round-trips: custom palette Export→Import→re-Export stability (volatile date metadata normalised), workspace layout into a **fresh** instance with a topology signature comparison, plus the corruption battery against the palette importer. **Honest scope note:** the full CodeDom designer-serialisation round-trip is deferred — it requires the designer host/loader stack (`IDesignerHost`, `CodeDomComponentSerializationService`) plus a compile step, which is a VS integration scenario that cannot be executed faithfully headless across 11 TFMs. The components' own XML persistence APIs above are the runtime-reachable serialisation surface. |
+| 9 | `RapidCreateDestroyTests` | Create/show/dispose cycles per family (Toolkit/Ribbon/Navigator/Workspace/Docking), handle-stability asserted after GC settle. **500 cycles default; 2,500 `[Category("Endurance")]`** (reduced spec figure — see the endurance decision record below). |
+
+### Categories and selection
+
+Every 5c fixture is `[Category("Adversarial")]`; the extra-long variants are additionally
+`[Category("Endurance")]`. `run-tests.ps1 -Category` selects:
+
+```powershell
+Tests\run-tests.ps1 -Project StressTests -Tfm net48                       # Default: everything except Endurance
+Tests\run-tests.ps1 -Project StressTests -Tfm net48 -Category Endurance   # only the endurance tests
+Tests\run-tests.ps1 -Project StressTests -Tfm net48 -Category All         # both
+```
+
+(net46 maps the filter to NUnitLite `--where "cat != Endurance"` / `--where "cat == Endurance"`.)
+
+### Endurance figures — decision record (Phase 5c)
+
+Two spec §6.3 endurance counts were reduced after measuring real costs on the reference
+machine (figures below); the endurance variants remain far beyond the always-run smoke
+counts and keep their assertion power:
+
+- **Theme storm: 100 → 25 rounds.** One round (62 palette switches + resize + full GC)
+  costs ~25 s on net8 / ~55 s on net48, so 100 rounds (~45/~90 min) exceeds the net48
+  test watchdog itself. 25 rounds (1,550 switches) still exercises the 10-sample
+  working-set leak window 2.5× over.
+- **Rapid create/destroy: 10,000 → 2,500 cycles per family.** Measured 53–133 ms/cycle
+  means 10,000 cycles cost 9–22 min per family (≈55–85 min per TFM) for no additional
+  assertion power: at 2,500 cycles any leak of one handle per ~39 cycles still breaches
+  the 64-handle slack (the `ShadowManager` leak this fixture caught was 4 per cycle and
+  fails inside the 500-cycle smoke variant).
+
+The Extended 100k-row/node grid endurance variants are unchanged.
+
+### Extended-module scope (spec v1.1 §6.3.7) — decision record
+
+The Extended fixtures (`Extended\*.cs`: `KryptonOutlookGrid` 10k/100k rows + grouping churn +
+row mutation inside `Paint`; `KryptonTreeGridView` 10k/100k nested nodes + expand/collapse
+churn; the DataGridView module's rating/percentage cell types at scale + sort churn + paint
+mutation; `KryptonAdvancedWizard` navigation abuse incl. dispose inside `PageChanged`;
+`KryptonToastNotificationPopup` spam (150 queued, hidden/disposed mid-animation, handle
+check); `KryptonCalendar` extreme date ranges + RTL/non-Gregorian culture switches) are
+compiled **only for net48 + net8.0-windows** (`BASTION_EXTENDED`), referencing the module
+DLLs from `Extended-Toolkit\Bin\Release\<module>\<tfm>\`.
+
+Rationale: the modules' dependency closures (Shared/Debug.Tools/Developer.Utilities +
+WindowsAPICodePack native-shell interop + per-TFM facade sets) would have to be wired and
+kept green for all 11 TFMs to buy no additional attack coverage — the module code is
+TFM-uniform C# and the Extended smoke matrix already proves per-TFM loadability. net48 +
+net8.0-windows are the Framework/modern mainline pair (§6.4). The Master/Detail composite
+views of the DataGridView module need designer-bound master-detail DataSets and are not
+attacked headless; the module's cell/column types are. Toast attacks use the
+Notifications module's `KryptonToastNotificationPopup` (a component with a real
+animate/dismiss lifecycle); the ToastNotification module's static show-helpers are modal
+UI and unsuited to unattended runs.
 
 ## Generated forms (FormsTestGen)
 

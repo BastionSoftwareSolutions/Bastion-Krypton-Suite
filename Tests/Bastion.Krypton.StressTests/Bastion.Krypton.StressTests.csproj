@@ -1,8 +1,17 @@
 <!--
   © Bastion Software Solutions Ltd 2026. Bastion Krypton Suite test suite (spec §6.1/§6.3).
-  Adversarial stress-test shell. The adversarial content (extreme property values, dispose
-  abuse, theme-switch storms, threading misuse, DPI/RTL torture, rapid create/destroy) lands
-  in Phase 5c — this project only wires the harness so 5c starts from a running skeleton.
+  Phase 5c adversarial suite: extreme property values, null/disposal abuse, theme-switch
+  storms, threading misuse, RTL/scaling torture, ribbon/docking scale + corrupted-XML
+  loaders, Extended-module attacks (Outlook/Tree/Data grids, wizard, toasts, calendar),
+  persistence-API serialisation round-trips and rapid create/destroy cycles.
+
+  Categories: every fixture is [Category("Adversarial")]; the extra-long variants (25-round
+  theme storm, 2,500 create/destroy cycles, 100k-row grids) are additionally
+  [Category("Endurance")] and excluded from the default run (run-tests.ps1 -Category;
+  endurance figures are reduced spec counts - decision record in Tests\README.md).
+
+  Extended-module scope: the Extended fixtures compile for net48 + net8.0-windows only
+  (BASTION_EXTENDED). Rationale recorded in Tests\README.md.
 -->
 <Project Sdk="Microsoft.NET.Sdk">
 
@@ -23,6 +32,69 @@
   <ItemGroup>
     <!-- Shared UI test infrastructure (StaMessagePump, HandleCounter, ScreenshotOnFailure). -->
     <ProjectReference Include="..\Bastion.Krypton.UnitTests\Bastion.Krypton.UnitTests.csproj" />
+    <!-- Reuse of the Phase 5b reflection catalogue (CoverageCatalogue/SweepKind): the
+         adversarial sweeps must attack exactly the surface the functional sweep covers. -->
+    <ProjectReference Include="..\Bastion.Krypton.FunctionalTests\Bastion.Krypton.FunctionalTests.csproj" />
+  </ItemGroup>
+
+  <!-- ==================================================================== Extended modules
+       Spec §6.3.7 (v1.1) attacks reference six Extended-Toolkit modules straight from their
+       per-TFM Bin\Release outputs. Scoped to net48 + net8.0-windows (BASTION_EXTENDED):
+       referencing the Extended dependency closures (support modules + WindowsAPICodePack +
+       per-TFM facade sets) across all 11 TFMs is disproportionate for the attack value —
+       decision recorded in Tests\README.md. -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net8.0-windows'">
+    <DefineConstants>$(DefineConstants);BASTION_EXTENDED</DefineConstants>
+    <ExtendedBin>$(MSBuildThisFileDirectory)..\..\Extended-Toolkit\Bin\Release\</ExtendedBin>
+  </PropertyGroup>
+
+  <!-- MSB3277 (WindowsBase 4.0 vs 8.0) originates inside the prebuilt WindowsAPICodePack
+       binaries the Notifications/Wizard modules ship (they carry a .NET Framework-era
+       WindowsBase identity); RAR correctly unifies to the in-box 8.0 assembly. Not fixable
+       from this project — demoted to a message for the net8 Extended leg only. -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3277</MSBuildWarningsAsMessages>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net8.0-windows'">
+    <!-- The six modules under attack. -->
+    <Reference Include="Krypton.Toolkit.Suite.Extended.Outlook.Grid">
+      <HintPath>$(ExtendedBin)Krypton.Toolkit.Suite.Extended.Outlook.Grid\$(TargetFramework)\Krypton.Toolkit.Suite.Extended.Outlook.Grid.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton.Toolkit.Suite.Extended.DataGridView">
+      <HintPath>$(ExtendedBin)Krypton.Toolkit.Suite.Extended.DataGridView\$(TargetFramework)\Krypton.Toolkit.Suite.Extended.DataGridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton.Toolkit.Suite.Extended.TreeGridView">
+      <HintPath>$(ExtendedBin)Krypton.Toolkit.Suite.Extended.TreeGridView\$(TargetFramework)\Krypton.Toolkit.Suite.Extended.TreeGridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton.Toolkit.Suite.Extended.Wizard">
+      <HintPath>$(ExtendedBin)Krypton.Toolkit.Suite.Extended.Wizard\$(TargetFramework)\Krypton.Toolkit.Suite.Extended.Wizard.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton.Toolkit.Suite.Extended.Notifications">
+      <HintPath>$(ExtendedBin)Krypton.Toolkit.Suite.Extended.Notifications\$(TargetFramework)\Krypton.Toolkit.Suite.Extended.Notifications.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton.Toolkit.Suite.Extended.Calendar">
+      <HintPath>$(ExtendedBin)Krypton.Toolkit.Suite.Extended.Calendar\$(TargetFramework)\Krypton.Toolkit.Suite.Extended.Calendar.dll</HintPath>
+    </Reference>
+
+    <!-- Dependency closure of Wizard/Notifications: the shared Extended support modules
+         (referenced so they also copy local)... -->
+    <Reference Include="Krypton.Toolkit.Suite.Extended.Shared">
+      <HintPath>$(ExtendedBin)Krypton.Toolkit.Suite.Extended.Notifications\$(TargetFramework)\Krypton.Toolkit.Suite.Extended.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton.Toolkit.Suite.Extended.Debug.Tools">
+      <HintPath>$(ExtendedBin)Krypton.Toolkit.Suite.Extended.Notifications\$(TargetFramework)\Krypton.Toolkit.Suite.Extended.Debug.Tools.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton.Toolkit.Suite.Extended.Developer.Utilities">
+      <HintPath>$(ExtendedBin)Krypton.Toolkit.Suite.Extended.Notifications\$(TargetFramework)\Krypton.Toolkit.Suite.Extended.Developer.Utilities.dll</HintPath>
+    </Reference>
+
+    <!-- ...plus their native-shell interop set (WindowsAPICodePack; Microsoft.Bcl.HashCode on
+         net48), copied from the same per-TFM module output. -->
+    <None Include="$(ExtendedBin)Krypton.Toolkit.Suite.Extended.Notifications\$(TargetFramework)\Microsoft.*.dll"
+          CopyToOutputDirectory="PreserveNewest"
+          Link="%(Filename)%(Extension)"
+          Visible="false" />
   </ItemGroup>
 
 </Project>
