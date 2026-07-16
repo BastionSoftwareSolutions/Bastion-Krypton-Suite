@@ -203,6 +203,21 @@ All five core libraries build **warning-clean (0 warnings / 0 errors)** for the 
 - Microsoft365LightGray remains an unwired upstream stub (no scheme, no 2026 counterpart).
 - 2003 ToolStrip/menu colour table still system-derived (Luna values documented for a later `KryptonProfessionalKCT` extension).
 
+### Awaiting Chris (Phase 3 acceptance) — see below
+
+---
+
+## Phase 4 — Samples (16 July 2026)
+
+| Stage | Result |
+|---|---|
+| 4a — multi-target the demo set | ✅ 125 C# demos × 11 TFMs = **1,375 builds, 0 errors, 0 exclusions**; central props with `/p:SampleTfm=` switch; `run-sample.ps1`; fixes incl. a Ribbon demo startup crash (designer-lost ButtonSpec wiring) and two projects orphaned from every solution (Demos commits `24f8b626`, `0e9fb299`) |
+| 4b — Extended module samples | ✅ Examples app extended: **16 new designer-generated forms covering 17 modules** + 6 orphaned forms registered; permanent `--smoke` hook, **46/46 forms pass**; 3 more module bugs found+fixed (Extended commit `31203dfe`) |
+| 4c — VB.NET twin set | ✅ **125 idiomatic hand-ported VB twins** (9 agent batches; real .Designer.vb, Friend WithEvents/Handles, My.Resources, Handles-parity + designer statement-count audits all green), registered in the Dev solution; consolidated build **0 errors / 0 warnings** (Demos commits through `9a5c2f59`) |
+| 4d — launch matrix | ✅ **2,750 launch tests (250 apps × 11 TFMs): all pass** on true runtimes; one defect class found+fixed (VB `Handles` fires during InitializeComponent — five twins guarded; commit `04f09155`); results in `SAMPLE-MATRIX.md` |
+
+Phase 4 exit criteria: sample matrix green ✅; C#/VB parity 100% ✅ (125/125 twins); `run-sample.ps1` works ✅. **Phase 4 complete — 16 July 2026.**
+
 ### Awaiting Chris (Phase 3 acceptance)
 1. **Per-theme fidelity sign-off** from the comparison images (`docs/themes/comparisons/`): office2016-2019 (7), office2021-2003 (2021 ×4 + Luna ×3), m365-2026 (11).
 2. **Live-install screenshots** to close the [D]-tagged gaps: hover/pressed/disabled states, backstage, context menus, inactive title bars (all eras); 2021 Dark Gray/Black expanded ribbon; 2016 status-bar accent question; 2026 classic-Outlook accent; XP Olive/Silver caption gradients.
