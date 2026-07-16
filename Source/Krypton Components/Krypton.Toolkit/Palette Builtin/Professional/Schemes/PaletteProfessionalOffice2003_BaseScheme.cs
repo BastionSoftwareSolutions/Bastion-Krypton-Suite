@@ -37,6 +37,9 @@
 
 namespace Krypton.Toolkit;
 
+/// <summary>
+/// Provides the colour scheme values that back the Office 2003 (Luna Blue) theme (Bastion Phase 3 fidelity pass).
+/// </summary>
 public sealed class PaletteProfessionalOffice2003_BaseScheme : KryptonColorSchemeBase
 {
     public override Color TextLabelControl                 { get; set; } = Color.Black;                   // [T] msocbvcrCBCtlText (0,0,0)

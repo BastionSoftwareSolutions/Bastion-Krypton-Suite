@@ -29,6 +29,9 @@
 
 namespace Krypton.Toolkit;
 
+/// <summary>
+/// Provides the colour scheme values that back the Office 2016 Dark Gray theme (Bastion Phase 3 fidelity pass).
+/// </summary>
 public sealed class PaletteOffice2016DarkGray_BaseScheme : KryptonColorSchemeBase
 {
     public override Color TextLabelControl                 { get; set; } = Color.FromArgb(38, 38, 38);    // [T] ribbon control text #262626

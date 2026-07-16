@@ -29,6 +29,9 @@
 
 namespace Krypton.Toolkit;
 
+/// <summary>
+/// Provides the colour scheme values that back the Office 2019 Black theme (Bastion Phase 3 fidelity pass).
+/// </summary>
 public sealed class PaletteOffice2019Black_BaseScheme : KryptonColorSchemeBase
 {
     public override Color TextLabelControl                 { get; set; } = Color.FromArgb(218, 218, 218); // [T] ribbon control text #DADADA on dark fills

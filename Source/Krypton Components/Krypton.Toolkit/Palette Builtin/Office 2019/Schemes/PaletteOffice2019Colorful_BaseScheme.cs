@@ -30,6 +30,9 @@
 
 namespace Krypton.Toolkit;
 
+/// <summary>
+/// Provides the colour scheme values that back the Office 2019 Colorful theme (Bastion Phase 3 fidelity pass).
+/// </summary>
 public sealed class PaletteOffice2019Colorful_BaseScheme : KryptonColorSchemeBase
 {
     public override Color TextLabelControl                 { get; set; } = Color.FromArgb(38, 38, 38);    // [T] window text (ribbon controls) #262626

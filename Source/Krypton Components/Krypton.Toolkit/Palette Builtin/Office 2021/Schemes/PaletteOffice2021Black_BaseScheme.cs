@@ -33,6 +33,9 @@
 
 namespace Krypton.Toolkit;
 
+/// <summary>
+/// Provides the colour scheme values that back the Office 2021 Black theme (Bastion Phase 3 fidelity pass).
+/// </summary>
 public sealed class PaletteOffice2021Black_BaseScheme : KryptonColorSchemeBase
 {
     public override Color TextLabelControl                 { get; set; } = Color.FromArgb(218, 218, 218); // [D] control text #DADADA carried from 2019 Black donor (open item 1)

@@ -27,6 +27,9 @@
 
 namespace Krypton.Toolkit;
 
+/// <summary>
+/// Provides the colour scheme values that back the Office 2016 White theme (Bastion Phase 3 fidelity pass).
+/// </summary>
 public sealed class PaletteOffice2016White_BaseScheme : KryptonColorSchemeBase
 {
     public override Color TextLabelControl                 { get; set; } = Color.FromArgb(68, 68, 68);    // [T] chrome text #444444
