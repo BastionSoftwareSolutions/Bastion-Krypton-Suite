@@ -1,5 +1,59 @@
 <Project>
-  <PropertyGroup>
-    <GenerateResourceWarnOnBinaryFormatterUse>false</GenerateResourceWarnOnBinaryFormatterUse>
-  </PropertyGroup>
+	<!--
+	 * BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit-Demos/blob/master/LICENSE)
+	 *  © Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp),
+	 *  Simon Coghlan (aka Smurf-IV), et al. 2017 - 2026. All rights reserved.
+	 *  Bastion Krypton Suite additions © Bastion Software Solutions Ltd 2026, derived from the
+	 *  BSD-3-Clause licensed Standard-Toolkit-Demos tree.
+	 *
+	 * Bastion (Phase 4a): central multi-target infrastructure for every demo project.
+	 * The TFM list below mirrors the core Standard-Toolkit matrix exactly. Pass
+	 * /p:SampleTfm=<tfm> (e.g. /p:SampleTfm=net6.0-windows) to collapse every sample
+	 * to a single target framework - this is what "use any build library and work"
+	 * means operationally (spec section 5, Phase 4, step 2). run-sample.ps1 at the
+	 * repo root drives this switch.
+	-->
+
+	<PropertyGroup>
+		<GenerateResourceWarnOnBinaryFormatterUse>false</GenerateResourceWarnOnBinaryFormatterUse>
+	</PropertyGroup>
+
+	<!-- Full Bastion matrix; identical to the core toolkit's TargetFrameworks. -->
+	<PropertyGroup>
+		<BastionSampleTargetFrameworks>net46;net47;net472;net48;net481;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows</BastionSampleTargetFrameworks>
+		<TargetFrameworks>$(BastionSampleTargetFrameworks)</TargetFrameworks>
+		<!-- Single-TFM switch: /p:SampleTfm=net6.0-windows builds/runs just that TFM. -->
+		<TargetFrameworks Condition="'$(SampleTfm)' != ''">$(SampleTfm)</TargetFrameworks>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<LangVersion>preview</LangVersion>
+		<!-- NETSDK1138: net5/6/7 (and net9) are targeted deliberately for consumers pinned to EOL
+		     runtimes (spec section 0, "Framework lifecycle context"); the core toolkit disables the
+		     same advisory in each of its csproj files. Recorded in docs/audit/SAMPLE-MATRIX.md. -->
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
+		<!-- net4x manifest resource naming: keep dependent-upon convention identical on every
+		     TFM so designer resx files produce the same manifest resource names as net8/net9
+		     (same fix the Extended repo applies in its Directory.Build.props). -->
+		<EmbeddedResourceUseDependentUponConvention>true</EmbeddedResourceUseDependentUponConvention>
+	</PropertyGroup>
+
+	<!-- MSB3822/3823: non-string .resx entries need preserialized resources + System.Resources.Extensions
+	     for the SDK GenerateResource task. Same net46 rules as the core toolkit
+	     ("Source\Krypton Components\Directory.Build.props"): System.Resources.Extensions has no
+	     net46-compatible version (minimum net462), so net46 opts out and its resources compile
+	     classically - net46 therefore builds under desktop MSBuild only. -->
+	<PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true' And '$(TargetFramework)' != 'net46'">
+		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
+		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" Condition="'$(TargetFramework)' != 'net46'" />
+	</ItemGroup>
+
+	<!-- Suppress the codeless "package X doesn't support net5/6/7" advisory from
+	     System.Resources.Extensions buildTransitive targets on the EOL TFMs (same as the core). -->
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net5.0-windows' Or '$(TargetFramework)' == 'net6.0-windows' Or '$(TargetFramework)' == 'net7.0-windows'">
+		<SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+	</PropertyGroup>
 </Project>
