@@ -284,11 +284,13 @@ function Invoke-Chm {
     # Confirm from the SHFB/HHC log that the compile completed and that a table of contents
     # (.hhc) and keyword index (.hhk) were generated with a non-trivial topic count.
     # (CleanIntermediates removes the working files, so we verify via the log.)
+    # SHFB's LastBuild.log is an XML build log; completion is the final <buildStep step="Completed">
+    # marker (the "help file is located at" text is console-only and not in this file).
     $log = Join-Path $HelpDir 'LastBuild.log'
     if (Test-Path -LiteralPath $log) {
         $logText = Get-Content -LiteralPath $log -Raw
-        if ($logText -notmatch 'The help file is located at') {
-            throw "SHFB log does not confirm completion - inspect $log."
+        if ($logText -notmatch '<buildStep step="Completed"') {
+            throw "SHFB log does not show a Completed build step - inspect $log."
         }
         $hasToc   = $logText -match 'table of contents to .*\.hhc'
         $hasIndex = $logText -match 'keyword index to .*\.hhk'
