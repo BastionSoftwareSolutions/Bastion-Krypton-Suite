@@ -1,0 +1,16 @@
+<!--
+  © Bastion Software Solutions Ltd 2026. Bastion Krypton Suite test suite (spec §6.1).
+  Generator for the FormsTests designer-style family forms — reflects over the five core
+  assemblies (net8.0-windows leg) and emits C# and VB forms into the two FormsTests projects.
+  Run: dotnet run —project Tests\Tools\FormsTestGen
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Bastion.Krypton.FormsTestGen</RootNamespace>
+  </PropertyGroup>
+
+</Project>

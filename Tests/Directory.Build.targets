@@ -1,0 +1,51 @@
+<!--
+  © Bastion Software Solutions Ltd 2026. Part of the Bastion Krypton Suite test suite (spec §6.1).
+
+  Opt-in shared item groups. A test project sets:
+    <BastionReferenceKrypton>true</BastionReferenceKrypton>  - reference the five core assemblies
+    <BastionNUnitProject>true</BastionNUnitProject>          - wire NUnit (dotnet test on net47+,
+                                                               self-executing NUnitLite on net46)
+-->
+<Project>
+
+  <!-- The five core Krypton assemblies, referenced per-TFM from Standard-Toolkit\Bin\Release. -->
+  <ItemGroup Condition="'$(BastionReferenceKrypton)' == 'true'">
+    <Reference Include="Krypton.Toolkit"><HintPath>$(KryptonBin)Krypton.Toolkit.dll</HintPath></Reference>
+    <Reference Include="Krypton.Ribbon"><HintPath>$(KryptonBin)Krypton.Ribbon.dll</HintPath></Reference>
+    <Reference Include="Krypton.Navigator"><HintPath>$(KryptonBin)Krypton.Navigator.dll</HintPath></Reference>
+    <Reference Include="Krypton.Workspace"><HintPath>$(KryptonBin)Krypton.Workspace.dll</HintPath></Reference>
+    <Reference Include="Krypton.Docking"><HintPath>$(KryptonBin)Krypton.Docking.dll</HintPath></Reference>
+  </ItemGroup>
+
+  <!-- net46: Krypton uses Span<T>/ValueTuple; net47+ get System.Memory transitively via
+       System.Resources.Extensions, net46 must reference both directly (see Scripts\SmokeTest). -->
+  <ItemGroup Condition="'$(BastionReferenceKrypton)' == 'true' and '$(TargetFramework)' == 'net46'">
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="System.Memory" Version="4.5.5" />
+  </ItemGroup>
+
+  <!-- Krypton's preserialized resources need this at runtime; these projects reference raw DLLs
+       (not NuGet packages) so they must carry it themselves. net46 uses classic resources and
+       neither needs nor supports it. -->
+  <ItemGroup Condition="'$(BastionReferenceKrypton)' == 'true' and '$(TargetFramework)' != 'net46'">
+    <PackageReference Include="System.Resources.Extensions" Version="9.0.10" />
+  </ItemGroup>
+
+  <!-- NUnit 3.14.x on every TFM (framework decision: Tests\README.md). -->
+  <ItemGroup Condition="'$(BastionNUnitProject)' == 'true'">
+    <PackageReference Include="NUnit" Version="3.14.0" />
+  </ItemGroup>
+
+  <!-- dotnet-test tooling floor is net462, so every TFM except net46 runs via
+       Microsoft.NET.Test.Sdk + the NUnit adapter. -->
+  <ItemGroup Condition="'$(BastionNUnitProject)' == 'true' and '$(TargetFramework)' != 'net46'">
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+  </ItemGroup>
+
+  <!-- net46 fallback: a self-executing NUnitLite console runner (bin\Release\net46\<name>.exe). -->
+  <ItemGroup Condition="'$(BastionNUnitProject)' == 'true' and '$(TargetFramework)' == 'net46'">
+    <PackageReference Include="NUnitLite" Version="3.14.0" />
+  </ItemGroup>
+
+</Project>

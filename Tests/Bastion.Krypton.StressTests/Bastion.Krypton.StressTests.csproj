@@ -1,0 +1,28 @@
+<!--
+  © Bastion Software Solutions Ltd 2026. Bastion Krypton Suite test suite (spec §6.1/§6.3).
+  Adversarial stress-test shell. The adversarial content (extreme property values, dispose
+  abuse, theme-switch storms, threading misuse, DPI/RTL torture, rapid create/destroy) lands
+  in Phase 5c — this project only wires the harness so 5c starts from a running skeleton.
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(BastionTestTfms)</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Bastion.Krypton.StressTests</RootNamespace>
+    <BastionReferenceKrypton>true</BastionReferenceKrypton>
+    <BastionNUnitProject>true</BastionNUnitProject>
+    <!-- net46 runner mechanism: self-executing NUnitLite console exe (see Tests\README.md). -->
+    <OutputType Condition="'$(TargetFramework)' == 'net46'">Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'net46'">
+    <Compile Remove="NUnitLiteMain.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Shared UI test infrastructure (StaMessagePump, HandleCounter, ScreenshotOnFailure). -->
+    <ProjectReference Include="..\Bastion.Krypton.UnitTests\Bastion.Krypton.UnitTests.csproj" />
+  </ItemGroup>
+
+</Project>

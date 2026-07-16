@@ -1,0 +1,34 @@
+<!--
+  © Bastion Software Solutions Ltd 2026. Part of the Bastion Krypton Suite test suite (spec §6.1).
+  Shared build settings for every project under Tests\. See Tests\README.md for the framework
+  decision and the net46 runner mechanism.
+-->
+<Project>
+
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <UseWindowsForms>true</UseWindowsForms>
+    <LangVersion Condition="'$(MSBuildProjectExtension)' == '.csproj'">latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <IsPackable>false</IsPackable>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+
+    <!-- The full Bastion TFM matrix (mirrors Standard-Toolkit). -->
+    <BastionTestTfms>net46;net47;net472;net48;net481;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows</BastionTestTfms>
+
+    <!-- Reference the built Krypton assemblies for the matching TFM directly (same pattern as
+         Scripts\SmokeTest). Core libraries only: the five Standard-Toolkit assemblies. -->
+    <KryptonBin>$(MSBuildThisFileDirectory)..\Standard-Toolkit\Bin\Release\$(TargetFramework)\</KryptonBin>
+  </PropertyGroup>
+
+  <!-- net5/6/7 are EOL, but supporting them is an explicit Bastion goal (the full 11-TFM
+       matrix). Microsoft.NET.Test.Sdk 17.14.x and the 9.x runtime packages gate EOL TFMs with
+       a build error/warning ("doesn't support net5.0-windows...") even though their
+       netstandard2.0/netcoreapp assets work there — Phase 2 verified the same package set on
+       these runtimes. Suppress the gate for exactly those TFMs. -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net5.0-windows' or '$(TargetFramework)' == 'net6.0-windows' or '$(TargetFramework)' == 'net7.0-windows'">
+    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+    <SuppressTfmSupportBuildErrors>true</SuppressTfmSupportBuildErrors>
+  </PropertyGroup>
+
+</Project>

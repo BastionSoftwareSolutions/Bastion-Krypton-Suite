@@ -1,0 +1,22 @@
+<!--
+  © Bastion Software Solutions Ltd 2026. Bastion Krypton Suite test suite (spec §6.1).
+  Unit/regression tests for the five core assemblies, plus the shared UI test infrastructure
+  (StaMessagePump, HandleCounter, ScreenshotOnFailure) reused by the other test projects.
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(BastionTestTfms)</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Bastion.Krypton.UnitTests</RootNamespace>
+    <BastionReferenceKrypton>true</BastionReferenceKrypton>
+    <BastionNUnitProject>true</BastionNUnitProject>
+    <!-- net46 runner mechanism: self-executing NUnitLite console exe (see Tests\README.md). -->
+    <OutputType Condition="'$(TargetFramework)' == 'net46'">Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'net46'">
+    <Compile Remove="Infrastructure\NUnitLiteMain.cs" />
+  </ItemGroup>
+
+</Project>
