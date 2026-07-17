@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting Started - Bastion Krypton Suite</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    line-height: 1.6; margin: 0; padding: 0;
+    color: #1c2230; background: #f4f6fb;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.4rem 4rem; }
+  header {
+    background: linear-gradient(135deg, #1f3a63, #2e6fb0);
+    color: #fff; padding: 2.4rem 1.4rem;
+  }
+  header .inner { max-width: 860px; margin: 0 auto; }
+  header h1 { margin: 0 0 .3rem; font-size: 1.9rem; }
+  header p { margin: 0; opacity: .92; font-size: 1.05rem; }
+  h2 { color: #1f3a63; margin-top: 2.2rem; border-bottom: 2px solid #dbe4f0; padding-bottom: .35rem; }
+  h3 { color: #24406b; margin-bottom: .3rem; }
+  a { color: #2e6fb0; }
+  code, pre { font-family: "Cascadia Code", Consolas, monospace; }
+  pre {
+    background: #0f1e34; color: #e7eefc; padding: 1rem 1.1rem;
+    border-radius: 8px; overflow-x: auto; font-size: .92rem;
+  }
+  code.inline { background: #e5ecf6; color: #1f3a63; padding: .1rem .4rem; border-radius: 4px; }
+  .card {
+    background: #fff; border: 1px solid #e0e7f1; border-radius: 10px;
+    padding: 1.1rem 1.3rem; margin: 1rem 0; box-shadow: 0 1px 3px rgba(20,40,80,.05);
+  }
+  .cta {
+    display: inline-block; background: #2e6fb0; color: #fff; text-decoration: none;
+    padding: .5rem 1rem; border-radius: 6px; margin: .3rem .4rem .3rem 0; font-weight: 600;
+  }
+  .note {
+    background: #fff8e6; border-left: 4px solid #e0a92e; padding: .8rem 1rem;
+    border-radius: 0 6px 6px 0; margin: 1rem 0;
+  }
+  ul { padding-left: 1.3rem; }
+  li { margin: .3rem 0; }
+  .foot { margin-top: 2.5rem; font-size: .9rem; color: #5a6474; }
+  @media (prefers-color-scheme: dark) {
+    body { color: #dbe3f0; background: #10151f; }
+    h2 { color: #7fb0e6; border-bottom-color: #26344a; }
+    h3 { color: #9cc4ee; }
+    .card { background: #182233; border-color: #26344a; box-shadow: none; }
+    code.inline { background: #26344a; color: #cfe0f5; }
+    .note { background: #2a2410; border-left-color: #e0a92e; }
+    .foot { color: #8b96a8; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="inner">
+    <h1>Bastion Krypton Suite</h1>
+    <p>Getting Started &mdash; a friendly first-run guide for beginners</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <p>Welcome. The <strong>Bastion Krypton Suite</strong> is a large set of modern
+  Windows Forms controls &mdash; buttons, ribbons, docking, navigators, themes and
+  hundreds of extended widgets &mdash; so your desktop apps can look polished with
+  very little effort. This page tells you the quickest ways to <em>see</em> it and
+  to <em>use</em> it.</p>
+
+  <h2>1. Just want to see what it can do?</h2>
+  <p>You don't need Visual Studio for this. Open the Start Menu group
+  <strong>Bastion Krypton Suite</strong> and launch either of these ready-to-run apps:</p>
+  <div class="card">
+    <h3>Krypton Explorer (Browse Demos)</h3>
+    <p>A launcher for the sample gallery &mdash; open it and click through live
+    examples of every major control.</p>
+    <h3>Theme Browser</h3>
+    <p>Flip through all the built-in themes (Office 365, Sparkle, Professional and
+    more) and watch the controls restyle instantly.</p>
+    <h3>Extended Toolkit Examples</h3>
+    <p>A showcase of the extended widgets: toast notifications, fancy grids,
+    progress bars, colour pickers and more.</p>
+  </div>
+  <div class="note">
+    <strong>One-time requirement:</strong> the ready-to-run demos need the free
+    <strong>.NET 8 Desktop Runtime</strong> from Microsoft. If a demo doesn't start,
+    install it from
+    <a href="https://dotnet.microsoft.com/download/dotnet/8.0">https://dotnet.microsoft.com/download/dotnet/8.0</a>
+    (choose &ldquo;.NET Desktop Runtime 8.x &mdash; Windows x64&rdquo;), then try again.
+  </div>
+
+  <h2>2. Using it in your own project</h2>
+  <p>The easiest, recommended path is <strong>NuGet</strong>. In Visual Studio,
+  right-click your project &rarr; <em>Manage NuGet Packages</em> &rarr; search for
+  <code class="inline">Bastion.Krypton.Toolkit</code> and install it. It is a
+  <strong>drop-in</strong> replacement for the upstream Krypton Toolkit &mdash; the
+  namespaces are unchanged, so existing Krypton code just recompiles.</p>
+
+  <p>Here is a complete, six-line WinForms window using a Krypton button:</p>
+<pre>using Krypton.Toolkit;
+
+var form   = new KryptonForm { Text = "Hello Bastion" };
+var button = new KryptonButton { Text = "Click me", Location = new Point(20, 20) };
+button.Click += (s, e) => KryptonMessageBox.Show("It works!");
+form.Controls.Add(button);
+Application.Run(form);</pre>
+
+  <p>Prefer to reference the DLLs directly (offline / no NuGet)? They are installed
+  under <code class="inline">lib\&lt;framework&gt;\</code> in this folder &mdash; pick the
+  folder matching your target framework (for example
+  <code class="inline">lib\net8.0-windows\</code>) and add a reference to
+  <code class="inline">Bastion.Krypton.Toolkit.dll</code>. See
+  <strong>DesignerIntegration.md</strong> for adding the controls to the Visual
+  Studio Toolbox.</p>
+
+  <h2>3. Where everything lives</h2>
+  <div class="card">
+    <ul>
+      <li><strong>lib\&lt;framework&gt;\</strong> &mdash; the class libraries (all 11
+      target frameworks), with XML docs and PDB symbols.</li>
+      <li><strong>lib-extended\&lt;framework&gt;\</strong> &mdash; the Extended Toolkit
+      assemblies.</li>
+      <li><strong>Samples\</strong> &mdash; the full sample <em>source code</em> (C# and
+      VB.NET) to open and study.</li>
+      <li><strong>Samples-Compiled\</strong> &mdash; the ready-to-run apps (Krypton
+      Explorer, Theme Browser, Extended Examples).</li>
+      <li><strong>Documentation\</strong> &mdash; the CHM help, the PDF manual, and the
+      HTML help site (open <code class="inline">Documentation\html\index.html</code>).</li>
+    </ul>
+  </div>
+  <p>The Start Menu also has a <strong>&ldquo;Bastion Krypton Suite Folder&rdquo;</strong>
+  shortcut that opens this install folder in File Explorer.</p>
+
+  <h2>4. Documentation &amp; help</h2>
+  <p>
+    <a class="cta" href="Documentation/BastionKryptonSuite.chm">Help (CHM)</a>
+    <a class="cta" href="Documentation/html/index.html">HTML Help Site</a>
+    <a class="cta" href="Documentation/BastionKryptonSuite-Manual.pdf">Developer Manual (PDF)</a>
+  </p>
+
+  <div class="foot">
+    <p>Project home:
+    <a href="https://github.com/BastionSoftwareSolutions/Bastion-Krypton-Suite">github.com/BastionSoftwareSolutions/Bastion-Krypton-Suite</a></p>
+    <p>Bastion Krypton Suite is packaged by Bastion Software Solutions Ltd. It is a
+    derivative of the BSD-3-Clause Krypton Standard Toolkit and the MIT Krypton
+    Extended Toolkit. See LICENSE.txt for full terms.</p>
+  </div>
+
+</div>
+</body>
+</html>

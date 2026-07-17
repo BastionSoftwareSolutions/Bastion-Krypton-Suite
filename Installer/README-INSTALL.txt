@@ -3,17 +3,28 @@ Bastion Krypton Suite 1.0.0
 
 Thank you for installing the Bastion Krypton Suite.
 
-WHAT WAS INSTALLED
-------------------
+NEW TO THIS? Start with the Start Menu shortcut "Getting Started", or just run
+"Krypton Explorer (Browse Demos)" and "Theme Browser" to see the controls live.
+
+WHAT WAS INSTALLED (into Program Files by default)
+--------------------------------------------------
   lib\<tfm>\            Core class libraries (5 assemblies) for all 11 target
                        frameworks, with XML docs and PDB symbols alongside.
   lib-extended\<tfm>\  Extended Toolkit assemblies (Bastion.Krypton.Extended.*),
                        for offline reference.
-  Documentation\       CHM help file and PDF manual.
-  ThemeBrowser\        Theme Browser application (.NET 8, if selected).
+  Documentation\       CHM help file, PDF manual, and the HTML help site (html\).
+  Samples-Compiled\    READY-TO-RUN apps (.NET 8, if selected): Krypton Explorer +
+                       250 demos, Extended Examples, and the Theme Browser.
   Samples\             C# and VB.NET sample SOURCE (if selected).
+  GettingStarted.html  Friendly first-run guide for beginners.
   DesignerIntegration.md   How to add the controls to the Visual Studio Toolbox.
   LICENSE.txt          Combined BSD-3 (core) + MIT (Extended) licence + notices.
+
+.NET 8 DESKTOP RUNTIME (for the ready-to-run demos)
+---------------------------------------------------
+The apps in Samples-Compiled need the free .NET 8 Desktop Runtime. If a demo
+does not start, install it from https://dotnet.microsoft.com/download/dotnet/8.0
+(".NET Desktop Runtime 8.x", Windows x64), then try again. It is not bundled.
 
 RECOMMENDED CONSUMPTION PATH: NuGet
 -----------------------------------
