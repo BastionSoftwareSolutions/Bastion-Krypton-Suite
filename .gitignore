@@ -23,3 +23,7 @@
 /Help/Working/
 /Help/*.log
 
+
+# Runtime detritus from the TreeGridView demo
+Northwind_small.sqlite
+
