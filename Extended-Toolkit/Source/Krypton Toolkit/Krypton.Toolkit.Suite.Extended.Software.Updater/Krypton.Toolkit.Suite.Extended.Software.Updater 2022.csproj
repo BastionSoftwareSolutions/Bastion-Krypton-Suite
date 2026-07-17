@@ -1,0 +1,209 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<Choose>
+		<When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Release' Or '$(Configuration)' == 'Debug'">
+			<PropertyGroup>
+				<!-- Use centralized TFM configuration from Directory.Build.props -->
+		<TargetFrameworks>$(ActiveExtendedToolkitTFMs)</TargetFrameworks>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<!--If all else fails-->
+			<PropertyGroup>
+				<!-- Use centralized TFM configuration from Directory.Build.props -->
+		<TargetFrameworks>$(ActiveExtendedToolkitTFMs)</TargetFrameworks>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<PropertyGroup>
+		<OutputType>library</OutputType>
+		<RootNamespace>Krypton.Toolkit.Suite.Extended.Software.Updater</RootNamespace>
+		<AssemblyName>Bastion.Krypton.Extended.Software.Updater</AssemblyName>
+		<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+		<UseWindowsForms>true</UseWindowsForms>
+		<NeutralLanguage>en</NeutralLanguage>		<LangVersion>preview</LangVersion>
+		<Nullable>enable</Nullable>
+		<WarningLevel>6</WarningLevel>
+		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+	</PropertyGroup>
+
+	<!--Package Data-->
+	<Choose>
+		<When Condition="'$(Configuration)' == 'Canary'">
+			<PropertyGroup>
+				<PackageId>Bastion.Krypton.Extended.Software.Updater.Canary</PackageId>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(Configuration)' == 'Nightly'">
+			<PropertyGroup>
+				<PackageId>Bastion.Krypton.Extended.Software.Updater.Nightly</PackageId>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(Configuration)' == 'Release'">
+			<PropertyGroup>
+				<PackageId>Bastion.Krypton.Extended.Software.Updater</PackageId>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<PackageId>Bastion.Krypton.Extended.Software.Updater</PackageId>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<PropertyGroup>
+		<Description>
+			An extension to the Standard Toolkit, which supports .NET Framework 4.6.2 - 4.8.1, .NET 8 - 10. This package implements software updating features.
+
+			This package supports all .NET Framework versions starting .NET Framework 4.6.2 - 4.8.1, .NET 8 - 10.
+			Also, all libraries are included targeting each specific framework version for performance purposes.
+
+			To view all of the extended toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Extended/Krypton-Toolkit-Suite-Extended-Modules.md
+		</Description>
+	</PropertyGroup>
+
+	<Choose>
+		<When Condition="'$(SolutionName.Endswith(`NuGet`))'">
+			<Choose>
+				<When Condition="'$(Configuration)' == 'Nightly'">
+					<ItemGroup>
+						<PackageReference Include="Krypton.Toolkit.Nightly" Version="100.25.6.167-alpha" />
+					</ItemGroup>
+				</When>
+
+				<When Condition="'$(Configuration)' == 'Canary'">
+					<ItemGroup>
+						<PackageReference Include="Krypton.Toolkit.Canary" Version="100.25.6.171-beta" />
+					</ItemGroup>
+				</When>
+
+				<When Condition="'$(Configuration)' == 'Release'">
+					<ItemGroup>
+						<PackageReference Include="Krypton.Toolkit" Version="95.25.4.111" />
+					</ItemGroup>
+				</When>
+
+				<Otherwise>
+					<ItemGroup>
+						<PackageReference Include="Krypton.Toolkit" Version="95.25.10.293" />
+					</ItemGroup>
+				</Otherwise>
+			</Choose>
+		</When>
+		<Otherwise>
+			<ItemGroup>
+				<ProjectReference Include="..\..\..\..\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
+
+	<!-- ReSharper disable once UnknownProperty -->
+	<!-- ReSharper disable once UnknownProperty -->
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+		<Reference Include="System.IO.Compression" />
+		<Reference Include="System.IO.Compression.FileSystem" />
+	</ItemGroup>
+	<ItemGroup>
+		<!-- Bastion: System.Drawing.Common PackageReference removed — its 10.0.0.0 assembly cannot
+		     bind on the net5–net9 desktop runtimes (FileLoadException at first use), and every TFM
+		     in the matrix already gets System.Drawing from the Windows Desktop framework / GAC. -->
+		<PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.44.1">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<!-- Bastion: WebView2 1.0.3595.46 ships net462+ assets only; net46 pins the last
+		     net45-asset release so the update dialog keeps its embedded browser (ladder rung b). -->
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3595.46" Condition="'$(TargetFramework)' != 'net46'" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2478.35" Condition="'$(TargetFramework)' == 'net46'" />
+		<PackageReference Include="System.Net.Http" Version="4.3.4" />
+		<PackageReference Include="ZipStorer" Version="4.2.0" Condition="'$(TargetFramework)' != 'net46'" />
+	</ItemGroup>
+
+	<!--Binary/Documentation Output-->
+	<PropertyGroup>
+		<DocumentationFile>..\..\..\Bin\$(configuration)\Krypton.Toolkit.Suite.Extended.Software.Updater\Krypton.Toolkit.Suite.Extended.Software.Updater.xml</DocumentationFile>
+		<OutputPath>..\..\..\Bin\$(configuration)\Krypton.Toolkit.Suite.Extended.Software.Updater\</OutputPath>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="..\Krypton.Toolkit.Suite.Extended.Common\Utilities\AllowNullAttribute.cs" Link="General\AllowNullAttribute.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Common\Krypton.Toolkit.Suite.Extended.Common 2022.csproj" />
+		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Developer.Utilities\Krypton.Toolkit.Suite.Extended.Developer.Utilities 2022.csproj" />
+		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Software.Updater.Core\Krypton.Toolkit.Suite.Extended.Software.Updater.Core 2022.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<!-- Bastion: the AutoUpdater vendored code supports WPF hosts (SetOwner(Window), Wpf32Window,
+	     Application.Current.Dispatcher). net4x gets WPF from the framework assemblies below;
+	     .NET (Core) TFMs use UseWPF so net5/6/7 (whose WinForms-only profile omits
+	     WindowsBase/PresentationCore) resolve the same types as net8+. -->
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+		<Reference Include="PresentationCore" />
+		<Reference Include="PresentationFramework" />
+		<Reference Include="WindowsBase" />
+	</ItemGroup>
+
+	<PropertyGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Update="License\License.txt">
+			<PackagePath></PackagePath>
+			<Pack>true</Pack>
+		</None>
+	</ItemGroup>
+
+	<!--Optimisation-->
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Nightly|net48|AnyCPU'">
+		<Optimize>True</Optimize>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Nightly|net481|AnyCPU'">
+		<Optimize>True</Optimize>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Nightly|net6.0-windows|AnyCPU'">
+		<Optimize>True</Optimize>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Nightly|net7.0-windows|AnyCPU'">
+		<Optimize>True</Optimize>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Canary|net48|AnyCPU'">
+		<Optimize>True</Optimize>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Canary|net481|AnyCPU'">
+		<Optimize>True</Optimize>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Canary|net6.0-windows|AnyCPU'">
+		<Optimize>True</Optimize>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Canary|net7.0-windows|AnyCPU'">
+		<Optimize>True</Optimize>
+	</PropertyGroup>
+
+</Project>

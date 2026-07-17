@@ -1,0 +1,19 @@
+<!--
+	© Bastion Software Solutions Ltd. Derived work from the MIT-licensed Krypton Toolkit Suite Extended.
+
+	Deliberately empty ILRepack.targets.
+
+	ILRepack.Lib.MSBuild.Task's fallback target (used when no project-local ILRepack.targets
+	exists) merges *every* DLL in the output directory into the primary assembly and then
+	deletes the copy-local files. Under the Bastion source build the output directory contains
+	the Krypton core assemblies (built from the sibling Standard-Toolkit via ProjectReference),
+	so that fallback tries to merge the entire core into this module and fails
+	("Failed to resolve assembly: Krypton.Toolkit ...") — and merging the core would be wrong
+	even if it succeeded (duplicate core types across the suite).
+
+	Providing this empty file suppresses the fallback target, so no merging takes place.
+	If a vendored-dependency merge is ever wanted for the standalone NuGet package, define an
+	explicit ILRepack target here with a curated InputAssemblies list instead.
+-->
+<Project>
+</Project>
