@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- ============================================================
+       Bastion.Krypton.Suite - core metapackage (spec Sec 8.1).
+       Metadata-only: pulls in the five core Bastion.Krypton.* packages as
+       dependencies (one per-TFM dependency group across the full 11-TFM
+       matrix) and ships no lib/ of its own. Deliberately located OUTSIDE
+       'Source\Krypton Components' so it does NOT inherit that tree's heavy
+       resource/package props (which would inject stray dependencies); it is
+       self-contained. Version/authors are supplied by pack.ps1 (-p:...).
+       Licence: BSD-3-Clause (matches the five core packages).
+       ============================================================ -->
+
+  <PropertyGroup>
+    <TargetFrameworks>net46;net47;net472;net48;net481;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+    <PackageId>Bastion.Krypton.Suite</PackageId>
+
+    <!-- Metapackage: no assembly of its own is shipped. -->
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <IncludeSymbols>false</IncludeSymbols>
+    <SuppressDependenciesWhenPacking>false</SuppressDependenciesWhenPacking>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <UseWindowsForms>false</UseWindowsForms>
+    <!-- NU5128: dependency groups but no lib/ref assets - expected for a metapackage. -->
+    <NoWarn>$(NoWarn);NU5128;NU5017;NETSDK1138</NoWarn>
+    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+
+    <!-- Package metadata -->
+    <Authors>Bastion Software Solutions Ltd</Authors>
+    <Company>Bastion Software Solutions Ltd</Company>
+    <Copyright>(c) Component Factory Pty Ltd, 2006-2016; Krypton Suite, 2017-. Bastion redistribution.</Copyright>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/Bastion-Software-Solutions/Krypton-Ultimate</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Bastion-Software-Solutions/Krypton-Ultimate</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>Icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>Krypton ComponentFactory WinForms Themes Controls DataGrid Ribbon Workspace Docking Navigator Tabs Toolkit Bastion</PackageTags>
+    <Description>Bastion Krypton Suite - metapackage. Installs the complete Bastion Krypton core: Toolkit, Ribbon, Navigator, Workspace and Docking. A drop-in redistribution of the Krypton Standard Toolkit (upstream baseline 105.x); original controls (c) Component Factory Pty Ltd and the Krypton Suite team. Namespaces and public types are unchanged - existing 'using Krypton.*;' code compiles without modification.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\Assets\PNG\NuGet Package Icons\Krypton Stable.png" Link="Icon.png" Pack="true" PackagePath="Icon.png" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+    <ProjectReference Include="..\..\Source\Krypton Components\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
+    <ProjectReference Include="..\..\Source\Krypton Components\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
+    <ProjectReference Include="..\..\Source\Krypton Components\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
+    <ProjectReference Include="..\..\Source\Krypton Components\Krypton.Docking\Krypton.Docking 2022.csproj" />
+  </ItemGroup>
+
+</Project>
