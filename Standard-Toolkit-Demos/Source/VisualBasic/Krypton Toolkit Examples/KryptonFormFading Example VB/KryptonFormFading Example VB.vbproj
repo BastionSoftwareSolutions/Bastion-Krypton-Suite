@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <RootNamespace>KryptonFormFadingExamples</RootNamespace>
+        <AssemblyName>Krypton Form Fading ExamplesVB</AssemblyName>
+        <ApplicationIcon>Krypton.ico</ApplicationIcon>
+        <UseApplicationTrust>false</UseApplicationTrust>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <UseWindowsForms>true</UseWindowsForms>
+        <NeutralLanguage>en</NeutralLanguage>
+        <!-- Directory.Build.props sets LangVersion=preview for the C# demos; vbc has no
+             'preview' language version, so the VB twins pin 'latest' instead. -->
+        <LangVersion>latest</LangVersion>
+        <OptionStrict>On</OptionStrict>
+        <OptionExplicit>On</OptionExplicit>
+        <OptionInfer>On</OptionInfer>
+        <StartupObject>KryptonFormFadingExamples.Program</StartupObject>
+        <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+        <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+        <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="Krypton.ico" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="Krypton.ico" />
+    </ItemGroup>
+
+    <Choose>
+        <When Condition="'$(SolutionName.Endswith(`Nuget`))'">
+            <ItemGroup>
+                <PackageReference Include="Krypton.Toolkit.Canary" Version="100.25.8.234-beta" />
+            </ItemGroup>
+        </When>
+        <Otherwise>
+            <ItemGroup>
+                <ProjectReference Include="..\..\..\..\..\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+            </ItemGroup>
+        </Otherwise>
+    </Choose>
+
+    <PropertyGroup>
+        <OutputPath>..\..\..\..\Binaries\Krypton Demos\$(Configuration)\</OutputPath>
+    </PropertyGroup>
+
+</Project>

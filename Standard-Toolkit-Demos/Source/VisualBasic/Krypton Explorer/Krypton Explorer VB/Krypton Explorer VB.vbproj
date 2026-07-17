@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <RootNamespace>KryptonExplorer</RootNamespace>
+        <AssemblyName>Krypton ExplorerVB</AssemblyName>
+        <MyType>WindowsFormsWithCustomSubMain</MyType>
+        <StartupObject>KryptonExplorer.Program</StartupObject>
+        <LangVersion>Latest</LangVersion>
+        <OptionStrict>On</OptionStrict>
+        <OptionExplicit>On</OptionExplicit>
+        <OptionInfer>On</OptionInfer>
+        <ApplicationIcon>Krypton.ico</ApplicationIcon>
+        <UseApplicationTrust>false</UseApplicationTrust>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <UseWindowsForms>true</UseWindowsForms>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+        <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+        <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Remove="Krypton.ico" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="Krypton.ico" />
+    </ItemGroup>
+    <ItemGroup>
+        <Reference Include="System.Net.Http" />
+    </ItemGroup>
+    <Choose>
+        <When Condition="'$(SolutionName.Endswith(`Nuget`))'">
+            <ItemGroup>
+                <PackageReference Include="Krypton.Toolkit.Canary" Version="100.25.8.234-beta" />
+                <PackageReference Include="Krypton.Navigator.Canary" Version="100.25.8.234-beta" />
+            </ItemGroup>
+        </When>
+        <Otherwise>
+            <ItemGroup>
+                <ProjectReference Include="..\..\..\..\..\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+                <ProjectReference Include="..\..\..\..\..\Standard-Toolkit\Source\Krypton Components\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
+            </ItemGroup>
+        </Otherwise>
+    </Choose>
+    <PropertyGroup>
+        <OutputPath>..\..\..\..\Binaries\Krypton Demos\$(Configuration)\</OutputPath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-windows|AnyCPU'">
+        <WarningLevel>8</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-windows|AnyCPU'">
+        <WarningLevel>8</WarningLevel>
+    </PropertyGroup>
+</Project>

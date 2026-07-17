@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <!-- The C# csproj declares RootNamespace 'KryptonFolderBrowserDialog', but every C# file
+             uses the namespace below; the VB twin adopts the code namespace so that designer
+             resources resolve identically. -->
+        <RootNamespace>KryptonFolderBrowserDialog_Example_2019</RootNamespace>
+        <AssemblyName>KryptonFolderBrowserDialog ExampleVB</AssemblyName>
+        <UseWindowsForms>true</UseWindowsForms>
+        <!-- Directory.Build.props sets LangVersion=preview for the C# demos; vbc has no
+             'preview' language version, so the VB twins pin 'latest' instead. -->
+        <LangVersion>latest</LangVersion>
+        <OptionStrict>On</OptionStrict>
+        <OptionExplicit>On</OptionExplicit>
+        <OptionInfer>On</OptionInfer>
+        <StartupObject>KryptonFolderBrowserDialog_Example_2019.Program</StartupObject>
+        <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+        <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+        <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+    </PropertyGroup>
+    <Choose>
+        <When Condition="'$(SolutionName.Endswith(`Nuget`))'">
+            <ItemGroup>
+                <PackageReference Include="Krypton.Toolkit.Canary" Version="100.25.8.234-beta" />
+            </ItemGroup>
+        </When>
+        <Otherwise>
+            <ItemGroup>
+                <ProjectReference Include="..\..\..\..\..\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+            </ItemGroup>
+        </Otherwise>
+    </Choose>
+    <PropertyGroup>
+        <OutputPath>..\..\..\..\Binaries\Krypton Demos\$(Configuration)\</OutputPath>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+    </PropertyGroup>
+</Project>

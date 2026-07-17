@@ -1,0 +1,213 @@
+#Region "BSD License"
+'
+' Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+'  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+'
+'  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+'  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved.
+'
+' VB.NET twin of Source\Krypton Toolkit Examples\KryptonButton Examples\Form1.cs (Bastion Phase 4c).
+#End Region
+
+Imports System
+Imports System.ComponentModel
+Imports System.Drawing
+Imports System.Windows.Forms
+
+Imports Krypton.Toolkit
+
+Public Class Form1
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' Setup the property grid to edit this button
+        propertyGrid.SelectedObject = New KryptonButtonProxy(button1Sparkle)
+    End Sub
+
+    Private Sub button_Enter(sender As Object, e As EventArgs) Handles _
+        button1Sparkle.Enter, button2Sparkle.Enter, button3Sparkle.Enter, button4Sparkle.Enter, button5Sparkle.Enter, button6Sparkle.Enter,
+        groupBox1.Enter,
+        button1Custom.Enter, button2Custom.Enter, button3Custom.Enter, button4Custom.Enter, button5Custom.Enter,
+        button1System.Enter, button2System.Enter, button3System.Enter, button4System.Enter, button5System.Enter, button6System.Enter,
+        button1Green.Enter, button2Green.Enter, button3Green.Enter, button4Green.Enter, button5Green.Enter, button6Green.Enter,
+        button1Red.Enter, button2Red.Enter, button3Red.Enter, button4Red.Enter, button5Red.Enter, button6Red.Enter,
+        kryptonButton1.Enter, kryptonButton2.Enter, kryptonButton3.Enter, kryptonButton4.Enter, kryptonButton5.Enter, kryptonButton6.Enter, kryptonButton7.Enter, kryptonButton8.Enter
+
+        ' Setup the property grid to edit this button
+        Dim kb As KryptonButton = TryCast(sender, KryptonButton)
+        If kb IsNot Nothing Then
+            propertyGrid.SelectedObject = New KryptonButtonProxy(kb)
+        End If
+    End Sub
+
+    Private Sub buttonClose_Click(sender As Object, e As EventArgs)
+        Close()
+    End Sub
+
+End Class
+
+Public Class KryptonButtonProxy
+
+    Private _button As KryptonButton
+
+    Public Sub New(button As KryptonButton)
+        _button = button
+    End Sub
+
+    <Category("Visuals")>
+    <Description("Button style.")>
+    <DefaultValue(Krypton.Toolkit.ButtonStyle.Standalone)>
+    Public Property ButtonStyle As Krypton.Toolkit.ButtonStyle
+        Get
+            Return _button.ButtonStyle
+        End Get
+        Set(value As Krypton.Toolkit.ButtonStyle)
+            _button.ButtonStyle = value
+        End Set
+    End Property
+
+    <Category("Visuals")>
+    <Description("Button values")>
+    Public ReadOnly Property Values As ButtonValues
+        Get
+            Return _button.Values
+        End Get
+    End Property
+
+    <Category("Visuals")>
+    <Description("Overrides for defining common button appearance that other states can override.")>
+    Public ReadOnly Property StateCommon As PaletteTripleRedirect
+        Get
+            Return _button.StateCommon
+        End Get
+    End Property
+
+    <Category("Visuals")>
+    <Description("Overrides for defining disabled button appearance.")>
+    Public ReadOnly Property StateDisabled As PaletteTriple
+        Get
+            Return _button.StateDisabled
+        End Get
+    End Property
+
+    <Category("Visuals")>
+    <Description("Overrides for defining normal button appearance.")>
+    Public ReadOnly Property StateNormal As PaletteTriple
+        Get
+            Return _button.StateNormal
+        End Get
+    End Property
+
+    <Category("Visuals")>
+    <Description("Overrides for defining hot tracking button appearance.")>
+    Public ReadOnly Property StateTracking As PaletteTriple
+        Get
+            Return _button.StateTracking
+        End Get
+    End Property
+
+    <Category("Visuals")>
+    <Description("Overrides for defining pressed button appearance.")>
+    Public ReadOnly Property StatePressed As PaletteTriple
+        Get
+            Return _button.StatePressed
+        End Get
+    End Property
+
+    <Category("Visuals")>
+    <Description("Overrides for defining normal button appearance when default.")>
+    Public ReadOnly Property OverrideDefault As PaletteTripleRedirect
+        Get
+            Return _button.OverrideDefault
+        End Get
+    End Property
+
+    <Category("Visuals")>
+    <Description("Overrides for defining button appearance when it has focus.")>
+    Public ReadOnly Property OverrideFocus As PaletteTripleRedirect
+        Get
+            Return _button.OverrideFocus
+        End Get
+    End Property
+
+    <Category("Visuals")>
+    <Description("Visual orientation of the control.")>
+    <DefaultValue(VisualOrientation.Top)>
+    Public Property Orientation As VisualOrientation
+        Get
+            Return _button.Orientation
+        End Get
+        Set(value As VisualOrientation)
+            _button.Orientation = value
+        End Set
+    End Property
+
+    <Category("Visuals")>
+    <Description("Palette applied to drawing.")>
+    <DefaultValue(Krypton.Toolkit.PaletteMode.Global)>
+    Public Property PaletteMode As Krypton.Toolkit.PaletteMode
+        Get
+            Return _button.PaletteMode
+        End Get
+        Set(value As Krypton.Toolkit.PaletteMode)
+            _button.PaletteMode = value
+        End Set
+    End Property
+
+    <Category("Layout")>
+    <Description("Specifies whether a control will automatically size itself to fit its contents.")>
+    <DefaultValue(False)>
+    Public Property AutoSize As Boolean
+        Get
+            Return _button.AutoSize
+        End Get
+        Set(value As Boolean)
+            _button.AutoSize = value
+        End Set
+    End Property
+
+    <Category("Layout")>
+    <Description("Specifies if the control grows and shrinks to fit the contents exactly.")>
+    <DefaultValue(System.Windows.Forms.AutoSizeMode.GrowOnly)>
+    Public Property AutoSizeMode As System.Windows.Forms.AutoSizeMode
+        Get
+            Return _button.AutoSizeMode
+        End Get
+        Set(value As System.Windows.Forms.AutoSizeMode)
+            _button.AutoSizeMode = value
+        End Set
+    End Property
+
+    <Category("Layout")>
+    <Description("The size of the control is pixels.")>
+    Public Property Size As System.Drawing.Size
+        Get
+            Return _button.Size
+        End Get
+        Set(value As System.Drawing.Size)
+            _button.Size = value
+        End Set
+    End Property
+
+    <Category("Layout")>
+    <Description("The location of the control in pixels.")>
+    Public Property Location As Point
+        Get
+            Return _button.Location
+        End Get
+        Set(value As Point)
+            _button.Location = value
+        End Set
+    End Property
+
+    <Category("Behavior")>
+    <Description("Indicates whether the control is enabled.")>
+    Public Property Enabled As Boolean
+        Get
+            Return _button.Enabled
+        End Get
+        Set(value As Boolean)
+            _button.Enabled = value
+        End Set
+    End Property
+
+End Class
