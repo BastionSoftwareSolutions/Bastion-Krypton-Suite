@@ -30,13 +30,15 @@ The colour-picker control family in this module is derived from
 - **Origin:** <https://github.com/cyotek/Cyotek.Windows.Forms.ImageBox>
 - **Licence:** MIT — Copyright © Cyotek Ltd (Richard Moss).
 
-> **Unresolved:** the `DrawGlowShadow` method inside `ImageBoxExtended.cs`
-> (inherited from Cyotek ImageBox) is adapted from the CodeProject article
-> "gGlowBox - Create a glow effect around a focused control" by SSDiver2112,
-> which is published under the Code Project Open License (CPOL). CPOL notice
-> obligations are not currently met; this fragment is under review — see the
-> escalation section of `docs/audit/THIRD-PARTY-LICENCES.md` in the Bastion
-> workspace. Do not ship this file in a release before that review concludes.
+> **Resolved (17 July 2026):** the `DrawGlowShadow` method inside
+> `ImageBoxExtended.cs` was previously adapted from the CodeProject article
+> "gGlowBox - Create a glow effect around a focused control" by SSDiver2112
+> (Code Project Open License, CPOL — incompatible with plain-MIT redistribution).
+> It has been **replaced with an original clean-room implementation** written from
+> the behavioural description alone (concentric alpha-ramped rounded-rectangle
+> strokes), © Bastion Software Solutions Ltd 2026 (MIT). The CPOL credit comment
+> has been removed. No CPOL-derived code remains in this module. See the resolved
+> section of `docs/audit/THIRD-PARTY-LICENCES.md` in the Bastion workspace.
 
 ## Upstream licence text (Cyotek, MIT)
 

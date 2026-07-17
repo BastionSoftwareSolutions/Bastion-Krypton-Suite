@@ -162,7 +162,7 @@
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Controls\Krypton.Toolkit.Suite.Extended.Controls 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Buttons\Krypton.Toolkit.Suite.Extended.Buttons 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.ComboBox\Krypton.Toolkit.Suite.Extended.ComboBox 2022.csproj" />
-		<!-- Bastion Phase 7: Toggle.Switch is go/no-go pending (CPOL lineage, THIRD-PARTY-LICENCES.md 3.1 Item B) - excluded from the Ultimate metapackage and the shippable set. -->
+		<!-- Bastion: Toggle.Switch is removed from the suite (CPOL lineage, THIRD-PARTY-LICENCES.md 3.1 Item B) - excluded from the Ultimate metapackage and the shippable set. -->
 		<!-- <ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Toggle.Switch\Krypton.Toolkit.Suite.Extended.Toggle.Switch 2022.csproj" /> -->
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Circular.ProgressBar\Krypton.Toolkit.Suite.Extended.Circular.ProgressBar 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Panels\Krypton.Toolkit.Suite.Extended.Panels 2022.csproj" />

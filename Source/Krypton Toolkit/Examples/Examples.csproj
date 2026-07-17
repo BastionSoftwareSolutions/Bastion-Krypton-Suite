@@ -121,7 +121,8 @@
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Theme.Switcher\Krypton.Toolkit.Suite.Extended.Theme.Switcher 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.ToastNotification\Krypton.Toolkit.Suite.Extended.ToastNotification 2022.csproj" />
 		<!--<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Toast\Krypton.Toolkit.Suite.Extended.Toast 2022.csproj" />-->
-		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Toggle.Switch\Krypton.Toolkit.Suite.Extended.Toggle.Switch 2022.csproj" />
+		<!-- Bastion: Toggle.Switch module removed from the suite (CPOL lineage — see docs/audit/THIRD-PARTY-LICENCES.md). -->
+		<!-- <ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Toggle.Switch\Krypton.Toolkit.Suite.Extended.Toggle.Switch 2022.csproj" /> -->
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Tool.Box\Krypton.Toolkit.Suite.Extended.Tool.Box 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Tool.Strip.Items\Krypton.Toolkit.Suite.Extended.Tool.Strip.Items 2022.csproj" />
 		<!--<ProjectReference Include="..\Krypton.Toolkit.Suite.Extended.Tools\Krypton.Toolkit.Suite.Extended.Tools 2022.csproj" />-->

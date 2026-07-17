@@ -2876,40 +2876,105 @@ public class ImageBoxExtended : VirtualScrollableControl
     }
 
     /// <summary>
-    ///   Draws a glow shadow.
+    ///   Draws a soft glow/shadow border around the image view port.
     /// </summary>
+    /// <remarks>
+    ///   Original implementation © Bastion Software Solutions Ltd 2026 (MIT, part of the Extended tree).
+    ///   The effect is produced by stroking a sequence of rounded-rectangle outlines that sit just
+    ///   outside the image bounds; each successive outline is drawn one pixel further out with a pen
+    ///   whose alpha is ramped down linearly with distance, so the border fades smoothly to nothing.
+    ///   The interior is clipped out so the glow never bleeds over the image itself.
+    /// </remarks>
     /// <param name="g">The graphics.</param>
     /// <param name="viewPort">The view port.</param>
     protected virtual void DrawGlowShadow(Graphics g, Rectangle viewPort)
     {
-        // Glow code adapted from http://www.codeproject.com/Articles/372743/gGlowBox-Create-a-glow-effect-around-a-focused-con
+        // Number of fading outlines to stroke; scales with the configured drop-shadow size.
+        int glowWidth = this.DropShadowSize * 3;
 
-        g.SetClip(viewPort, CombineMode.Exclude); // make sure the inside glow doesn't appear
-
-        using (GraphicsPath path = new GraphicsPath())
+        if (glowWidth <= 0 || viewPort.Width <= 0 || viewPort.Height <= 0)
         {
-            int glowSize;
-            int feather;
+            return;
+        }
 
-            path.AddRectangle(viewPort);
-            glowSize = this.DropShadowSize * 3;
-            feather = 50;
+        // Peak opacity of the innermost outline; each ring outward fades from this value to zero.
+        const int baseAlpha = 90;
 
-            for (int i = 1; i <= glowSize; i += 2)
+        // Corner rounding keeps the outer rings visually soft.
+        const int cornerRadius = 4;
+
+        GraphicsState state = g.Save();
+
+        try
+        {
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            // Keep the glow strictly outside the image so it never paints over the picture.
+            g.SetClip(viewPort, CombineMode.Exclude);
+
+            Color glowColour = this.ImageBorderColor;
+
+            for (int i = 0; i < glowWidth; i++)
             {
-                int alpha;
+                // Inflate the outline by one pixel per ring, starting flush with the view port edge.
+                Rectangle bounds = viewPort;
+                bounds.Inflate(i + 1, i + 1);
 
-                alpha = feather - feather / glowSize * i;
+                // Linear alpha ramp: full strength at the edge, transparent at the outer limit.
+                int alpha = baseAlpha * (glowWidth - i) / glowWidth;
 
-                using (Pen pen = new Pen(Color.FromArgb(alpha, this.ImageBorderColor), i)
-                       {
-                           LineJoin = LineJoin.Round
-                       })
+                if (alpha <= 0)
+                {
+                    continue;
+                }
+
+                using (GraphicsPath path = CreateRoundedRectanglePath(bounds, cornerRadius + i))
+                using (Pen pen = new Pen(Color.FromArgb(alpha, glowColour), 1.0f)
+                {
+                    LineJoin = LineJoin.Round
+                })
                 {
                     g.DrawPath(pen, path);
                 }
             }
         }
+        finally
+        {
+            g.Restore(state);
+        }
+    }
+
+    /// <summary>
+    ///   Builds a rounded-rectangle <see cref="GraphicsPath"/> for the glow outlines.
+    ///   Original implementation © Bastion Software Solutions Ltd 2026 (MIT, part of the Extended tree).
+    /// </summary>
+    /// <param name="bounds">The bounding rectangle.</param>
+    /// <param name="radius">The corner radius (clamped to the rectangle's half-extent).</param>
+    /// <returns>A closed rounded-rectangle path.</returns>
+    private static GraphicsPath CreateRoundedRectanglePath(Rectangle bounds, int radius)
+    {
+        GraphicsPath path = new GraphicsPath();
+
+        int diameter = Math.Max(1, Math.Min(radius * 2, Math.Min(bounds.Width, bounds.Height)));
+
+        if (diameter <= 1)
+        {
+            path.AddRectangle(bounds);
+            return path;
+        }
+
+        Rectangle arc = new Rectangle(bounds.Location, new Size(diameter, diameter));
+
+        path.AddArc(arc, 180, 90);                                   // top-left corner
+        arc.X = bounds.Right - diameter;
+        path.AddArc(arc, 270, 90);                                   // top-right corner
+        arc.Y = bounds.Bottom - diameter;
+        path.AddArc(arc, 0, 90);                                     // bottom-right corner
+        arc.X = bounds.Left;
+        path.AddArc(arc, 90, 90);                                    // bottom-left corner
+        path.CloseFigure();
+
+        return path;
     }
 
     /// <summary>

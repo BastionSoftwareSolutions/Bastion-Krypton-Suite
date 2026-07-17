@@ -110,12 +110,6 @@
 		<Reference Include="System.IO.Compression.FileSystem" />
 	</ItemGroup>
 	<ItemGroup>
-		<Compile Remove="Sharp Update\Resources\**" />
-		<EmbeddedResource Remove="Sharp Update\Resources\**" />
-		<None Remove="Sharp Update\Resources\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<!-- Bastion: System.Drawing.Common PackageReference removed — its 10.0.0.0 assembly cannot
 		     bind on the net5–net9 desktop runtimes (FileLoadException at first use), and every TFM
 		     in the matrix already gets System.Drawing from the Windows Desktop framework / GAC. -->

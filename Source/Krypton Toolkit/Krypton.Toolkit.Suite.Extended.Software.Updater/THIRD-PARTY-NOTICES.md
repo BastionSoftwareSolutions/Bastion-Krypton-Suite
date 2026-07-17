@@ -1,8 +1,15 @@
 # Third-party notices — Krypton.Toolkit.Suite.Extended.Software.Updater
 
-This module vendors two third-party updater code bases. The notices below were
-restored on 15 July 2026 by the Bastion Krypton Suite third-party licence audit;
-the original import carried no upstream attribution.
+This module vendors the AutoUpdater.NET updater code base (MIT). The notice below
+was restored on 15 July 2026 by the Bastion Krypton Suite third-party licence
+audit; the original import carried no upstream attribution.
+
+> **SharpUpdate removed (17 July 2026).** The former `Sharp Update\` source folder
+> (derived from <https://github.com/henryxrl/SharpUpdate>, which declares **no
+> upstream licence** and therefore granted no redistribution right) has been
+> deleted from the suite for the public release. The AutoUpdater.NET and NetSparkle
+> update paths already cover the module's use case. See
+> `docs/audit/THIRD-PARTY-LICENCES.md` (Bastion workspace) for the resolution.
 
 ## `Auto Updater\` — AutoUpdater.NET
 
@@ -13,19 +20,6 @@ the original import carried no upstream attribution.
   `Krypton.Toolkit.Suite.Extended.Software.Updater`, dialogs re-implemented on
   Krypton controls, and translation/language-manager classes added by the
   Krypton Suite team.
-
-## `Sharp Update\` — SharpUpdate
-
-- **Origin:** SharpUpdate — <https://github.com/henryxrl/SharpUpdate> (Henry Xu),
-  itself derived from the "AutoUpdater" C# tutorial series by BetterCoder
-  (YouTube).
-- **Licence:** **none declared upstream.** The SharpUpdate repository publishes no
-  LICENSE file, which means the code enjoys default copyright protection and no
-  explicit redistribution permission exists. This is recorded as an open
-  compliance risk in `docs/audit/THIRD-PARTY-LICENCES.md` (Bastion workspace) and
-  has been escalated for a decision (obtain permission / replace / remove).
-- **Modifications:** namespaces rewritten, forms re-implemented on Krypton
-  controls, translation classes added.
 
 Krypton Suite additions in this module are MIT — Copyright (c) 2017 - 2024
 Krypton Suite (see `License\License.txt`).
