@@ -102,8 +102,17 @@ Get-ChildItem "artifacts\nuget\*.nupkg" | ForEach-Object {
 
 ### Step 3B — Route B: publish from a GitHub Actions workflow
 
-Add a `.github/workflows/release.yml` (name it to match your Trusted Publishing policy) that
-builds/downloads the nupkgs and pushes them. The key part:
+**A ready-made workflow already exists — you don't need to write any YAML.** It's committed at
+[`.github/workflows/release.yml`](../.github/workflows/release.yml): it builds all 57 packages
+(full 11-TFM matrix) and pushes them via Trusted Publishing. To use it:
+
+1. Finish the Trusted Publishing policy on nuget.org with **Workflow File = `release.yml`**.
+2. Add one repo secret: GitHub repo → **Settings → Secrets and variables → Actions → New
+   repository secret** → name **`NUGET_USER`**, value = your **nuget.org profile name** (not email).
+3. Publish by either pushing a tag (`git tag v1.0.0 ; git push origin v1.0.0`) **or** going to
+   the repo's **Actions → "release" → Run workflow** and entering the version.
+
+For reference, the key part of that workflow is:
 
 ```yaml
 jobs:

@@ -43,17 +43,36 @@
 [CmdletBinding()]
 param(
     [string] $Version   = '1.0.0',
-    [string] $OutputDir = 'D:\Krypton-Ultimate\artifacts\nuget',
+    [string] $OutputDir = "$PSScriptRoot\artifacts\nuget",
     [ValidateSet('Core','Extended','All')]
     [string] $Scope     = 'All',
-    [switch] $Clean
+    [switch] $Clean,
+    # Desktop MSBuild is required (net46 builds under desktop MSBuild only). Leave blank to
+    # auto-discover — works locally (VS18) and on CI (GitHub windows-latest via vswhere / PATH).
+    [string] $MSBuildPath = ''
 )
 
 $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
 
-$msbuild = 'C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe'
-if (-not (Test-Path $msbuild)) { throw "Desktop MSBuild not found at: $msbuild" }
+# Resolve desktop MSBuild portably: explicit -MSBuildPath, then vswhere, then the local VS18
+# default, then whatever setup-msbuild put on PATH.
+$msbuild = $MSBuildPath
+if (-not $msbuild) {
+    $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+    if (Test-Path $vswhere) {
+        $msbuild = & $vswhere -latest -requires Microsoft.Component.MSBuild -find 'MSBuild\**\Bin\MSBuild.exe' 2>$null | Select-Object -First 1
+    }
+}
+if (-not $msbuild) {
+    $localVs18 = 'C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe'
+    if (Test-Path $localVs18) { $msbuild = $localVs18 }
+}
+if (-not $msbuild) { $onPath = Get-Command msbuild -ErrorAction SilentlyContinue; if ($onPath) { $msbuild = $onPath.Source } }
+if (-not $msbuild -or -not (Test-Path $msbuild)) {
+    throw "Desktop MSBuild not found (tried -MSBuildPath, vswhere, the VS18 default, and PATH)."
+}
+Write-Host "Using MSBuild: $msbuild"
 
 if ($Clean -and (Test-Path $OutputDir)) { Remove-Item -Recurse -Force $OutputDir }
 New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null

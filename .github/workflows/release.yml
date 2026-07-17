@@ -1,0 +1,93 @@
+# Bastion Krypton Suite — publish to nuget.org via Trusted Publishing (keyless).
+#
+# WHAT THIS DOES: builds all 57 Bastion.Krypton.* packages (full 11-TFM matrix) and pushes
+# them to nuget.org using a short-lived key obtained via OIDC — no stored API key.
+#
+# HOW TO USE:
+#   • On nuget.org, create a Trusted Publishing policy (name it anything, e.g.
+#     "bastion-krypton-suite-release") with:  Repository Owner = BastionSoftwareSolutions,
+#     Repository = Bastion-Krypton-Suite,  Workflow File = release.yml  (this file's name).
+#   • Add a repo secret NUGET_USER = your nuget.org PROFILE NAME (not your email):
+#     GitHub repo → Settings → Secrets and variables → Actions → New repository secret.
+#   • Then either push a version tag (git tag v1.0.0 ; git push origin v1.0.0)
+#     OR run it by hand: repo → Actions → "release" → Run workflow → enter the version.
+#
+# NOTE: this is UNTESTED on real GitHub CI — its first run is your release. The riskiest
+# step is the full 11-TFM pack on the runner (it's slow, ~30–60 min). If it gives trouble,
+# the manual route (docs/NUGET-ALLOCATION.md, Route A) always works from your PC.
+
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'            # e.g. push tag v1.0.0 to publish that version
+  workflow_dispatch:    # or run on demand from the Actions tab
+    inputs:
+      version:
+        description: 'Package version to publish (e.g. 1.0.0)'
+        required: true
+        default: '1.0.0'
+
+permissions:
+  contents: read
+  id-token: write       # REQUIRED — lets the job prove its identity to nuget.org (OIDC)
+
+jobs:
+  publish:
+    runs-on: windows-latest   # Windows is required: net46 + WinForms build under desktop MSBuild
+    timeout-minutes: 120
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Install the .NET SDKs
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Put desktop MSBuild on PATH (needed for the net46 target)
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Work out the version
+        id: ver
+        shell: pwsh
+        run: |
+          if ('${{ github.event_name }}' -eq 'push') {
+            $v = '${{ github.ref_name }}'.TrimStart('v')   # tag v1.0.0 -> 1.0.0
+          } else {
+            $v = '${{ github.event.inputs.version }}'
+          }
+          "version=$v" >> $env:GITHUB_OUTPUT
+          Write-Host "Publishing version $v"
+
+      - name: Build & pack all 57 packages (full 11-TFM matrix)
+        shell: pwsh
+        run: ./pack.ps1 -Scope All -Version ${{ steps.ver.outputs.version }} -OutputDir artifacts/nuget -Clean
+
+      - name: Save the packages as a downloadable build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages
+          path: |
+            artifacts/nuget/*.nupkg
+            artifacts/nuget/*.snupkg
+          if-no-files-found: error
+
+      - name: Get a short-lived NuGet key (Trusted Publishing / OIDC)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}   # your nuget.org profile name — NOT your email
+
+      - name: Push all packages to nuget.org
+        shell: pwsh
+        run: |
+          Get-ChildItem "artifacts/nuget/*.nupkg" | ForEach-Object {
+            dotnet nuget push $_.FullName `
+              --api-key ${{ steps.login.outputs.NUGET_API_KEY }} `
+              --source https://api.nuget.org/v3/index.json `
+              --skip-duplicate
+          }
