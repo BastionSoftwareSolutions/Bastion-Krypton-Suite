@@ -1,8 +1,7 @@
-# Upstream clones — independent git repositories, never committed here
-/Standard-Toolkit/
+# The 2017 Component Factory Ultimate source — audit/reference only, not part of the shipped suite.
 /ComponentFactory-Krypton/
-/Standard-Toolkit-Demos/
-/Extended-Toolkit/
+# Standard-Toolkit, Extended-Toolkit and Standard-Toolkit-Demos are brought into this repo as
+# git subtrees (history preserved) — they are tracked, not ignored.
 
 # Build detritus
 *.log
