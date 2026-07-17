@@ -14,6 +14,27 @@ NuGet package IDs gain a `Bastion.` prefix.
 > "Bastion Krypton Suite" states its derivation honestly under the terms of the upstream
 > BSD-3-Clause and MIT licences.
 
+<p align="center">
+  <img src="docs/themes/comparisons/gallery/Office2016Colorful.png" alt="Office 2016 Colorful theme" width="32%" />
+  <img src="docs/themes/comparisons/gallery/Office2019Black.png" alt="Office 2019 Black theme" width="32%" />
+  <img src="docs/themes/comparisons/gallery/Microsoft365Blue.png" alt="Microsoft 365 (2026) theme" width="32%" />
+</p>
+<p align="center"><em>The same Krypton form — ribbon, controls and window chrome — under three of the fourteen new palettes.</em></p>
+
+---
+
+## At a glance
+
+| | |
+|---|---|
+| **Target frameworks** | 11 — `net46` through `net10.0-windows` |
+| **Libraries** | 5 core + ~50 Extended modules, one source tree |
+| **Themes** | 62 palettes (14 new + a Microsoft 365 2026 refresh) |
+| **Samples** | 125 C# + 125 VB.NET twins — 2,750 launch tests, all green |
+| **Tests** | functional suite green on all 11 frameworks |
+| **Hardening** | ~40 pre-existing upstream defect classes found and fixed |
+| **Packages** | 57 NuGet packages, drop-in compatible |
+
 ---
 
 ## Why this exists
@@ -159,24 +180,51 @@ support/Learn crops and lossless application composites) — see
 [`docs/themes/references/SOURCES.md`](docs/themes/references/SOURCES.md) and the per-era colour
 tables in [`docs/themes/`](docs/themes/).
 
-| Office 2016 — Colorful | Microsoft 365 — Blue (2026) | Office 2019 — Black |
+Every screenshot below is a live render of the same representative form under that palette,
+captured by the bundled Theme Browser.
+
+**Office 2003 — Luna, restored** *(the classic look, un-gated to render on Windows 10/11)*
+
+| Blue | Olive | Silver |
 |---|---|---|
-| ![Office 2016 Colorful](docs/themes/comparisons/office2016-2019/Office2016Colorful.png) | ![Microsoft 365 Blue](docs/themes/comparisons/m365-2026/Microsoft365Blue.png) | ![Office 2019 Black](docs/themes/comparisons/office2016-2019/Office2019Black.png) |
+| ![Office 2003 Blue](docs/themes/comparisons/gallery/ProfessionalOffice2003.png) | ![Office 2003 Olive](docs/themes/comparisons/gallery/Office2003Olive.png) | ![Office 2003 Silver](docs/themes/comparisons/gallery/Office2003Silver.png) |
 
-The full set of new palettes:
+**Office 2016 — the Colorful era** *(accent-coloured title bar; distinct from Microsoft 365)*
 
-- **Office 2003** — Olive, Silver (the Luna era; blue already shipped upstream).
-- **Office 2016** — Colorful, White, Dark Gray.
-- **Office 2019** — Colorful, White, Dark Gray, Black.
-- **Office 2021 / 2024** — Colorful, White, Dark Gray, Black.
-- **Microsoft 365** — Dark Gray (new), plus a full refresh of the existing M365 palettes to
-  the genuine current visuals.
+| Colorful | White | Dark Gray |
+|---|---|---|
+| ![Office 2016 Colorful](docs/themes/comparisons/gallery/Office2016Colorful.png) | ![Office 2016 White](docs/themes/comparisons/gallery/Office2016White.png) | ![Office 2016 Dark Gray](docs/themes/comparisons/gallery/Office2016DarkGray.png) |
 
-These join the upstream families still present: Professional, Office 2007, Office 2010, Office
-2013, Sparkle, Visual Studio 2010 renderers and Material. Side-by-side comparison images for
-every mode live under
-[`docs/themes/comparisons/`](docs/themes/comparisons/) (`office2016-2019/`,
-`office2021-2003/`, `m365-2026/`).
+**Office 2019** *(the 2016 look refined, with the new Black variant)*
+
+| Colorful | White | Dark Gray | Black |
+|---|---|---|---|
+| ![Office 2019 Colorful](docs/themes/comparisons/gallery/Office2019Colorful.png) | ![Office 2019 White](docs/themes/comparisons/gallery/Office2019White.png) | ![Office 2019 Dark Gray](docs/themes/comparisons/gallery/Office2019DarkGray.png) | ![Office 2019 Black](docs/themes/comparisons/gallery/Office2019Black.png) |
+
+**Office 2021 / 2024 — the Fluent refresh** *(flatter; accent on the title bar only, white ribbon card)*
+
+| Colorful | White | Dark Gray | Black |
+|---|---|---|---|
+| ![Office 2021 Colorful](docs/themes/comparisons/gallery/Office2021Colorful.png) | ![Office 2021 White](docs/themes/comparisons/gallery/Office2021White.png) | ![Office 2021 Dark Gray](docs/themes/comparisons/gallery/Office2021DarkGray.png) | ![Office 2021 Black](docs/themes/comparisons/gallery/Office2021Black.png) |
+
+**Microsoft 365 — refreshed to the 2026 desktop look** *(all eleven M365 palettes remapped; Dark Gray newly selectable)*
+
+| Colorful | Dark Gray | Black |
+|---|---|---|
+| ![Microsoft 365 Colorful](docs/themes/comparisons/gallery/Microsoft365Blue.png) | ![Microsoft 365 Dark Gray](docs/themes/comparisons/gallery/Microsoft365DarkGray.png) | ![Microsoft 365 Black](docs/themes/comparisons/gallery/Microsoft365Black.png) |
+
+These join the **upstream families still present** — Professional, Office 2007, Office 2010,
+Office 2013, Sparkle, Visual Studio 2010 renderers and Material — for **62 palettes in total**:
+
+| Office 2007 — Blue | Office 2010 — Silver | Sparkle — Blue | Material — Dark |
+|---|---|---|---|
+| ![Office 2007 Blue](docs/themes/comparisons/gallery/Office2007Blue.png) | ![Office 2010 Silver](docs/themes/comparisons/gallery/Office2010Silver.png) | ![Sparkle Blue](docs/themes/comparisons/gallery/SparkleBlue.png) | ![Material Dark](docs/themes/comparisons/gallery/MaterialDark.png) |
+
+Side-by-side comparisons against the real applications, and the cited colour tables for every
+value, live under [`docs/themes/`](docs/themes/) — see
+[`comparisons/`](docs/themes/comparisons/) and the per-era `*-colours.md` files. To browse all
+62 live, run the bundled **Theme Browser** (`Scripts/ThemeBrowser`, also a Start Menu shortcut
+in the installer).
 
 > Per-theme fidelity sign-off is still in progress; see [CHANGES.md](CHANGES.md) for status.
 
