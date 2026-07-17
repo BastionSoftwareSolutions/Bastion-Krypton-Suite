@@ -374,9 +374,9 @@ Deferred or descoped deliberately, with the reason and a recommendation where on
 | Item | Status / reason |
 |---|---|
 | **`Themes` Extended module** | Unscheduled in the build pending Chris's go/no-go (minimal/parked upstream: package downgrades and a `CustomPaletteBase` double-base defect). Not a dependency of any other module. |
-| **`Toggle.Switch` module** | **CPOL escalation.** The entire renderer family derives from Johnny J's CodeProject "ToggleSwitch Winforms Control" (CPOL — incompatible with plain-MIT redistribution). Recommendation: **exclude from the first Bastion release** (not a dependency of any other module); decide clean-room reimplementation vs CPOL compliance at leisure. |
-| **`SharpUpdate` half of `Software.Updater`** | **No upstream licence at all** — attribution cannot cure a missing licence grant. Recommendation: **remove** (AutoUpdater.NET and NetSparkle already cover the use case; the module is already excluded from Ultimate). |
-| **gGlowBox fragment** (`ImageBoxExtended.cs`) | **CPOL escalation.** ~30 lines of glow/shadow GDI+ code inherited via Cyotek from a CPOL CodeProject article. Recommendation: **clean-room reimplementation** (~1 hour) or remove the feature. |
+| **`Toggle.Switch` module** | **RESOLVED (17 July 2026) — removed from the suite** for the public release. The entire renderer family derived from Johnny J's CodeProject "ToggleSwitch Winforms Control" (CPOL — incompatible with plain-MIT redistribution). The project directory was deleted, its entries removed from both referencing solutions, and its `ProjectReference` removed from the Examples app and the Ultimate.Lite metapackage. Not a dependency of any other module. |
+| **`SharpUpdate` half of `Software.Updater`** | **RESOLVED (17 July 2026) — removed from the suite.** Upstream declared **no licence at all**, which attribution cannot cure. The `Sharp Update\` source folder was deleted; the AutoUpdater.NET and NetSparkle update paths remain and cover the use case. No live code referenced the removed types. |
+| **gGlowBox fragment** (`ImageBoxExtended.cs`) | **RESOLVED (17 July 2026) — clean-roomed for the public release.** The ~30 lines of glow/shadow GDI+ code inherited via Cyotek from a CPOL CodeProject article were replaced with an original implementation (concentric alpha-ramped rounded-rectangle strokes) written from the behavioural description alone, © Bastion Software Solutions Ltd 2026 (MIT); the CPOL credit comment was removed. Same public surface, so `ImageBoxExtended` consumers are unaffected. |
 | **`Microsoft365LightGray`** | Remains an **unwired upstream stub** (no colour scheme, no 2026 counterpart). Not shipped as a selectable mode. |
 | **Warning-clean Extended build** | Deferred. `TreatWarningsAsErrors` is not yet enabled on the Extended tree (≈29k pre-existing nullable-reference-type warnings — tracked, not blocking). The core five are warning-clean. |
 | **Full CodeDom designer-serialisation round-trip** | Deferred. The achievable persistence round-trips (docking/workspace layout XML, palette export/import, corrupted-XML batteries) are implemented instead. |
@@ -465,10 +465,10 @@ Recorded honestly for the next developer and for Chris:
    (`docs/themes/comparisons/{office2016-2019, office2021-2003, m365-2026}/`), plus the
    live-install screenshots that would close the `[D]`-tagged derivation gaps (hover/pressed/
    disabled states, backstage, context menus, inactive title bars).
-2. **Licence escalations** (before any redistribution): the gGlowBox CPOL fragment
-   (recommend clean-room), the Toggle.Switch CPOL module (recommend exclude), SharpUpdate
-   (no licence — recommend remove), the §1.1 CPOL-fragment inventory policy, and a courtesy
-   MIT-grant request for AdvancedWizard.
+2. **Licence escalations** (before any redistribution): **the three headline items are now
+   resolved (17 July 2026)** — the gGlowBox CPOL fragment was clean-roomed, and the Toggle.Switch
+   CPOL module and the SharpUpdate (no-licence) code were removed from the suite. Still open: the
+   §1.1 CPOL-fragment inventory policy, and a courtesy MIT-grant request for AdvancedWizard.
 3. **`Themes` Extended module** go/no-go.
 4. **Package version scheme** (decided at Phase 7 packaging): clean SemVer starting `1.0.0`
    (the default, with the upstream baseline in the release notes) **or** upstream-aligned
