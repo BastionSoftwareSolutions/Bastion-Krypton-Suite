@@ -3,26 +3,29 @@
 # WHAT THIS DOES: builds all 57 Bastion.Krypton.* packages (full 11-TFM matrix) and pushes
 # them to nuget.org using a short-lived key obtained via OIDC — no stored API key.
 #
-# HOW TO USE:
+# HOW TO USE (manual only — this workflow does NOT auto-trigger on tags):
 #   • On nuget.org, create a Trusted Publishing policy (name it anything, e.g.
 #     "bastion-krypton-suite-release") with:  Repository Owner = BastionSoftwareSolutions,
 #     Repository = Bastion-Krypton-Suite,  Workflow File = release.yml  (this file's name).
 #   • Add a repo secret NUGET_USER = your nuget.org PROFILE NAME (not your email):
 #     GitHub repo → Settings → Secrets and variables → Actions → New repository secret.
-#   • Then either push a version tag (git tag v1.0.0 ; git push origin v1.0.0)
-#     OR run it by hand: repo → Actions → "release" → Run workflow → enter the version.
+#   • Run it by hand: repo → Actions → "release" → Run workflow → enter the version.
 #
-# NOTE: this is UNTESTED on real GitHub CI — its first run is your release. The riskiest
-# step is the full 11-TFM pack on the runner (it's slow, ~30–60 min). If it gives trouble,
-# the manual route (docs/NUGET-ALLOCATION.md, Route A) always works from your PC.
+# The v* push-tag trigger was deliberately removed: v1.0.0 was published manually
+# (Route A, docs/NUGET-ALLOCATION.md), so a tag should just mark the release, not
+# re-run a redundant ~30–60 min publish. Re-enable the trigger below if you later
+# want tags to auto-publish.
+#
+# NOTE: this is UNTESTED on real GitHub CI. The riskiest step is the full 11-TFM pack
+# on the runner (~30–60 min). The manual route (Route A) always works from your PC.
 
 name: release
 
 on:
-  push:
-    tags:
-      - 'v*'            # e.g. push tag v1.0.0 to publish that version
-  workflow_dispatch:    # or run on demand from the Actions tab
+  # push:                 # tag-triggered auto-publish disabled — see header note above
+  #   tags:
+  #     - 'v*'
+  workflow_dispatch:      # run on demand from the Actions tab
     inputs:
       version:
         description: 'Package version to publish (e.g. 1.0.0)'

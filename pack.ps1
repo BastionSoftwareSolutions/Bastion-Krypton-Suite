@@ -172,5 +172,63 @@ if ($Scope -in @('Extended','All')) {
     }
 }
 
+# ---------------------------------------------------------- POST-PACK FIXUP
+# The Extended.Ultimate metapackage references ~50 modules and multi-targets all
+# 11 TFMs, so NuGet emits one dependency group per TFM (~601 entries, ~59 KB) - past
+# nuget.org's hard 32,767-char limit on the serialized <dependencies> element, which
+# rejects the push with HTTP 400. The 11 groups reduce to just 3 DISTINCT dependency
+# sets, and NuGet resolves each consumer to the nearest compatible group, so we keep
+# only 4 representative groups (one net4x-low, one net4.7 for net47..net481, one
+# net5 for net5..net8, one net9 for net9..net10). Result: ~21 KB, well under the cap,
+# functionally identical for every consumer.
+function Repair-UltimateDependencies {
+    param([string] $NupkgPath)
+    $keep = @('.NETFramework4.6', '.NETFramework4.7', 'net5.0-windows7.0', 'net9.0-windows7.0')
+    Add-Type -AssemblyName System.IO.Compression | Out-Null
+    Add-Type -AssemblyName System.IO.Compression.FileSystem | Out-Null
+
+    $zin = [System.IO.Compression.ZipFile]::OpenRead($NupkgPath)
+    try {
+        $nuspecEntry = $zin.Entries | Where-Object { $_.FullName -like '*.nuspec' } | Select-Object -First 1
+        $nuspecName = $nuspecEntry.FullName
+        $sr = New-Object System.IO.StreamReader($nuspecEntry.Open()); $nuspecXml = $sr.ReadToEnd(); $sr.Close()
+    } finally { $zin.Dispose() }
+
+    [xml]$doc = $nuspecXml
+    $ns = New-Object System.Xml.XmlNamespaceManager($doc.NameTable)
+    $ns.AddNamespace('n', $doc.DocumentElement.NamespaceURI)
+    $deps = $doc.SelectSingleNode('//n:dependencies', $ns)
+    if ($null -eq $deps) { return }
+    $groups = @($deps.SelectNodes('n:group', $ns))
+    if ($groups.Count -le $keep.Count -and $deps.OuterXml.Length -lt 32767) { return }  # already fine
+
+    $removed = 0
+    foreach ($g in $groups) { if ($keep -notcontains $g.targetFramework) { [void]$deps.RemoveChild($g); $removed++ } }
+    if ($removed -eq 0) { return }
+    if ($deps.OuterXml.Length -ge 32767) { throw "Ultimate <dependencies> still over 32767 after pruning ($($deps.OuterXml.Length))." }
+    $newNuspec = $doc.OuterXml
+
+    $tmp = "$NupkgPath.tmp"
+    if (Test-Path $tmp) { Remove-Item $tmp -Force }
+    $zoutStream = [System.IO.File]::Open($tmp, [System.IO.FileMode]::CreateNew)
+    $zout = New-Object System.IO.Compression.ZipArchive($zoutStream, [System.IO.Compression.ZipArchiveMode]::Create)
+    $zin2 = [System.IO.Compression.ZipFile]::OpenRead($NupkgPath)
+    try {
+        foreach ($e in $zin2.Entries) {
+            $ne = $zout.CreateEntry($e.FullName, [System.IO.Compression.CompressionLevel]::Optimal)
+            $os = $ne.Open()
+            if ($e.FullName -eq $nuspecName) {
+                $bytes = [System.Text.Encoding]::UTF8.GetBytes($newNuspec); $os.Write($bytes, 0, $bytes.Length)
+            } else { $is = $e.Open(); $is.CopyTo($os); $is.Close() }
+            $os.Close()
+        }
+    } finally { $zin2.Dispose(); $zout.Dispose(); $zoutStream.Close() }
+    Move-Item $tmp $NupkgPath -Force
+    Write-Host "  Repaired Ultimate metapackage: kept $($keep.Count) dependency groups (removed $removed), now $($deps.OuterXml.Length) chars." -ForegroundColor Yellow
+}
+
+Get-ChildItem $OutputDir -Filter 'Bastion.Krypton.Extended.Ultimate.*.nupkg' -ErrorAction SilentlyContinue |
+    ForEach-Object { Repair-UltimateDependencies -NupkgPath $_.FullName }
+
 Write-Host "`nDONE. Packages in: $OutputDir" -ForegroundColor Green
 Get-ChildItem $OutputDir -Filter '*.nupkg' | Sort-Object Name | ForEach-Object { Write-Host "  $($_.Name)" }
